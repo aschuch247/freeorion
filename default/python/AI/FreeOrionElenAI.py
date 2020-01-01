@@ -1,20 +1,35 @@
 import freeOrionAIInterface as fo
 
+from ElenAi.CElenAi import CElenAi
+
+
 def startNewGame(aggression_input = fo.aggression.aggressive):
     print 'startNewGame()'
+
+    global oElenAi
+    oElenAi = CElenAi()
+
     return
+
 
 def resumeLoadedGame(saved_state_string):
     print 'resumeLoadedGame()'
+
+    global oElenAi
+    oElenAi = CElenAi()
+
     return
+
 
 def prepareForSave():
     print 'prepareForSave()'
     return
 
+
 def handleChatMessage(sender_id, message_text):
     print 'handleChatMessage()'
     return
+
 
 def handleDiplomaticMessage(message):
     print 'handleDiplomaticMessage()'
@@ -40,4 +55,11 @@ def handleDiplomaticMessage(message):
 # @todo @listener
 def generateOrders():
     print 'generateOrders()'
+
+    global oElenAi
+    oElenAi.vAssessUniverse(fo)
+
     return
+
+
+oElenAi = None

@@ -52,6 +52,18 @@ def handleDiplomaticMessage(message):
 
     return
 
+
+def handleDiplomaticStatusUpdate(status_update):
+    print 'handleDiplomaticStatusUpdate()'
+    print 'Received diplomatic status update to %s about empire %s and empire %s.' % (
+        status_update.status,
+        'me' if status_update.empire1 == fo.empireID() else fo.getEmpire(status_update.empire1).name,
+        'me' if status_update.empire2 == fo.empireID() else fo.getEmpire(status_update.empire2).name
+    )
+
+    return
+
+
 # @todo @listener
 def generateOrders():
     print 'generateOrders()'

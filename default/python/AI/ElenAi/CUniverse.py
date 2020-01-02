@@ -22,10 +22,7 @@ class CUniverse(object):
 
         fDistance = ((oSystemFrom.fGetX() - oSystemTo.fGetX()) ** 2 + (oSystemFrom.fGetY() - oSystemTo.fGetY()) ** 2) ** 0.5
 
-        # Starlanes between systems can be travelled bidirectionally.
-
         self.m_oGraph.vLink(ixSystemFrom, ixSystemTo, fDistance)
-        self.m_oGraph.vLink(ixSystemTo, ixSystemFrom, fDistance)
 
 
     def fGetStarlaneDistance(self, tixSystem):

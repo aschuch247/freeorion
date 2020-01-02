@@ -1,5 +1,5 @@
 """
-This class represents a system.
+This is a representation of a system.
 """
 
 

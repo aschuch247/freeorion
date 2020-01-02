@@ -1,5 +1,5 @@
 """
-This is the ElenAI AI module.
+This is ElenAI, an AI module.
 """
 
 from ElenAi.CUniverseAssessment import CUniverseAssessment

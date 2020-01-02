@@ -1,5 +1,5 @@
 """
-This is an internal representation of the (known) universe.
+This is a representation of the (known) universe.
 """
 
 from ElenAi.CGraph import CGraph

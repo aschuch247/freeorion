@@ -8,39 +8,39 @@ class CUniverseAssessment(object):
         self.fo = fo
 
     def vAssessUniverse(self):
-        oUniverse = self.fo.getUniverse()
+        oFoUniverse = self.fo.getUniverse()
 
-        for systemId in oUniverse.systemIDs:
-            oSystem = oUniverse.getSystem(systemId)
-            print 'I know system %s (%d).' % (oSystem.name, oSystem.systemID)
+        for systemId in oFoUniverse.systemIDs:
+            oFoSystem = oFoUniverse.getSystem(systemId)
+            # print 'I know system %s (%d).' % (oFoSystem.name, oFoSystem.systemID)
 
-            if (oSystem.numWormholes != 0):
+            if (oFoSystem.numWormholes != 0):
                 print 'Wormholes found!'
 
-        oEmpire = self.fo.getEmpire()
+        oFoEmpire = self.fo.getEmpire()
 
-        for systemId in oEmpire.exploredSystemIDs:
-            oSystem = oUniverse.getSystem(systemId)
-            print 'I have explored system %s (%d).' % (oSystem.name, oSystem.systemID)
+        for systemId in oFoEmpire.exploredSystemIDs:
+            oFoSystem = oFoUniverse.getSystem(systemId)
+            # print 'I have explored system %s (%d).' % (oFoSystem.name, oFoSystem.systemID)
 
         # Get a list of known systems that have not been explored yet.
 
         unexploredSystemId = -1;
 
-        for systemId in set(oUniverse.systemIDs).difference(oEmpire.exploredSystemIDs):
-            oSystem = oUniverse.getSystem(systemId)
-            print 'I have not yet explored system %s (%d).' % (oSystem.name, oSystem.systemID)
+        for systemId in set(oFoUniverse.systemIDs).difference(oFoEmpire.exploredSystemIDs):
+            oFoSystem = oFoUniverse.getSystem(systemId)
+            # print 'I have not yet explored system %s (%d).' % (oFoSystem.name, oFoSystem.systemID)
             unexploredSystemId = systemId
 
         if unexploredSystemId != -1:
 
             # This code will send all idle fleets to the same system. Mark a system with the proper incoming fleet.
 
-            for fleetId in oUniverse.fleetIDs:
-                oFleet = oUniverse.getFleet(fleetId)
+            for fleetId in oFoUniverse.fleetIDs:
+                oFoFleet = oFoUniverse.getFleet(fleetId)
 
-                if oFleet.ownedBy(self.fo.empireID()):
-                    if (oFleet.finalDestinationID == -1) or (oFleet.finalDestinationID == oFleet.systemID):
+                if oFoFleet.ownedBy(self.fo.empireID()):
+                    if (oFoFleet.finalDestinationID == -1) or (oFoFleet.finalDestinationID == oFoFleet.systemID):
 
                         # The fleet has no orders yet or any more.
 

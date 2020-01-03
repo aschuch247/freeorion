@@ -2,6 +2,7 @@
 Assess the universe.
 """
 
+from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CSystem import CSystem
 from ElenAi.CUniverse import CUniverse
 
@@ -43,22 +44,10 @@ class CUniverseAssessment(object):
                     break
 
         if (ixShipDesignScout is not None):
-            bScoutEnqueued = False
+            oProductionQueue = CProductionQueue(self.fo)
 
-            for idx, oProductionQueueElement in enumerate(oFoEmpire.productionQueue):
-                if (oProductionQueueElement.locationID == ixPlanet):
-                    if (oProductionQueueElement.buildType == self.fo.buildType.ship):
-                        if (oProductionQueueElement.designID == ixShipDesignScout):
-                            bScoutEnqueued = True
-                            break
-
-            if (not bScoutEnqueued):
-                print 'Enqueuing ship design %s at planet %s, system %s with result %d.' % (
-                    self.fo.getShipDesign(ixShipDesignScout).name,
-                    self.fo.getUniverse().getPlanet(ixPlanet).name,
-                    self.fo.getUniverse().getSystem(self.fo.getUniverse().getPlanet(ixPlanet).systemID).name,
-                    self.fo.issueEnqueueShipProductionOrder(ixShipDesignScout, ixPlanet)
-                )
+            if (not oProductionQueue.bIsEnqueuedShipDesign(ixPlanet, ixShipDesignScout)):
+                oProductionQueue.vEnqueueShipDesign(ixPlanet, ixShipDesignScout)
 
 
     def vAssessUniverse(self):

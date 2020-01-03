@@ -4,7 +4,9 @@ from ElenAi.CGraph import CGraph
 
 
 class CGraphTest(unittest.TestCase):
-    def test_CGraph(self):
+
+
+    def test_CGraph_fGetCost(self):
         oGraph = CGraph()
 
         oGraph.vAdd(1)
@@ -17,3 +19,37 @@ class CGraphTest(unittest.TestCase):
         self.assertEqual(0.0, oGraph.fGetCost([]))
         self.assertEqual(0.0, oGraph.fGetCost([1]))
         self.assertEqual(12.0, oGraph.fGetCost([1, 2, 3]))
+
+
+    def test_CGraph_tixFindPath_possible(self):
+        oGraph = CGraph()
+
+        oGraph.vAdd(1)
+        oGraph.vAdd(2)
+        oGraph.vAdd(3)
+        oGraph.vAdd(4)
+        oGraph.vAdd(5)
+        oGraph.vAdd(6)
+
+        oGraph.vLink(1, 2, 10.0)
+        oGraph.vLink(1, 3, 1.0)
+        oGraph.vLink(3, 5, 1.0)
+        oGraph.vLink(5, 6, 1.0)
+        oGraph.vLink(6, 4, 1.0)
+        oGraph.vLink(4, 2, 1.0)
+
+        tixPath = oGraph.tixFindPath(1, 2)
+
+        self.assertEqual([1, 3, 5, 6, 4, 2], tixPath)
+        self.assertEqual(5.0, oGraph.fGetCost(tixPath))
+
+
+    def test_CGraph_tixFindPath_impossible(self):
+        oGraph = CGraph()
+
+        oGraph.vAdd(1)
+        oGraph.vAdd(2)
+
+        tixPath = oGraph.tixFindPath(1, 2)
+
+        self.assertEqual([], tixPath)

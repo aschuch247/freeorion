@@ -6,6 +6,8 @@ from ElenAi.CGraph import CGraph
 
 
 class CUniverse(object):
+
+
     def __init__(self):
         self.m_oGraph = CGraph()
         self.m_dictSystem = dict()
@@ -27,3 +29,7 @@ class CUniverse(object):
 
     def fGetStarlaneDistance(self, tixSystem):
         return self.m_oGraph.fGetCost(tixSystem)
+
+
+    def tixFindStarlanePath(self, ixSystemFrom, ixSystemTo):
+        return self.m_oGraph(ixSystemFrom)

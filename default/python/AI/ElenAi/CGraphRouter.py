@@ -36,3 +36,9 @@ class CGraphRouter(object):
                 fCostMin = self.m_dictCost[ixGraphNode]
 
         return ixGraphNodeMin
+
+
+    def tixGetReachableGraphNode(self):
+        for ixGraphNode, fCost in self.m_dictCost.items():
+            if (fCost < float('inf')):
+                yield ixGraphNode

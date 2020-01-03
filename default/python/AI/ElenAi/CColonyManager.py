@@ -69,5 +69,12 @@ class CColonyManager(CManager):
                 for ixBuilding in oFoPlanet.buildingIDs:
                     oFoBuilding = oFoUniverse.getBuilding(ixBuilding)
 
+                    # @todo If the whole empire has no BLD_IMPERIAL_PALACE, build a new one!
+
                     if (oFoBuilding.buildingTypeName == 'BLD_IMPERIAL_PALACE'):
                         self.vConditionallyAddBuilding(ixPlanet, 'BLD_AUTO_HISTORY_ANALYSER')
+                        self.vConditionallyAddBuilding(ixPlanet, 'BLD_MEGALITH')
+
+                        # @todo Also build BLD_GENOME_BANK redundantly.
+
+                        self.vConditionallyAddBuilding(ixPlanet, 'BLD_GENOME_BANK')

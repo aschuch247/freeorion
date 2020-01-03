@@ -5,17 +5,19 @@ This is a representation of the (known) universe.
 from ElenAi.CGraph import CGraph
 
 
-class CUniverse(object):
+class CUniverse(CGraph):
 
 
     def __init__(self):
-        self.m_oGraph = CGraph()
+        super(CUniverse, self).__init__()
+
         self.m_dictSystem = dict()
 
 
     def vAddSystem(self, ixSystem, oSystem):
-        self.m_oGraph.vAdd(ixSystem)
         self.m_dictSystem[ixSystem] = oSystem
+
+        super(CUniverse, self).vAdd(ixSystem)
 
 
     def vLinkSystem(self, ixSystemFrom, ixSystemTo):
@@ -24,12 +26,4 @@ class CUniverse(object):
 
         fDistance = ((oSystemFrom.fGetX() - oSystemTo.fGetX()) ** 2 + (oSystemFrom.fGetY() - oSystemTo.fGetY()) ** 2) ** 0.5
 
-        self.m_oGraph.vLink(ixSystemFrom, ixSystemTo, fDistance)
-
-
-    def fGetStarlaneDistance(self, tixSystem):
-        return self.m_oGraph.fGetCost(tixSystem)
-
-
-    def tixFindStarlanePath(self, ixSystemFrom, ixSystemTo):
-        return self.m_oGraph(ixSystemFrom)
+        super(CUniverse, self).vLink(ixSystemFrom, ixSystemTo, fDistance)

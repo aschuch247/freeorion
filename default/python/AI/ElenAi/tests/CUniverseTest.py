@@ -17,5 +17,5 @@ class CUniverseTest(unittest.TestCase):
         oUniverse.vLinkSystem(2, 3)
         oUniverse.vLinkSystem(3, 2)
 
-        self.assertEqual(18.0, oUniverse.fGetStarlaneDistance([1, 2, 3]))
-        self.assertEqual(18.0, oUniverse.fGetStarlaneDistance([3, 2, 1]))
+        self.assertEqual(18.0, oUniverse.fGetCost([1, 2, 3]))
+        self.assertEqual(18.0, oUniverse.fGetCost([3, 2, 1]))

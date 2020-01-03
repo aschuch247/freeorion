@@ -5,11 +5,11 @@ This is the fleet manager.
 from ElenAi.CManager import CManager
 
 
-class CFleetManager(CManager):
+class CFleetMovementManager(CManager):
 
 
     def __init__(self, fo, oUniverse):
-        super(CFleetManager, self).__init__(fo)
+        super(CFleetMovementManager, self).__init__(fo)
 
         self.m_oUniverse = oUniverse
 

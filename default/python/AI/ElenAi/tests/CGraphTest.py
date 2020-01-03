@@ -21,7 +21,7 @@ class CGraphTest(unittest.TestCase):
         self.assertEqual(12.0, oGraph.fGetCost([1, 2, 3]))
 
 
-    def test_CGraph_tixFindPath_possible(self):
+    def test_CGraph_oGetGraphRouting_possible(self):
         oGraph = CGraph()
 
         oGraph.vAdd(1)
@@ -38,18 +38,20 @@ class CGraphTest(unittest.TestCase):
         oGraph.vLink(6, 4, 1.0)
         oGraph.vLink(4, 2, 1.0)
 
-        tixPath = oGraph.tixFindPath(1, 2)
+        oGraphRouter = oGraph.oGetGraphRouter(1)
+        tixPath = oGraphRouter.tixGetPath(2)
 
         self.assertEqual([1, 3, 5, 6, 4, 2], tixPath)
         self.assertEqual(5.0, oGraph.fGetCost(tixPath))
 
 
-    def test_CGraph_tixFindPath_impossible(self):
+    def test_CGraph_oGetGraphRouting_impossible(self):
         oGraph = CGraph()
 
         oGraph.vAdd(1)
         oGraph.vAdd(2)
 
-        tixPath = oGraph.tixFindPath(1, 2)
+        oGraphRouter = oGraph.oGetGraphRouter(1)
+        tixPath = oGraphRouter.tixGetPath(2)
 
-        self.assertEqual([], tixPath)
+        self.assertEqual(None, tixPath)

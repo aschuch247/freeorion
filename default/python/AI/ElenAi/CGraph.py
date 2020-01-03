@@ -4,6 +4,8 @@ A graph represents a set of nodes and edges.
 The used algorithms do neither support negative edge costs nor cycles. A node identifier must not be -1.
 """
 
+from ElenAi.CGraphRouter import CGraphRouter
+
 
 class CGraph(object):
 
@@ -36,18 +38,18 @@ class CGraph(object):
         return fCost
 
 
-    def tixFindPath(self, ixGraphNodeFrom, ixGraphNodeTo):
+    def oGetGraphRouter(self, ixGraphNodeFrom):
         """
         This method implements the Dijkstra algorithm.
         """
 
         listGraphNode = self.m_dictGraphNode.keys()
         dictCost = dict()
-        dictPrevious = dict()
+        dictGraphNodePrevious = dict()
 
         for ixGraphNode in listGraphNode:
             dictCost[ixGraphNode] = float('inf')
-            dictPrevious[ixGraphNode] = -1
+            dictGraphNodePrevious[ixGraphNode] = -1
 
         dictCost[ixGraphNodeFrom] = 0
 
@@ -60,9 +62,6 @@ class CGraph(object):
                     ixGraphNodeMin = listGraphNode[i]
                     fCostMin = dictCost[ixGraphNodeMin]
 
-            if (ixGraphNodeMin == ixGraphNodeTo):
-                break
-
             listGraphNode.remove(ixGraphNodeMin)
 
             for i in self.m_dictGraphNode[ixGraphNodeMin]:
@@ -70,17 +69,6 @@ class CGraph(object):
                     fCostAlternative = dictCost[ixGraphNodeMin] + self.m_dictGraphNode[ixGraphNodeMin][i]
                     if (fCostAlternative < self.m_dictGraphNode[i]):
                         dictCost[i] = fCostAlternative
-                        dictPrevious[i] = ixGraphNodeMin
+                        dictGraphNodePrevious[i] = ixGraphNodeMin
 
-        if (dictPrevious[ixGraphNodeTo] == -1):
-            return []
-
-        tixGraphNodePath = [ixGraphNodeTo]
-
-        while dictPrevious[ixGraphNodeTo] != -1:
-            ixGraphNodeTo = dictPrevious[ixGraphNodeTo]
-            tixGraphNodePath.append(ixGraphNodeTo)
-
-        tixGraphNodePath.reverse()
-
-        return tixGraphNodePath
+        return CGraphRouter(dictGraphNodePrevious)

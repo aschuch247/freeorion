@@ -5,6 +5,7 @@ This is ElenAI, an AI module.
 from ElenAi.CColonyManager import CColonyManager
 from ElenAi.CFleetManager import CFleetManager
 from ElenAi.CResearchManager import CResearchManager
+from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CUniverseAssessment import CUniverseAssessment
 
 
@@ -21,5 +22,8 @@ class CElenAi(object):
 
         oResearchManager = CResearchManager(fo)
         oResearchManager.vManage()
+
+        oProductionQueue = CProductionQueue(fo)
+        oProductionQueue.vLog()
 
         return

@@ -71,4 +71,4 @@ class CGraph(object):
                         dictCost[i] = fCostAlternative
                         dictGraphNodePrevious[i] = ixGraphNodeMin
 
-        return CGraphRouter(dictGraphNodePrevious)
+        return CGraphRouter(dictGraphNodePrevious, dictCost)

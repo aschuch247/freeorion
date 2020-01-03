@@ -55,3 +55,27 @@ class CGraphTest(unittest.TestCase):
         tixPath = oGraphRouter.tixGetPath(2)
 
         self.assertEqual(None, tixPath)
+
+
+    def test_CGraph_ixGetClosestGraphNode(self):
+        oGraph = CGraph()
+
+        oGraph.vAdd(1)
+        oGraph.vAdd(2)
+        oGraph.vAdd(3)
+        oGraph.vAdd(4)
+        oGraph.vAdd(5)
+        oGraph.vAdd(6)
+
+        oGraph.vLink(1, 2, 10.0)
+        oGraph.vLink(1, 3, 1.0)
+        oGraph.vLink(3, 5, 1.0)
+        oGraph.vLink(5, 6, 1.0)
+        oGraph.vLink(6, 4, 1.0)
+        oGraph.vLink(4, 2, 1.0)
+
+        oGraphRouter = oGraph.oGetGraphRouter(1)
+        self.assertEqual(3, oGraphRouter.ixGetClosestGraphNode({2, 3}))
+
+        oGraphRouter = oGraph.oGetGraphRouter(5)
+        self.assertEqual(2, oGraphRouter.ixGetClosestGraphNode({1, 2}))

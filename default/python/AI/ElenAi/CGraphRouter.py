@@ -6,8 +6,9 @@ The graph router knows all paths from a given starting node to any other (reacha
 class CGraphRouter(object):
 
 
-    def __init__(self, dictGraphNodePrevious):
+    def __init__(self, dictGraphNodePrevious, dictCost):
         self.m_dictGraphNodePrevious = dictGraphNodePrevious
+        self.m_dictCost = dictCost
 
 
     def tixGetPath(self, ixGraphNodeTo):
@@ -23,3 +24,15 @@ class CGraphRouter(object):
         tixGraphNodePath.reverse()
 
         return tixGraphNodePath
+
+
+    def ixGetClosestGraphNode(self, setGraphNode):
+        ixGraphNodeMin = None
+        fCostMin = float('inf')
+
+        for ixGraphNode in setGraphNode:
+            if (self.m_dictCost[ixGraphNode] < fCostMin):
+                ixGraphNodeMin = ixGraphNode
+                fCostMin = self.m_dictCost[ixGraphNode]
+
+        return ixGraphNodeMin

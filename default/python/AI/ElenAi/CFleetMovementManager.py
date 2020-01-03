@@ -1,5 +1,5 @@
 """
-This is the fleet manager.
+This is the fleet movement manager.
 """
 
 from ElenAi.CManager import CManager

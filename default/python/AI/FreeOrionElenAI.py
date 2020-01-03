@@ -64,7 +64,6 @@ def handleDiplomaticStatusUpdate(status_update):
     return
 
 
-# @todo @listener
 def generateOrders():
     print 'generateOrders()'
 

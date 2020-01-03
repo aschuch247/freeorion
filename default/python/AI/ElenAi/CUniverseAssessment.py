@@ -6,13 +6,6 @@ from ElenAi.CSystem import CSystem
 from ElenAi.CUniverse import CUniverse
 
 
-class CProductionQueueBuildType(object):
-
-
-    BUILDING = 1
-    SHIP = 2
-
-
 class CUniverseAssessment(object):
 
 
@@ -54,7 +47,7 @@ class CUniverseAssessment(object):
 
             for idx, oProductionQueueElement in enumerate(oFoEmpire.productionQueue):
                 if (oProductionQueueElement.locationID == ixPlanet):
-                    if (oProductionQueueElement.buildType == CProductionQueueBuildType.SHIP):
+                    if (oProductionQueueElement.buildType == self.fo.buildType.ship):
                         if (oProductionQueueElement.designID == ixShipDesignScout):
                             bScoutEnqueued = True
                             break

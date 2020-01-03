@@ -40,6 +40,9 @@ class CColonyManager(CManager):
         oFoUniverse = self.fo.getUniverse()
         oProductionQueue = CProductionQueue(self.fo)
 
+        if (not self.fo.getEmpire().buildingTypeAvailable(sBuilding)):
+            return
+
         bHasBuilding = False
 
         for ixBuilding in oFoUniverse.getPlanet(ixPlanet).buildingIDs:

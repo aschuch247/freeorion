@@ -74,9 +74,10 @@ class CColonyManager(CManager):
                     if (oFoBuilding.buildingTypeName == 'BLD_IMPERIAL_PALACE'):
                         self.vConditionallyAddBuilding(ixPlanet, 'BLD_MEGALITH')
 
-                        # @todo Also build BLD_GENOME_BANK redundantly.
+                        # @todo Also build the following buildings redundantly.
 
                         self.vConditionallyAddBuilding(ixPlanet, 'BLD_GENOME_BANK')
+                        self.vConditionallyAddBuilding(ixPlanet, 'BLD_INDUSTRY_CENTER')
 
                     if (oFoBuilding.buildingTypeName == 'BLD_CULTURE_ARCHIVES'):
                         self.vConditionallyAddBuilding(ixPlanet, 'BLD_AUTO_HISTORY_ANALYSER')

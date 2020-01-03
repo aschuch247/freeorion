@@ -68,7 +68,7 @@ def generateOrders():
     print 'generateOrders()'
 
     global oElenAi
-    oElenAi.vAssessUniverse(fo)
+    oElenAi.vGenerateOrders(fo)
 
     return
 

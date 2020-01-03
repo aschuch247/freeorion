@@ -2,7 +2,8 @@
 This is the fleet production manager.
 """
 
-from CElenAi.CManager import CManager
+from ElenAi.CManager import CManager
+from ElenAi.CProductionQueue import CProductionQueue
 
 
 class CFleetProductionManager(CManager):
@@ -13,4 +14,34 @@ class CFleetProductionManager(CManager):
 
 
     def vManage(self):
-        pass
+        oFoUniverse = self.fo.getUniverse()
+        oFoEmpire = self.fo.getEmpire()
+
+        # Build scouts everywhere.
+
+        for ixBuilding in oFoUniverse.buildingIDs:
+            oFoBuilding = oFoUniverse.getBuilding(ixBuilding)
+
+            if (oFoBuilding.ownedBy(self.fo.empireID())):
+                if (oFoBuilding.buildingTypeName == 'BLD_SHIPYARD_BASE'):
+                    self.vBuildScout(oFoBuilding.planetID)
+
+
+    def vBuildScout(self, ixPlanet):
+        oFoEmpire = self.fo.getEmpire()
+
+        ixShipDesignScout = None
+
+        for ixShipDesign in oFoEmpire.availableShipDesigns:
+            oFoShipDesign = self.fo.getShipDesign(ixShipDesign)
+
+            for parts in oFoShipDesign.parts:
+                if (parts == 'DT_DETECTOR_1'):
+                    ixShipDesignScout = ixShipDesign
+                    break
+
+        if (ixShipDesignScout is not None):
+            oProductionQueue = CProductionQueue(self.fo)
+
+            if (not oProductionQueue.bIsEnqueuedShipDesign(ixPlanet, ixShipDesignScout)):
+                oProductionQueue.vEnqueueShipDesign(ixPlanet, ixShipDesignScout)

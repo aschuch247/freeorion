@@ -10,16 +10,12 @@ from ElenAi.CResearchQueue import CResearchQueue
 from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CSystem import CSystem
 from ElenAi.CUniverse import CUniverse
-from ElenAi.CUniverseAssessment import CUniverseAssessment
 
 
 class CElenAi(object):
 
 
     def vGenerateOrders(self, fo):
-        oUniverseAssessment = CUniverseAssessment(fo)
-        oUniverseAssessment.vAssessUniverse()
-
         oUniverse = self.oGetUniverse(fo)
 
         oColonyManager = CColonyManager(fo)

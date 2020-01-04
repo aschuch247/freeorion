@@ -41,6 +41,7 @@ class CGraph(object):
     def oGetGraphRouter(self, ixGraphNodeFrom):
         """
         This method implements the Dijkstra algorithm.
+        @todo Always use the shortest route on supply lines, but decide to use the least jumps outside supply lines.
         """
 
         listGraphNode = self.m_dictGraphNode.keys()

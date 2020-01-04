@@ -3,14 +3,15 @@ This is the fleet production manager.
 """
 
 from ElenAi.CManager import CManager
-from ElenAi.CProductionQueue import CProductionQueue
 
 
 class CFleetProductionManager(CManager):
 
 
-    def __init__(self, fo):
+    def __init__(self, fo, oProductionQueue):
         super(CFleetProductionManager, self).__init__(fo)
+
+        self.m_oProductionQueue = oProductionQueue
 
 
     def vManage(self):
@@ -41,7 +42,5 @@ class CFleetProductionManager(CManager):
                     break
 
         if (ixShipDesignScout is not None):
-            oProductionQueue = CProductionQueue(self.fo)
-
-            if (not oProductionQueue.bIsEnqueuedShipDesign(ixPlanet, ixShipDesignScout)):
-                oProductionQueue.vEnqueueShipDesign(ixPlanet, ixShipDesignScout)
+            if (not self.m_oProductionQueue.bIsEnqueuedShipDesign(ixPlanet, ixShipDesignScout)):
+                self.m_oProductionQueue.vEnqueueShipDesign(ixPlanet, ixShipDesignScout)

@@ -5,9 +5,9 @@ This is ElenAI, an AI module.
 from ElenAi.CColonyManager import CColonyManager
 from ElenAi.CFleetMovementManager import CFleetMovementManager
 from ElenAi.CFleetProductionManager import CFleetProductionManager
+from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CResearchManager import CResearchManager
 from ElenAi.CResearchQueue import CResearchQueue
-from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CSystem import CSystem
 from ElenAi.CUniverse import CUniverse
 
@@ -18,6 +18,7 @@ class CElenAi(object):
     def vGenerateOrders(self, fo):
         oUniverse = self.oGetUniverse(fo)
 
+        oProductionQueue = CProductionQueue(fo)
         oResearchQueue = CResearchQueue(fo)
 
         oColonyManager = CColonyManager(fo)
@@ -26,15 +27,13 @@ class CElenAi(object):
         oFleetMovementManager = CFleetMovementManager(fo, oUniverse)
         oFleetMovementManager.vManage()
 
-        oFleetProductionManager = CFleetProductionManager(fo)
+        oFleetProductionManager = CFleetProductionManager(fo, oProductionQueue)
         oFleetProductionManager.vManage()
 
         oResearchManager = CResearchManager(fo, oResearchQueue)
         oResearchManager.vManage()
 
-        oProductionQueue = CProductionQueue(fo)
         oProductionQueue.vLog()
-
         oResearchQueue.vLog()
 
 

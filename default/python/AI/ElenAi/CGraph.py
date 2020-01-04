@@ -4,6 +4,7 @@ A graph represents a set of nodes and edges.
 The used algorithms do neither support negative edge costs nor cycles. A node identifier must not be -1.
 """
 
+from ElenAi.CGraphAdvisor import CGraphAdvisor
 from ElenAi.CGraphRouter import CGraphRouter
 
 
@@ -38,11 +39,14 @@ class CGraph(object):
         return fCost
 
 
-    def oGetGraphRouter(self, ixGraphNodeFrom):
+    def oGetGraphRouter(self, ixGraphNodeFrom, oGraphAdvisor = None):
         """
         This method implements the Dijkstra algorithm.
         @todo Always use the shortest route on supply lines, but decide to use the least jumps outside supply lines.
         """
+
+        if (oGraphAdvisor is None):
+            oGraphAdvisor = CGraphAdvisor(set())
 
         listGraphNode = self.m_dictGraphNode.keys()
         dictCost = dict()
@@ -63,11 +67,23 @@ class CGraph(object):
                     ixGraphNodeMin = listGraphNode[i]
                     fCostMin = dictCost[ixGraphNodeMin]
 
+            if (fCostMin == float('inf')):
+
+                # The smallest costs of all still available nodes to process is already infinity. This means that all
+                # remaining node cannot be reached. We can abort.
+
+                break
+
             listGraphNode.remove(ixGraphNodeMin)
 
             for i in self.m_dictGraphNode[ixGraphNodeMin]:
                 if i in listGraphNode:
-                    fCostAlternative = dictCost[ixGraphNodeMin] + self.m_dictGraphNode[ixGraphNodeMin][i]
+                    if (oGraphAdvisor.bShallIgnore(i)):
+                        listGraphNode.remove(i)
+                        continue
+
+                    fCostAlternative = fCostMin + self.m_dictGraphNode[ixGraphNodeMin][i]
+
                     if (fCostAlternative < self.m_dictGraphNode[i]):
                         dictCost[i] = fCostAlternative
                         dictGraphNodePrevious[i] = ixGraphNodeMin

@@ -18,6 +18,8 @@ class CElenAi(object):
     def vGenerateOrders(self, fo):
         oUniverse = self.oGetUniverse(fo)
 
+        oResearchQueue = CResearchQueue(fo)
+
         oColonyManager = CColonyManager(fo)
         oColonyManager.vManage()
 
@@ -27,13 +29,12 @@ class CElenAi(object):
         oFleetProductionManager = CFleetProductionManager(fo)
         oFleetProductionManager.vManage()
 
-        oResearchManager = CResearchManager(fo)
+        oResearchManager = CResearchManager(fo, oResearchQueue)
         oResearchManager.vManage()
 
         oProductionQueue = CProductionQueue(fo)
         oProductionQueue.vLog()
 
-        oResearchQueue = CResearchQueue(fo)
         oResearchQueue.vLog()
 
 

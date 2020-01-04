@@ -10,6 +10,17 @@ class CResearchQueue(object):
         self.fo = fo
 
 
+    def bIsEnqueued(self, sTechnology):
+        return self.fo.getEmpire().researchQueue.inQueue(sTechnology)
+
+
+    def vEnqueue(self, sTechnology):
+        print 'Enqueuing technology \'%s\' with result %d.' % (
+            sTechnology,
+            self.fo.issueEnqueueTechOrder(sTechnology, self.fo.getEmpire().researchQueue.size + 1)
+        )
+
+
     def vLog(self):
         print '--- research queue ---'
 

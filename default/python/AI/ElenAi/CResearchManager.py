@@ -18,15 +18,9 @@ class CResearchManager(CManager):
     def vManage(self):
         oResearchTree = self.oGetResearchTree()
 
-        oGraphRouter = oResearchTree.oGetGraphRouter(oResearchTree.ixGetTechnology('PRO_SENTIENT_AUTOMATION'))
-
-        for ixTechnology in oGraphRouter.tixGetReachableGraphNode():
-            sTechnology = oResearchTree.sGetTechnology(ixTechnology)
-
-            if (not self.bIsResearched(sTechnology)):
-                if (not self.m_oResearchQueue.bIsEnqueued(sTechnology)):
-                    self.m_oResearchQueue.vEnqueue(sTechnology)
-
+        self.vResearch(oResearchTree, 'LRN_PHYS_BRAIN')
+        self.vResearch(oResearchTree, 'GRO_SUBTER_HAB')
+        self.vResearch(oResearchTree, 'PRO_SENTIENT_AUTOMATION')
 
     def oGetResearchTree(self):
         oResearchTree = CResearchTree()
@@ -51,3 +45,14 @@ class CResearchManager(CManager):
 
     def bIsResearched(self, sTechnology):
         return self.fo.getEmpire().techResearched(sTechnology)
+
+
+    def vResearch(self, oResearchTree, sTechnology):
+        oGraphRouter = oResearchTree.oGetGraphRouter(oResearchTree.ixGetTechnology(sTechnology))
+
+        for ixTechnology in oGraphRouter.tixGetReachableGraphNode():
+            sTechnology = oResearchTree.sGetTechnology(ixTechnology)
+
+            if (not self.bIsResearched(sTechnology)):
+                if (not self.m_oResearchQueue.bIsEnqueued(sTechnology)):
+                    self.m_oResearchQueue.vEnqueue(sTechnology)

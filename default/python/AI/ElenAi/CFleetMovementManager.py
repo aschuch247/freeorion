@@ -45,6 +45,15 @@ class CFleetMovementManager(CManager):
             ixSystemClosestUnexplored = oGraphRouter.ixGetClosestGraphNode(setSystemUnexplored.difference(setSystemUnexploredTargeted))
 
             if (ixSystemClosestUnexplored is not None):
+
+                # @todo It seems impossible to provide an own route to the target system. The automatically selected
+                # route cannot be adjusted. As a result, do not send the ship to the target system, but instead to the
+                # first jump in direction of the target system.
+
+                ixSystemList = oGraphRouter.tixGetPath(ixSystemClosestUnexplored)
+                ixSystemList.pop(0)
+                ixSystemClosestUnexplored = ixSystemList.pop(0)
+
                 setSystemUnexploredTargeted.add(ixSystemClosestUnexplored)
 
                 self.fo.issueNewFleetOrder(oFoShip.design.name, ixShip)

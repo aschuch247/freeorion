@@ -12,6 +12,11 @@ class CGraphRouter(object):
 
 
     def tixGetPath(self, ixGraphNodeTo):
+        """
+        Get the path to the given graph node. The first element in the returned path is the source graph node and the
+        last element in the path is the destination graph node.
+        """
+
         if (self.m_dictGraphNodePrevious[ixGraphNodeTo] == -1):
             return None
 

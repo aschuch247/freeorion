@@ -2,6 +2,7 @@
 This is the fleet movement manager.
 """
 
+from ElenAi.CGraphAdvisor import CGraphAdvisor
 from ElenAi.CManager import CManager
 
 
@@ -30,12 +31,14 @@ class CFleetMovementManager(CManager):
 
             setSystemUnexploredTargeted.add(oFoUniverse.getFleet(oFoShip.fleetID).finalDestinationID)
 
+        ixEnemyFleetSystemSet = set(self.tixGetEnemyFleetSystem())
+
         for ixShip in self.tixGetIdleScoutShip():
             oFoShip = oFoUniverse.getShip(ixShip)
 
             # The scout ship is supposed to be located in a system, not moving.
 
-            oGraphRouter = self.m_oUniverse.oGetGraphRouter(oFoShip.systemID)
+            oGraphRouter = self.m_oUniverse.oGetGraphRouter(oFoShip.systemID, CGraphAdvisor(ixEnemyFleetSystemSet))
 
             # Only consider unexplored systems which are not yet targeted by scouts.
 
@@ -85,3 +88,21 @@ class CFleetMovementManager(CManager):
                             if (parts == 'DT_DETECTOR_1'):
                                 yield ixShip
                                 break # next ship
+
+    def tixGetEnemyFleetSystem(self):
+        oFoUniverse = self.fo.getUniverse()
+
+        for ixFleet in oFoUniverse.fleetIDs:
+            oFoFleet = oFoUniverse.getFleet(ixFleet)
+
+            if (not self.bIsOwn(oFoFleet)):
+                if (oFoFleet.systemID != -1):
+
+                    # The fleet is stationary.
+
+                    yield oFoFleet.systemID
+                elif (oFoFleet.finalDestinationID != -1):
+
+                    # The fleet is moving.
+
+                    yield oFoFleet.finalDestinationID

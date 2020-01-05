@@ -46,9 +46,14 @@ class CFleetMovementManager(CManager):
 
             if (ixSystemClosestUnexplored is not None):
 
-                # @todo Only split the fleet if there are more ships in the fleet.
+                # In case the fleet is made up of multiple ships, split the ship from the fleet.
 
-                self.fo.issueNewFleetOrder(oFoShip.design.name, ixShip)
+                if (not self.bIsSingleShipInFleet(ixShip)):
+                    print 'Splitting ship %d from fleet %d with result %d.' % (
+                        ixShip,
+                        oFoShip.fleetID,
+                        self.fo.issueNewFleetOrder(oFoShip.design.name, ixShip)
+                    )
 
                 ixSystemList = oGraphRouter.tixGetPath(ixSystemClosestUnexplored)
                 ixSystemList.pop(0) # remove system the fleet is in (source system)
@@ -118,3 +123,9 @@ class CFleetMovementManager(CManager):
                     # The fleet is moving.
 
                     yield oFoFleet.finalDestinationID
+
+
+    def bIsSingleShipInFleet(self, ixShip):
+        oFoUniverse = self.fo.getUniverse()
+
+        return oFoUniverse.getFleet(oFoUniverse.getShip(ixShip).fleetID).numShips == 1

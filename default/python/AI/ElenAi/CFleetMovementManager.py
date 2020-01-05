@@ -46,18 +46,21 @@ class CFleetMovementManager(CManager):
 
             if (ixSystemClosestUnexplored is not None):
 
-                # @todo It seems impossible to provide an own route to the target system. The automatically selected
-                # route cannot be adjusted. As a result, do not send the ship to the target system, but instead to the
-                # first jump in direction of the target system.
+                # @todo Only split the fleet if there are more ships in the fleet.
+
+                self.fo.issueNewFleetOrder(oFoShip.design.name, ixShip)
 
                 ixSystemList = oGraphRouter.tixGetPath(ixSystemClosestUnexplored)
-                ixSystemList.pop(0)
-                ixSystemClosestUnexplored = ixSystemList.pop(0)
+                ixSystemList.pop(0) # remove system the fleet is in (source system)
 
                 setSystemUnexploredTargeted.add(ixSystemClosestUnexplored)
 
-                self.fo.issueNewFleetOrder(oFoShip.design.name, ixShip)
-                self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystemClosestUnexplored)
+                for ixSystem in ixSystemList:
+                    print 'Ordering fleet %d to move to system %d with result %d.' % (
+                        oFoShip.fleetID,
+                        ixSystem,
+                        self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystem)
+                    )
 
 
     def bIsOwn(self, oUniverseObject):

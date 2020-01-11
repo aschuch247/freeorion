@@ -55,16 +55,22 @@ class CFleetMovementManager(CManager):
                         self.fo.issueNewFleetOrder(oFoShip.design.name, ixShip)
                     )
 
-                ixSystemList = oGraphRouter.tixGetPath(ixSystemClosestUnexplored)
-                ixSystemList.pop(0) # remove system the fleet is in (source system)
-
                 setSystemUnexploredTargeted.add(ixSystemClosestUnexplored)
 
+                ixSystemList = oGraphRouter.tixGetPath(ixSystemClosestUnexplored)
+                ixSystemCurrent = ixSystemList.pop(0) # remove system the fleet is in (current system)
+
+                print 'Ordering fleet %d to move to system %d with result %d (reset).' % (
+                    oFoShip.fleetID,
+                    ixSystemCurrent,
+                    self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystemCurrent, False)
+                )
+
                 for ixSystem in ixSystemList:
-                    print 'Ordering fleet %d to move to system %d with result %d.' % (
+                    print 'Ordering fleet %d to move to system %d with result %d (append).' % (
                         oFoShip.fleetID,
                         ixSystem,
-                        self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystem)
+                        self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystem, True)
                     )
 
 

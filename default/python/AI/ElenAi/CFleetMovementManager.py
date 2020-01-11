@@ -24,7 +24,7 @@ class CFleetMovementManager(CManager):
         setSystemUnexplored = set(oFoUniverse.systemIDs).difference(oFoEmpire.exploredSystemIDs)
         setSystemUnexploredTargeted = set()
 
-        for ixShip in self.tixGetMovingScoutShip():
+        for ixShip in self.tixGetMovingShip(self.tixGetOwnScoutShip()):
             oFoShip = oFoUniverse.getShip(ixShip)
 
             # If a scout moving to a system, the system is either already explored, or about to be explored.
@@ -33,7 +33,7 @@ class CFleetMovementManager(CManager):
 
         ixEnemyFleetSystemSet = set(self.tixGetEnemyFleetSystem())
 
-        for ixShip in self.tixGetIdleScoutShip():
+        for ixShip in self.tixGetIdleShip(self.tixGetOwnScoutShip()):
             oFoShip = oFoUniverse.getShip(ixShip)
 
             # The scout ship is supposed to be located in a system, not moving.
@@ -74,39 +74,47 @@ class CFleetMovementManager(CManager):
                     )
 
 
-    def tixGetIdleScoutShip(self):
+    def tixGetOwnShipWithPart(self, sPart):
         oFoUniverse = self.fo.getUniverse()
 
         for ixFleet in oFoUniverse.fleetIDs:
             oFoFleet = oFoUniverse.getFleet(ixFleet)
 
             if (self._bIsOwn(oFoFleet)):
-                if (oFoFleet.finalDestinationID == -1):
-                    for ixShip in oFoFleet.shipIDs:
-                        oFoShip = oFoUniverse.getShip(ixShip)
-                        oFoShipDesign = oFoShip.design
+                for ixShip in oFoFleet.shipIDs:
+                    oFoShip = oFoUniverse.getShip(ixShip)
+                    oFoShipDesign = oFoShip.design
 
-                        for parts in oFoShipDesign.parts:
-                            if (parts == 'DT_DETECTOR_1'):
-                                yield ixShip
-                                break # next ship
+                    for parts in oFoShipDesign.parts:
+                        if (parts == sPart):
+                            yield ixShip
+                            break # next ship
 
-    def tixGetMovingScoutShip(self):
+
+    def tixGetOwnScoutShip(self):
+        for ixShip in self.tixGetOwnShipWithPart('DT_DETECTOR_1'):
+            yield ixShip
+
+
+    def tixGetIdleShip(self, tixShip):
         oFoUniverse = self.fo.getUniverse()
 
-        for ixFleet in oFoUniverse.fleetIDs:
-            oFoFleet = oFoUniverse.getFleet(ixFleet)
+        for ixShip in tixShip:
+            oFoFleet = oFoUniverse.getFleet(oFoUniverse.getShip(ixShip).fleetID)
 
-            if (self._bIsOwn(oFoFleet)):
-                if (oFoFleet.finalDestinationID != -1):
-                    for ixShip in oFoFleet.shipIDs:
-                        oFoShip = oFoUniverse.getShip(ixShip)
-                        oFoShipDesign = oFoShip.design
+            if (oFoFleet.finalDestinationID == -1):
+                yield ixShip
 
-                        for parts in oFoShipDesign.parts:
-                            if (parts == 'DT_DETECTOR_1'):
-                                yield ixShip
-                                break # next ship
+
+    def tixGetMovingShip(self, tixShip):
+        oFoUniverse = self.fo.getUniverse()
+
+        for ixShip in tixShip:
+            oFoFleet = oFoUniverse.getFleet(oFoUniverse.getShip(ixShip).fleetID)
+
+            if (oFoFleet.finalDestinationID != -1):
+                yield ixShip
+
 
     def tixGetEnemyFleetSystem(self):
         oFoUniverse = self.fo.getUniverse()

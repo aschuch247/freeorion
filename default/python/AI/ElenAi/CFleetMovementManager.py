@@ -74,17 +74,13 @@ class CFleetMovementManager(CManager):
                     )
 
 
-    def bIsOwn(self, oUniverseObject):
-        return oUniverseObject.ownedBy(self.fo.empireID())
-
-
     def tixGetIdleScoutShip(self):
         oFoUniverse = self.fo.getUniverse()
 
         for ixFleet in oFoUniverse.fleetIDs:
             oFoFleet = oFoUniverse.getFleet(ixFleet)
 
-            if (self.bIsOwn(oFoFleet)):
+            if (self._bIsOwn(oFoFleet)):
                 if (oFoFleet.finalDestinationID == -1):
                     for ixShip in oFoFleet.shipIDs:
                         oFoShip = oFoUniverse.getShip(ixShip)
@@ -101,7 +97,7 @@ class CFleetMovementManager(CManager):
         for ixFleet in oFoUniverse.fleetIDs:
             oFoFleet = oFoUniverse.getFleet(ixFleet)
 
-            if (self.bIsOwn(oFoFleet)):
+            if (self._bIsOwn(oFoFleet)):
                 if (oFoFleet.finalDestinationID != -1):
                     for ixShip in oFoFleet.shipIDs:
                         oFoShip = oFoUniverse.getShip(ixShip)
@@ -118,7 +114,7 @@ class CFleetMovementManager(CManager):
         for ixFleet in oFoUniverse.fleetIDs:
             oFoFleet = oFoUniverse.getFleet(ixFleet)
 
-            if (not self.bIsOwn(oFoFleet)):
+            if (not self._bIsOwn(oFoFleet)):
                 if (oFoFleet.systemID != -1):
 
                     # The fleet is stationary.

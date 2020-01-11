@@ -18,10 +18,6 @@ class CColonyManager(CManager):
             self.vManageSystem(ixSystem)
 
 
-    def bIsOwn(self, oUniverseObject):
-        return oUniverseObject.ownedBy(self.fo.empireID())
-
-
     def tixGetOwnSystem(self):
         oFoUniverse = self.fo.getUniverse()
 
@@ -31,7 +27,7 @@ class CColonyManager(CManager):
             for ixPlanet in oFoSystem.planetIDs:
                 oFoPlanet = oFoUniverse.getPlanet(ixPlanet)
 
-                if (self.bIsOwn(oFoPlanet)):
+                if (self._bIsOwn(oFoPlanet)):
                     yield ixSystem
                     break
 
@@ -65,7 +61,7 @@ class CColonyManager(CManager):
         for ixPlanet in oFoSystem.planetIDs:
             oFoPlanet = oFoUniverse.getPlanet(ixPlanet)
 
-            if (self.bIsOwn(oFoPlanet)):
+            if (self._bIsOwn(oFoPlanet)):
                 for ixBuilding in oFoPlanet.buildingIDs:
                     oFoBuilding = oFoUniverse.getBuilding(ixBuilding)
 

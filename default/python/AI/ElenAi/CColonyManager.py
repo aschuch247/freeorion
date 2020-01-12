@@ -36,21 +36,11 @@ class CColonyManager(CManager):
         oFoUniverse = self.fo.getUniverse()
         oProductionQueue = CProductionQueue(self.fo)
 
-        if (not self.fo.getEmpire().buildingTypeAvailable(sBuilding)):
+        if (not self.fo.getEmpire().canBuild(self.fo.buildType.building, sBuilding, ixPlanet)):
             return
 
-        bHasBuilding = False
-
-        for ixBuilding in oFoUniverse.getPlanet(ixPlanet).buildingIDs:
-            oFoBuilding = oFoUniverse.getBuilding(ixBuilding)
-
-            if (oFoBuilding.buildingTypeName == sBuilding):
-                bHasBuilding = True
-                break
-
-        if (not bHasBuilding):
-            if (not oProductionQueue.bIsEnqueuedBuilding(ixPlanet, sBuilding)):
-                oProductionQueue.vEnqueueBuilding(ixPlanet, sBuilding)
+        if (not oProductionQueue.bIsEnqueuedBuilding(ixPlanet, sBuilding)):
+            oProductionQueue.vEnqueueBuilding(ixPlanet, sBuilding)
 
 
     def vManageSystem(self, ixSystem):

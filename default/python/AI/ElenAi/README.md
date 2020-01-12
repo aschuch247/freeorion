@@ -1,6 +1,6 @@
 # ElenAI
 
-This is ElenAI, an AI for FreeOrion.
+This is ElenAI, an AI module for FreeOrion.
 
 ## unit tests
 

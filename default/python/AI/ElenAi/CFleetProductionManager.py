@@ -49,6 +49,10 @@ class CFleetProductionManager(CManager):
 
 
     def ixGetOutpostShipDesign(self):
+
+        # @todo As soon as an organic outpost ship design is available, building such a ship will fail because
+        # 'BLD_SHIPYARD_ORG_ORB_INC' is missing!
+
         return self.ixGetShipDesignWithPart('CO_OUTPOST_POD')
 
 

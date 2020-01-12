@@ -18,6 +18,8 @@ class CResearchManager(CManager):
     def vManage(self):
         oResearchTree = self.oGetResearchTree()
 
+        # @todo Add the pre-warp technologies here!
+
         self.vResearch(oResearchTree, 'LRN_PHYS_BRAIN')
         self.vResearch(oResearchTree, 'GRO_SUBTER_HAB')
         self.vResearch(oResearchTree, 'PRO_SENTIENT_AUTOMATION')

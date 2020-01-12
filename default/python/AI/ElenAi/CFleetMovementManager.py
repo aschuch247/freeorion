@@ -42,6 +42,9 @@ class CFleetMovementManager(CManager):
 
             # Only consider unexplored systems which are not yet targeted by scouts.
 
+            # @todo However, it might be possible that another idle scout is closer to the unexplored system. Try to
+            # find the closest idle scout first (search by system), and then give orders.
+
             ixSystemClosestUnexplored = oGraphRouter.ixGetClosestGraphNode(setSystemUnexplored.difference(setSystemUnexploredTargeted))
 
             if (ixSystemClosestUnexplored is not None):

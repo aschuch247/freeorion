@@ -82,6 +82,10 @@ class CColonyManager(CManager):
 
 
     def __tsGetSpecies(self):
+        """
+        Return each species the empire has access to.
+        """
+
         oFoUniverse = self.fo.getUniverse()
 
         for ixPlanet in oFoUniverse.planetIDs:
@@ -89,3 +93,16 @@ class CColonyManager(CManager):
 
             if (self._bIsOwn(oFoPlanet)):
                 yield oFoPlanet.speciesName
+
+        SpeciesDict = {
+            'SP_EXOBOT': 'PRO_EXOBOTS',
+            'SP_BANFORO': 'TECH_COL_BANFORO',
+            'SP_KILANDOW': 'TECH_COL_KILANDOW',
+            'SP_MISIORLA': 'TECH_COL_MISIORLA'
+        }
+
+        # @todo Is it enough to own the technology or is also a corresponding 'BLD_XENORESURRECTION_LAB' required?
+
+        for sSpecies, sTechnology in SpeciesDict.items():
+            if (self.fo.getEmpire().getTechStatus(sTechnology) == self.fo.techStatus.complete):
+                yield sSpecies

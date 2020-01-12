@@ -2,6 +2,7 @@
 This is ElenAI, an AI module.
 """
 
+from ElenAi.CColonisationManager import CColonisationManager
 from ElenAi.CColonyManager import CColonyManager
 from ElenAi.CFleetMovementManager import CFleetMovementManager
 from ElenAi.CFleetProductionManager import CFleetProductionManager
@@ -20,6 +21,9 @@ class CElenAi(object):
 
         oProductionQueue = CProductionQueue(fo)
         oResearchQueue = CResearchQueue(fo)
+
+        oColonisationManager = CColonisationManager(fo)
+        oColonisationManager.vManage()
 
         oColonyManager = CColonyManager(fo)
         oColonyManager.vManage()

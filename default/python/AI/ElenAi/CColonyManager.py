@@ -66,6 +66,7 @@ class CColonyManager(CManager):
 
                         self.vConditionallyAddBuilding(ixPlanet, 'BLD_GENOME_BANK')
                         self.vConditionallyAddBuilding(ixPlanet, 'BLD_INDUSTRY_CENTER')
+                        self.vConditionallyAddBuilding(ixPlanet, 'BLD_NEUTRONIUM_SYNTH')
 
                     if (oFoBuilding.buildingTypeName == 'BLD_CULTURE_ARCHIVES'):
                         self.vConditionallyAddBuilding(ixPlanet, 'BLD_AUTO_HISTORY_ANALYSER')

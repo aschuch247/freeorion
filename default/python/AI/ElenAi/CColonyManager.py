@@ -71,6 +71,15 @@ class CColonyManager(CManager):
                     if (oFoBuilding.buildingTypeName == 'BLD_CULTURE_ARCHIVES'):
                         self.vConditionallyAddBuilding(ixPlanet, 'BLD_AUTO_HISTORY_ANALYSER')
 
+            for sSpecial in oFoPlanet.specials:
+                if (sSpecial in frozenset('EXTINCT_BANFORO_SPECIAL', 'EXTINCT_KILANDOW_SPECIAL', 'EXTINCT_MISIORLA_SPECIAL')):
+                    self.vConditionallyAddBuilding(ixPlanet, 'BLD_XENORESURRECTION_LAB')
+                else:
+                    print 'Unsupported special \'%s\' for planet %d!' % (
+                        sSpecial,
+                        ixPlanet
+                    )
+
 
     def __tsGetSpecies(self):
         oFoUniverse = self.fo.getUniverse()

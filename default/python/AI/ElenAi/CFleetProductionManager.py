@@ -18,29 +18,44 @@ class CFleetProductionManager(CManager):
         oFoUniverse = self.fo.getUniverse()
         oFoEmpire = self.fo.getEmpire()
 
-        # Build scouts everywhere.
+        ixScoutShipDesign = self.ixGetScoutShipDesign()
+        ixOutpostShipDesign = self.ixGetOutpostShipDesign()
 
         for ixBuilding in oFoUniverse.buildingIDs:
             oFoBuilding = oFoUniverse.getBuilding(ixBuilding)
 
             if (oFoBuilding.ownedBy(self.fo.empireID())):
                 if (oFoBuilding.buildingTypeName == 'BLD_SHIPYARD_BASE'):
-                    self.vBuildScout(oFoBuilding.planetID)
+                    self.vBuildShip(oFoBuilding.planetID, ixScoutShipDesign)
+                    self.vBuildShip(oFoBuilding.planetID, ixOutpostShipDesign)
 
 
-    def vBuildScout(self, ixPlanet):
+    def ixGetShipDesignWithPart(self, sPart):
         oFoEmpire = self.fo.getEmpire()
-
-        ixShipDesignScout = None
 
         for ixShipDesign in oFoEmpire.availableShipDesigns:
             oFoShipDesign = self.fo.getShipDesign(ixShipDesign)
 
-            for parts in oFoShipDesign.parts:
-                if (parts == 'DT_DETECTOR_1'):
-                    ixShipDesignScout = ixShipDesign
-                    break
+            if (oFoShipDesign.speed > 0.0):
+                for parts in oFoShipDesign.parts:
+                    if (parts == sPart):
+                        return ixShipDesign
 
-        if (ixShipDesignScout is not None):
-            if (not self.m_oProductionQueue.bIsEnqueuedShipDesign(ixPlanet, ixShipDesignScout)):
-                self.m_oProductionQueue.vEnqueueShipDesign(ixPlanet, ixShipDesignScout)
+        return -1
+
+
+    def ixGetScoutShipDesign(self):
+        return self.ixGetShipDesignWithPart('DT_DETECTOR_1')
+
+
+    def ixGetOutpostShipDesign(self):
+        return self.ixGetShipDesignWithPart('CO_OUTPOST_POD')
+
+
+    def vBuildShip(self, ixPlanet, ixShipDesign):
+        if (ixShipDesign == -1):
+            print 'Cancelled building invalid ship design on planet %d.' % (ixPlanet)
+            return
+
+        if (not self.m_oProductionQueue.bIsEnqueuedShipDesign(ixPlanet, ixShipDesign)):
+            self.m_oProductionQueue.vEnqueueShipDesign(ixPlanet, ixShipDesign)

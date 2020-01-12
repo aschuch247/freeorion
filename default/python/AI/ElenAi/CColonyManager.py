@@ -12,6 +12,8 @@ class CColonyManager(CManager):
     def __init__(self, fo):
         super(CColonyManager, self).__init__(fo)
 
+        # print frozenset(self.__tsGetSpecies())
+
 
     def vManage(self):
         for ixSystem in self.tixGetOwnSystem():
@@ -67,3 +69,13 @@ class CColonyManager(CManager):
 
                     if (oFoBuilding.buildingTypeName == 'BLD_CULTURE_ARCHIVES'):
                         self.vConditionallyAddBuilding(ixPlanet, 'BLD_AUTO_HISTORY_ANALYSER')
+
+
+    def __tsGetSpecies(self):
+        oFoUniverse = self.fo.getUniverse()
+
+        for ixPlanet in oFoUniverse.planetIDs:
+            oFoPlanet = oFoUniverse.getPlanet(ixPlanet)
+
+            if (self._bIsOwn(oFoPlanet)):
+                yield oFoPlanet.speciesName

@@ -61,6 +61,7 @@ class CColonyManager(CManager):
 
                     if (oFoBuilding.buildingTypeName == 'BLD_IMPERIAL_PALACE'):
                         self.vConditionallyAddBuilding(ixPlanet, 'BLD_MEGALITH')
+                        self.vConditionallyAddBuilding(ixPlanet, 'BLD_STOCKPILING_CENTER')
 
                         # @todo Also build the following buildings redundantly.
 

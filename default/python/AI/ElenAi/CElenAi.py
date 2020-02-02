@@ -19,6 +19,8 @@ class CElenAi(object):
     def vGenerateOrders(self, fo):
         oUniverse = self.oGetUniverse(fo)
 
+        # @todo Show turn number and site report.
+
         oProductionQueue = CProductionQueue(fo)
         oResearchQueue = CResearchQueue(fo)
 

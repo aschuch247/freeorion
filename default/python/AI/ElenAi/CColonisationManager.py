@@ -259,13 +259,19 @@ class CColonisationManager(CManager):
         return fMaximumPopulation
 
 
+    def __bIsOwnColony(self, oFoPlanet):
+        return self._bIsOwn(oFoPlanet) and (oFoPlanet.speciesName != '')
+
+    def __bIsOwnOutpost(self, oFoPlanet):
+        return self._bIsOwn(oFoPlanet) and (oFoPlanet.speciesName == '')
+
     def __vAssertTargetPopulation(self):
         oFoUniverse = self.fo.getUniverse()
 
         for ixPlanet in oFoUniverse.planetIDs:
             oFoPlanet = oFoUniverse.getPlanet(ixPlanet)
 
-            if (self._bIsOwn(oFoPlanet)):
+            if (self.__bIsOwnColony(oFoPlanet)):
                 fActualMaxPopulation = oFoPlanet.initialMeterValue(self.fo.meterType.targetPopulation)
                 fExpectedMaxPopulation = self.fGetMaxPopulation(oFoPlanet, oFoPlanet.speciesName)
 
@@ -277,3 +283,5 @@ class CColonisationManager(CManager):
                     )
 
                     self.fGetMaxPopulation(oFoPlanet, oFoPlanet.speciesName, True)
+            elif (self.__bIsOwnOutpost(oFoPlanet)):
+                print 'Planet %d is an outpost.' % (ixPlanet)

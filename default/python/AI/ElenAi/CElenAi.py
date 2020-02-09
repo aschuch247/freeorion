@@ -10,6 +10,7 @@ from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CResearchManager import CResearchManager
 from ElenAi.CResearchQueue import CResearchQueue
 from ElenAi.CSystem import CSystem
+from ElenAi.CSystemConverter import CSystemConverter
 from ElenAi.CUniverse import CUniverse
 
 
@@ -50,7 +51,7 @@ class CElenAi(object):
         for ixSystem in oFoUniverse.systemIDs:
             oFoSystem = oFoUniverse.getSystem(ixSystem)
 
-            oUniverse.vAddSystem(ixSystem, CSystem(oFoSystem.x, oFoSystem.y))
+            oUniverse.vAddSystem(ixSystem, CSystemConverter(oFoSystem).oGetSystem())
 
         for ixSystem in oFoUniverse.systemIDs:
             for ixSystemNeighbour in oFoUniverse.getImmediateNeighbors(ixSystem, fo.empireID()):

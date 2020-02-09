@@ -2,6 +2,8 @@
 This class contains methods to manage the research queue of the empire.
 """
 
+from __future__ import print_function
+
 
 class CResearchQueue(object):
 
@@ -15,14 +17,16 @@ class CResearchQueue(object):
 
 
     def vEnqueue(self, sTechnology):
-        print 'Enqueuing technology \'%s\' with result %d.' % (
-            sTechnology,
-            self.fo.issueEnqueueTechOrder(sTechnology, self.fo.getEmpire().researchQueue.size + 1)
+        print(
+            'Enqueuing technology \'%s\' with result %d.' % (
+                sTechnology,
+                self.fo.issueEnqueueTechOrder(sTechnology, self.fo.getEmpire().researchQueue.size + 1)
+            )
         )
 
 
     def vLog(self):
-        print '--- research queue ---'
+        print('--- research queue ---')
 
         for oFoResearchQueueElement in self.fo.getEmpire().researchQueue:
-            print '\'%s\'' % (oFoResearchQueueElement.tech)
+            print('\'%s\'' % (oFoResearchQueueElement.tech))

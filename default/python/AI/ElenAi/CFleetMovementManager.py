@@ -2,6 +2,8 @@
 This is the fleet movement manager.
 """
 
+from __future__ import print_function
+
 from ElenAi.CGraphAdvisor import CGraphAdvisor
 from ElenAi.CManager import CManager
 
@@ -52,10 +54,12 @@ class CFleetMovementManager(CManager):
                 # In case the fleet is made up of multiple ships, split the ship from the fleet.
 
                 if (not self.bIsSingleShipInFleet(ixShip)):
-                    print 'Splitting ship %d from fleet %d with result %d.' % (
-                        ixShip,
-                        oFoShip.fleetID,
-                        self.fo.issueNewFleetOrder(oFoShip.design.name, ixShip)
+                    print(
+                        'Splitting ship %d from fleet %d with result %d.' % (
+                            ixShip,
+                            oFoShip.fleetID,
+                            self.fo.issueNewFleetOrder(oFoShip.design.name, ixShip)
+                        )
                     )
 
                 setSystemUnexploredTargeted.add(ixSystemClosestUnexplored)
@@ -63,17 +67,21 @@ class CFleetMovementManager(CManager):
                 ixSystemList = oGraphRouter.tixGetPath(ixSystemClosestUnexplored)
                 ixSystemCurrent = ixSystemList.pop(0) # remove system the fleet is in (current system)
 
-                print 'Ordering fleet %d to move to system %d with result %d (reset).' % (
-                    oFoShip.fleetID,
-                    ixSystemCurrent,
-                    self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystemCurrent, False)
+                print(
+                    'Ordering fleet %d to move to system %d with result %d (reset).' % (
+                        oFoShip.fleetID,
+                        ixSystemCurrent,
+                        self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystemCurrent, False)
+                    )
                 )
 
                 for ixSystem in ixSystemList:
-                    print 'Ordering fleet %d to move to system %d with result %d (append).' % (
-                        oFoShip.fleetID,
-                        ixSystem,
-                        self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystem, True)
+                    print(
+                        'Ordering fleet %d to move to system %d with result %d (append).' % (
+                            oFoShip.fleetID,
+                            ixSystem,
+                            self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystem, True)
+                        )
                     )
 
 

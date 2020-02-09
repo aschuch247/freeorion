@@ -2,6 +2,8 @@
 This is the colony and outpost manager.
 """
 
+from __future__ import print_function
+
 from ElenAi.CManager import CManager
 from ElenAi.CProductionQueue import CProductionQueue
 
@@ -12,7 +14,7 @@ class CColonyManager(CManager):
     def __init__(self, fo):
         super(CColonyManager, self).__init__(fo)
 
-        # print frozenset(self.__tsGetSpecies())
+        # print(frozenset(self.__tsGetSpecies()))
 
 
     def vManage(self):
@@ -76,10 +78,7 @@ class CColonyManager(CManager):
                 if (sSpecial in frozenset(['EXTINCT_BANFORO_SPECIAL', 'EXTINCT_KILANDOW_SPECIAL', 'EXTINCT_MISIORLA_SPECIAL'])):
                     self.vConditionallyAddBuilding(ixPlanet, 'BLD_XENORESURRECTION_LAB')
                 else:
-                    print 'Unsupported special \'%s\' for planet %d!' % (
-                        sSpecial,
-                        ixPlanet
-                    )
+                    print('Unsupported special \'%s\' for planet %d!' % (sSpecial, ixPlanet))
 
 
     def __tsGetSpecies(self):

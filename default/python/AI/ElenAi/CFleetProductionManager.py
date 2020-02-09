@@ -2,6 +2,8 @@
 This is the fleet production manager.
 """
 
+from __future__ import print_function
+
 from ElenAi.CManager import CManager
 
 
@@ -58,7 +60,7 @@ class CFleetProductionManager(CManager):
 
     def vBuildShip(self, ixPlanet, ixShipDesign):
         if (ixShipDesign == -1):
-            print 'Cancelled building invalid ship design on planet %d.' % (ixPlanet)
+            print('Cancelled building invalid ship design on planet %d.' % (ixPlanet))
             return
 
         if (not self.m_oProductionQueue.bIsEnqueuedShipDesign(ixPlanet, ixShipDesign)):

@@ -9,6 +9,7 @@ The colonisation manager assesses the universe for habitable planets.
 # - Consider neutron stars for better research and BLD_NEUTRONIUM_EXTRACTOR.
 # - Consider white and blue stars for PHOTOTROPHIC species.
 
+from __future__ import print_function
 
 from ElenAi.CManager import CManager
 
@@ -126,7 +127,7 @@ class CColonisationManager(CManager):
 
         def fAddPopulationBonus(sName, fPopulationBonus, bPrintCalculation = False):
             if (bPrintCalculation):
-                print '%s: %+.2f' % (sName, fPopulationBonus)
+                print('%s: %+.2f' % (sName, fPopulationBonus))
 
             return fPopulationBonus
 
@@ -142,11 +143,13 @@ class CColonisationManager(CManager):
                                 iModifier += iPlanetEnvironmentDict[oFoPlanetEnvironment]
 
                                 if (bPrintCalculation):
-                                    print 'priority %d, technology \'%s\', planet environment %d, modifier %+d' % (
-                                        iPriority,
-                                        sTechnology,
-                                        oFoPlanetEnvironment,
-                                        iPlanetEnvironmentDict[oFoPlanetEnvironment]
+                                    print(
+                                        'priority %d, technology \'%s\', planet environment %d, modifier %+d' % (
+                                            iPriority,
+                                            sTechnology,
+                                            oFoPlanetEnvironment,
+                                            iPlanetEnvironmentDict[oFoPlanetEnvironment]
+                                        )
                                     )
 
             return iModifier
@@ -156,19 +159,19 @@ class CColonisationManager(CManager):
         oFoPlanetEnvironment = oFoSpecies.getPlanetEnvironment(oFoPlanet.type)
 
         if (bPrintCalculation):
-            print 'Planet %d population calculation for \'%s\':' % (oFoPlanet.id, sSpecies)
+            print('Planet %d population calculation for \'%s\':' % (oFoPlanet.id, sSpecies))
 
         # ENVIRONMENT_MODIFIER - TARGET_POPULATION_OVERRIDE_PRIORITY
 
         if (oFoPlanetEnvironment == self.fo.planetEnvironment.uninhabitable):
             if (bPrintCalculation):
-                print 'Planet is uninhabitable for species.'
+                print('Planet is uninhabitable for species.')
 
             return None
 
         if (self.bPlanetHasBuilding(oFoPlanet, 'BLD_GATEWAY_VOID')):
             if (bPrintCalculation):
-                print 'Planet is uninhabitable due to \'BLD_GATEWAY_VOID\'.'
+                print('Planet is uninhabitable due to \'BLD_GATEWAY_VOID\'.')
 
             return None
 
@@ -276,12 +279,14 @@ class CColonisationManager(CManager):
                 fExpectedMaxPopulation = self.fGetMaxPopulation(oFoPlanet, oFoPlanet.speciesName)
 
                 if (fActualMaxPopulation != fExpectedMaxPopulation):
-                    print 'Actual maximum population %.2f differs from expected maximum population %.2f for planet %d!' % (
-                        fActualMaxPopulation,
-                        fExpectedMaxPopulation,
-                        ixPlanet
+                    print(
+                        'Actual maximum population %.2f differs from expected maximum population %.2f for planet %d!' % (
+                            fActualMaxPopulation,
+                            fExpectedMaxPopulation,
+                            ixPlanet
+                        )
                     )
 
                     self.fGetMaxPopulation(oFoPlanet, oFoPlanet.speciesName, True)
             elif (self.__bIsOwnOutpost(oFoPlanet)):
-                print 'Planet %d is an outpost.' % (ixPlanet)
+                print('Planet %d is an outpost.' % (ixPlanet))

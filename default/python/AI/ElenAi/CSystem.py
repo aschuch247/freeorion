@@ -4,12 +4,14 @@ This is a representation of a system.
 
 
 class CSystem(object):
+
+
     def __init__(self, fX, fY):
-        self.m_fX = fX
-        self.m_fY = fY
+        self.__m_fX = fX
+        self.__m_fY = fY
 
     def fGetX(self):
-        return self.m_fX
+        return self.__m_fX
 
     def fGetY(self):
-        return self.m_fY
+        return self.__m_fY

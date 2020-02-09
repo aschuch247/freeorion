@@ -71,7 +71,7 @@ class CFleetMovementManager(CManager):
                     'Ordering fleet %d to move to system %d with result %d (reset).' % (
                         oFoShip.fleetID,
                         ixSystemCurrent,
-                        self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystemCurrent, False)
+                        self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystemCurrent)
                     )
                 )
 
@@ -80,7 +80,7 @@ class CFleetMovementManager(CManager):
                         'Ordering fleet %d to move to system %d with result %d (append).' % (
                             oFoShip.fleetID,
                             ixSystem,
-                            self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystem, True)
+                            self.fo.appendFleetMoveOrder(oFoShip.fleetID, ixSystem)
                         )
                     )
 

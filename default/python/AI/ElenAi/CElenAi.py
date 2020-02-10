@@ -9,7 +9,6 @@ from ElenAi.CFleetProductionManager import CFleetProductionManager
 from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CResearchManager import CResearchManager
 from ElenAi.CResearchQueue import CResearchQueue
-from ElenAi.CSystem import CSystem
 from ElenAi.CSystemConverter import CSystemConverter
 from ElenAi.CUniverse import CUniverse
 

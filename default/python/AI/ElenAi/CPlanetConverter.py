@@ -14,5 +14,6 @@ class CPlanetConverter(object):
 
     def oGetPlanet(self):
         return CPlanet(
-            self.__m_oFoPlanet.id
+            self.__m_oFoPlanet.id,
+            self.__m_oFoPlanet.speciesName
         )

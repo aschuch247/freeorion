@@ -6,6 +6,7 @@ from ElenAi.CColonisationManager import CColonisationManager
 from ElenAi.CColonyManager import CColonyManager
 from ElenAi.CFleetMovementManager import CFleetMovementManager
 from ElenAi.CFleetProductionManager import CFleetProductionManager
+from ElenAi.CPlanetConverter import CPlanetConverter
 from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CResearchManager import CResearchManager
 from ElenAi.CResearchQueue import CResearchQueue
@@ -52,6 +53,12 @@ class CElenAi(object):
             oSystem = CSystemConverter(oFoSystem).oGetSystem()
 
             oUniverse.vAddSystem(oSystem)
+
+            for ixPlanet in oFoSystem.planetIDs:
+                oFoPlanet = oFoUniverse.getPlanet(ixPlanet)
+                oPlanet = CPlanetConverter(oFoPlanet).oGetPlanet()
+
+                oSystem.vAddPlanet(oPlanet)
 
         for ixSystem in oFoUniverse.systemIDs:
             for ixSystemNeighbour in oFoUniverse.getImmediateNeighbors(ixSystem, fo.empireID()):

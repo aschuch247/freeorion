@@ -11,6 +11,8 @@ class CSystem(object):
         self.__m_fX = fX
         self.__m_fY = fY
 
+        self.__m_dictPlanet = dict()
+
 
     def ixGetSystem(self):
         return self.__m_ixSystem
@@ -22,3 +24,9 @@ class CSystem(object):
 
     def fGetY(self):
         return self.__m_fY
+
+
+    def vAddPlanet(self, oPlanet):
+        self.__m_dictPlanet[oPlanet.ixGetPlanet()] = oPlanet
+
+        oPlanet.vSetSystem(self)

@@ -14,7 +14,7 @@ class CFleetMovementManager(CManager):
     def __init__(self, fo, oUniverse):
         super(CFleetMovementManager, self).__init__(fo)
 
-        self.m_oUniverse = oUniverse
+        self.__m_oUniverse = oUniverse
 
 
     def vManage(self):
@@ -40,7 +40,7 @@ class CFleetMovementManager(CManager):
 
             # The scout ship is supposed to be located in a system, not moving.
 
-            oGraphRouter = self.m_oUniverse.oGetGraphRouter(oFoShip.systemID, CGraphAdvisor(ixEnemyFleetSystemSet))
+            oGraphRouter = self.__m_oUniverse.oGetGraphRouter(oFoShip.systemID, CGraphAdvisor(ixEnemyFleetSystemSet))
 
             # Only consider unexplored systems which are not yet targeted by scouts.
 

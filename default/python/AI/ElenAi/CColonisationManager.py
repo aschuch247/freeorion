@@ -17,8 +17,10 @@ from ElenAi.CManager import CManager
 class CColonisationManager(CManager):
 
 
-    def __init__(self, fo):
+    def __init__(self, fo, oUniverse):
         super(CColonisationManager, self).__init__(fo)
+
+        self.__m_oUniverse = oUniverse
 
 
     def vManage(self):

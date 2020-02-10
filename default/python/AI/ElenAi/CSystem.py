@@ -30,3 +30,8 @@ class CSystem(object):
         self.__m_dictPlanet[oPlanet.ixGetPlanet()] = oPlanet
 
         oPlanet.vSetSystem(self)
+
+
+    def toGetPlanet(self):
+        for ixPlanet, oPlanet in self.__m_dictPlanet.items():
+            yield oPlanet

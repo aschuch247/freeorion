@@ -50,8 +50,9 @@ class CElenAi(object):
 
         for ixSystem in oFoUniverse.systemIDs:
             oFoSystem = oFoUniverse.getSystem(ixSystem)
+            oSystem = CSystemConverter(oFoSystem).oGetSystem()
 
-            oUniverse.vAddSystem(ixSystem, CSystemConverter(oFoSystem).oGetSystem())
+            oUniverse.vAddSystem(oSystem)
 
         for ixSystem in oFoUniverse.systemIDs:
             for ixSystemNeighbour in oFoUniverse.getImmediateNeighbors(ixSystem, fo.empireID()):

@@ -14,7 +14,9 @@ class CUniverse(CGraph):
         self.m_dictSystem = dict()
 
 
-    def vAddSystem(self, ixSystem, oSystem):
+    def vAddSystem(self, oSystem):
+        ixSystem = oSystem.ixGetSystem()
+
         self.m_dictSystem[ixSystem] = oSystem
 
         super(CUniverse, self).vAdd(ixSystem)

@@ -13,4 +13,8 @@ class CSystemConverter(object):
 
 
     def oGetSystem(self):
-        return CSystem(self.__m_oFoSystem.x, self.__m_oFoSystem.y)
+        return CSystem(
+            self.__m_oFoSystem.id,
+            self.__m_oFoSystem.x,
+            self.__m_oFoSystem.y
+        )

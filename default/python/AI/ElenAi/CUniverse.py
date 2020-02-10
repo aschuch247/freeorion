@@ -2,6 +2,8 @@
 This is a representation of the (known) universe.
 """
 
+from __future__ import print_function
+
 from ElenAi.CGraph import CGraph
 
 
@@ -34,3 +36,34 @@ class CUniverse(CGraph):
     def toGetSystem(self):
         for ixSystem, oSystem in self.__m_dictSystem.items():
             yield oSystem
+
+
+    def vDump(self):
+        print('--- universe ---')
+
+        for oSystem in self.toGetSystem():
+            for oPlanet in oSystem.toGetPlanet():
+                if (oPlanet.bIsNative()):
+                    print(
+                        'Planet %d has natives \'%s\' (%.2f).' % (
+                            oPlanet.ixGetPlanet(),
+                            oPlanet.sGetSpecies(),
+                            oPlanet.fGetPopulation()
+                        )
+                    )
+                elif (oPlanet.bIsColony()):
+                    print(
+                        'Planet %d is a colony of \'%s\' (%.2f) owned by empire %d.' % (
+                            oPlanet.ixGetPlanet(),
+                            oPlanet.sGetSpecies(),
+                            oPlanet.fGetPopulation(),
+                            oPlanet.ixGetEmpire()
+                        )
+                    )
+                elif (oPlanet.bIsOutpost()):
+                    print(
+                        'Planet %d is an outpost owned by empire %d.' % (
+                            oPlanet.ixGetPlanet(),
+                            oPlanet.ixGetEmpire()
+                        )
+                    )

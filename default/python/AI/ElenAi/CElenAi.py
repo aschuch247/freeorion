@@ -64,4 +64,6 @@ class CElenAi(object):
             for ixSystemNeighbour in oFoUniverse.getImmediateNeighbors(ixSystem, fo.empireID()):
                 oUniverse.vLinkSystem(ixSystem, ixSystemNeighbour)
 
+        # oUniverse.vDump()
+
         return oUniverse

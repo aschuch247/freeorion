@@ -19,5 +19,5 @@ class CPlanetConverter(object):
             self.__m_oFoPlanet.id,
             self.__m_oFoPlanet.owner,
             self.__m_oFoPlanet.speciesName,
-            self.__m_oFoPlanet.initialMeterValue(meterType.population)
+            self.__m_oFoPlanet.currentMeterValue(meterType.population)
         )

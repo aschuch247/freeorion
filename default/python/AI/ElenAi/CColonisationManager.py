@@ -277,7 +277,7 @@ class CColonisationManager(CManager):
             oFoPlanet = oFoUniverse.getPlanet(ixPlanet)
 
             if (self.__bIsOwnColony(oFoPlanet)):
-                fActualMaxPopulation = oFoPlanet.initialMeterValue(self.fo.meterType.targetPopulation)
+                fActualMaxPopulation = oFoPlanet.currentMeterValue(self.fo.meterType.targetPopulation)
                 fExpectedMaxPopulation = self.fGetMaxPopulation(oFoPlanet, oFoPlanet.speciesName)
 
                 if (fActualMaxPopulation != fExpectedMaxPopulation):

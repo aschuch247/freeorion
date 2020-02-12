@@ -10,6 +10,7 @@ from ElenAi.CPlanetConverter import CPlanetConverter
 from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CResearchManager import CResearchManager
 from ElenAi.CResearchQueue import CResearchQueue
+from ElenAi.CSpeciesDataDynamic import CSpeciesDataDynamic
 from ElenAi.CSystemConverter import CSystemConverter
 from ElenAi.CUniverse import CUniverse
 
@@ -25,7 +26,7 @@ class CElenAi(object):
         oProductionQueue = CProductionQueue(fo)
         oResearchQueue = CResearchQueue(fo)
 
-        oColonisationManager = CColonisationManager(fo, oUniverse)
+        oColonisationManager = CColonisationManager(fo, oUniverse, CSpeciesDataDynamic(fo))
         oColonisationManager.vManage()
 
         oColonyManager = CColonyManager(fo)
@@ -56,7 +57,7 @@ class CElenAi(object):
 
             for ixPlanet in oFoSystem.planetIDs:
                 oFoPlanet = oFoUniverse.getPlanet(ixPlanet)
-                oPlanet = CPlanetConverter(oFoPlanet).oGetPlanet()
+                oPlanet = CPlanetConverter(oFoUniverse, oFoPlanet).oGetPlanet()
 
                 oSystem.vAddPlanet(oPlanet)
 

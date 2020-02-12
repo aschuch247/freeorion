@@ -6,11 +6,15 @@ This is a representation of a planet.
 class CPlanet(object):
 
 
-    def __init__(self, ixPlanet, ixEmpire, sSpecies, fPopulation):
+    def __init__(self, ixPlanet, ixEmpire, iPlanetType, iHabitableSize, sSpecies, fPopulation, sSpecialFrozenset, sBuildingFrozenset):
         self.__m_ixPlanet = ixPlanet
         self.__m_ixEmpire = ixEmpire
+        self.__m_iPlanetType = iPlanetType
+        self.__m_iHabitableSize = iHabitableSize
         self.__m_sSpecies = sSpecies
         self.__m_fPopulation = fPopulation
+        self.__m_sSpecialFrozenset = sSpecialFrozenset
+        self.__m_sBuildingFrozenset = sBuildingFrozenset
 
         self.__m_oSystem = None
 
@@ -25,6 +29,14 @@ class CPlanet(object):
         The empire identifier 0 seems to be unused.
         """
         return self.__m_ixEmpire
+
+
+    def iGetPlanetType(self):
+        return self.__m_iPlanetType
+
+
+    def iGetHabitableSize(self):
+        return self.__m_iHabitableSize
 
 
     def sGetSpecies(self):
@@ -53,6 +65,14 @@ class CPlanet(object):
 
     def bIsOutpost(self):
         return (self.__m_ixEmpire >= 0) and (self.__m_sSpecies == '')
+
+
+    def bHasSpecial(self, sSpecial):
+        return sSpecial in self.__m_sSpecialFrozenset
+
+
+    def bHasBuilding(self, sBuilding):
+        return sBuilding in self.__m_sBuildingFrozenset
 
 
     def vSetSystem(self, oSystem):

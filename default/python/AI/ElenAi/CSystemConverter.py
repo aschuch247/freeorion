@@ -16,5 +16,6 @@ class CSystemConverter(object):
         return CSystem(
             self.__m_oFoSystem.id,
             self.__m_oFoSystem.x,
-            self.__m_oFoSystem.y
+            self.__m_oFoSystem.y,
+            self.__m_oFoSystem.starType
         )

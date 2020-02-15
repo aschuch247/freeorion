@@ -31,6 +31,14 @@ class CPlanet(object):
         return self.__m_ixEmpire
 
 
+    def bIsOwned(self):
+        """
+        Return whether the planet is owned by any empire.
+        """
+
+        return self.__m_ixEmpire >= 0
+
+
     def iGetPlanetType(self):
         return self.__m_iPlanetType
 
@@ -47,6 +55,10 @@ class CPlanet(object):
         return self.__m_sSpecies
 
 
+    def bIsInhabited(self):
+        return self.__m_sSpecies != ''
+
+
     def fGetPopulation(self):
         return self.__m_fPopulation
 
@@ -56,15 +68,15 @@ class CPlanet(object):
         Indicate whether the planet is inhabited by natives.
         """
 
-        return (self.__m_ixEmpire < 0) and (self.__m_sSpecies != '')
+        return (not self.bIsOwned()) and (self.bIsInhabited())
 
 
     def bIsColony(self):
-        return (self.__m_ixEmpire >= 0) and (self.__m_sSpecies != '')
+        return (self.bIsOwned()) and (self.bIsInhabited())
 
 
     def bIsOutpost(self):
-        return (self.__m_ixEmpire >= 0) and (self.__m_sSpecies == '')
+        return (self.bIsOwned()) and (not self.bIsInhabited())
 
 
     def bHasSpecial(self, sSpecial):

@@ -45,7 +45,7 @@ class CUniverse(CGraph):
             for oPlanet in oSystem.toGetPlanet():
                 if (oPlanet.bIsNative()):
                     print(
-                        'Planet %d has natives \'%s\' (%.2f).' % (
+                        'Planet %d is a colony of native species \'%s\' (%.2f).' % (
                             oPlanet.ixGetPlanet(),
                             oPlanet.sGetSpecies(),
                             oPlanet.fGetPopulation()
@@ -53,7 +53,7 @@ class CUniverse(CGraph):
                     )
                 elif (oPlanet.bIsColony()):
                     print(
-                        'Planet %d is a colony of \'%s\' (%.2f) owned by empire %d.' % (
+                        'Planet %d is a colony of species \'%s\' (%.2f) owned by empire %d.' % (
                             oPlanet.ixGetPlanet(),
                             oPlanet.sGetSpecies(),
                             oPlanet.fGetPopulation(),

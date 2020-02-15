@@ -27,14 +27,17 @@ class CColonisationManager(CManager):
         self.__m_oEmpireRelation = oEmpireRelation
         self.__m_oColonyPredictor = CColonyPredictor(self.fo.getEmpire().availableTechs)
 
+        self.__m_listColonisation = self.__listCreateColonisation()
+
+        print(self.__m_listColonisation)
+
 
     def vManage(self):
-        self.__vCreateColonisationList()
         self.__vAssertTargetPopulation()
 
 
-    def __vCreateColonisationList(self):
-        dictSystemScore = dict()
+    def __listCreateColonisation(self):
+        listColonisation = []
 
         # Inside the empire area, where supply lines are present everywhere, prefer large planets first. At the border
         # of the empire, prefer small planets, in order to expand the supply area.
@@ -43,7 +46,7 @@ class CColonisationManager(CManager):
 
         for oSystem in self.__m_oUniverse.toGetSystem():
             bIsOwnSystem = False
-            fMaxPopulation = dictSystemScore.get(oSystem.ixGetSystem(), -1.0)
+            PlanetTuple = (-1, -1, '', -1.0)
 
             for oPlanet in oSystem.toGetPlanet():
                 if (self.__m_oEmpireRelation.bIsOwnPlanet(oPlanet)):
@@ -53,20 +56,28 @@ class CColonisationManager(CManager):
                     # Exclude planets owned by natives or other empires.
 
                     for sSpecies in self.__m_oEmpireManager.sGetSpeciesFrozenset():
-                        fPopulation = self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(sSpecies))
+                        fMaxPopulation = self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(sSpecies))
 
-                        if (fPopulation > fMaxPopulation):
-                            fMaxPopulation = fPopulation
+                        if (fMaxPopulation > PlanetTuple[3]):
+                            PlanetTuple = (oSystem.ixGetSystem(), oPlanet.ixGetPlanet(), sSpecies, fMaxPopulation)
 
-            if (fMaxPopulation > 0.0):
+            if (PlanetTuple[3] > 0.0):
 
                 # This planet can be colonised.
 
-                print('System %d can be colonised (%.2f).' % (oSystem.ixGetSystem(), fMaxPopulation))
+                # print(
+                #     'Planet %d can be colonised with species \'%s\' (%.2f).' % (
+                #         PlanetTuple[1],
+                #         PlanetTuple[2],
+                #         PlanetTuple[3]
+                #     )
+                # )
 
-                dictSystemScore[oSystem.ixGetSystem()] = fMaxPopulation
+                listColonisation.append(PlanetTuple)
 
-        print(dictSystemScore)
+        listColonisation.sort(key=lambda PlanetTuple: PlanetTuple[3], reverse=True)
+
+        return listColonisation
 
 
     def __vAssertTargetPopulation(self):

@@ -4,6 +4,8 @@ This is ElenAI, an AI module.
 
 from ElenAi.CColonisationManager import CColonisationManager
 from ElenAi.CColonyManager import CColonyManager
+from ElenAi.CEmpireManager import CEmpireManager
+from ElenAi.CEmpireRelation import CEmpireRelation
 from ElenAi.CFleetMovementManager import CFleetMovementManager
 from ElenAi.CFleetProductionManager import CFleetProductionManager
 from ElenAi.CPlanetConverter import CPlanetConverter
@@ -23,10 +25,13 @@ class CElenAi(object):
 
         # @todo Show turn number and site report.
 
+        oEmpireRelation = CEmpireRelation(fo.empireID())
+        oEmpireManager = CEmpireManager(oUniverse, oEmpireRelation, fo.getEmpire().availableTechs)
+
         oProductionQueue = CProductionQueue(fo)
         oResearchQueue = CResearchQueue(fo)
 
-        oColonisationManager = CColonisationManager(fo, oUniverse, CSpeciesDataDynamic(fo))
+        oColonisationManager = CColonisationManager(fo, oUniverse, oEmpireRelation, CSpeciesDataDynamic(fo))
         oColonisationManager.vManage()
 
         oColonyManager = CColonyManager(fo)

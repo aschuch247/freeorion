@@ -12,19 +12,18 @@ The colonisation manager assesses the universe for habitable planets.
 from __future__ import print_function
 
 from ElenAi.CColonyPredictor import CColonyPredictor
-from ElenAi.CEmpireRelation import CEmpireRelation
 from ElenAi.CManager import CManager
 
 
 class CColonisationManager(CManager):
 
 
-    def __init__(self, fo, oUniverse, oSpeciesData):
+    def __init__(self, fo, oUniverse, oEmpireRelation, oSpeciesData):
         super(CColonisationManager, self).__init__(fo)
 
         self.__m_oUniverse = oUniverse
         self.__m_oSpeciesData = oSpeciesData
-        self.__m_oEmpireRelation = CEmpireRelation(self.fo.empireID())
+        self.__m_oEmpireRelation = oEmpireRelation
         self.__m_oColonyPredictor = CColonyPredictor(self.fo.getEmpire().availableTechs)
 
 

@@ -31,7 +31,7 @@ class CElenAi(object):
         oProductionQueue = CProductionQueue(fo)
         oResearchQueue = CResearchQueue(fo)
 
-        oColonisationManager = CColonisationManager(fo, oUniverse, oEmpireRelation, CSpeciesDataDynamic(fo))
+        oColonisationManager = CColonisationManager(fo, oUniverse, oEmpireManager, oEmpireRelation, CSpeciesDataDynamic(fo))
         oColonisationManager.vManage()
 
         oColonyManager = CColonyManager(fo)

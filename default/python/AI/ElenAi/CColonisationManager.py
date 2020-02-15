@@ -18,41 +18,55 @@ from ElenAi.CManager import CManager
 class CColonisationManager(CManager):
 
 
-    def __init__(self, fo, oUniverse, oEmpireRelation, oSpeciesData):
+    def __init__(self, fo, oUniverse, oEmpireManager, oEmpireRelation, oSpeciesData):
         super(CColonisationManager, self).__init__(fo)
 
         self.__m_oUniverse = oUniverse
         self.__m_oSpeciesData = oSpeciesData
+        self.__m_oEmpireManager = oEmpireManager
         self.__m_oEmpireRelation = oEmpireRelation
         self.__m_oColonyPredictor = CColonyPredictor(self.fo.getEmpire().availableTechs)
 
 
     def vManage(self):
+        self.__vCreateColonisationList()
         self.__vAssertTargetPopulation()
 
 
-    def tixGetUnownedSystem(self):
-        """
-        Return systems where all of the planets (at least one) are unowned.
-        """
+    def __vCreateColonisationList(self):
+        dictSystemScore = dict()
 
-        oFoUniverse = self.fo.getUniverse()
+        # Inside the empire area, where supply lines are present everywhere, prefer large planets first. At the border
+        # of the empire, prefer small planets, in order to expand the supply area.
 
-        for ixSystem in oFoUniverse.systemIDs:
-            oFoSystem = oFoUniverse.getSystem(ixSystem)
+        # @todo Improve this!
 
-            if (not oFoSystem.planetIDs.empty()):
-                bIsOwned = False
+        for oSystem in self.__m_oUniverse.toGetSystem():
+            bIsOwnSystem = False
+            fMaxPopulation = dictSystemScore.get(oSystem.ixGetSystem(), -1.0)
 
-                for ixPlanet in oFoSystem.planetIDs:
-                    oFoPlanet = oFoUniverse.getPlanet(ixPlanet)
+            for oPlanet in oSystem.toGetPlanet():
+                if (self.__m_oEmpireRelation.bIsOwnPlanet(oPlanet)):
+                    bIsOwnSystem = True
+                elif (not oPlanet.bIsInhabited()):
 
-                    if (not oFoPlanet.unowned):
-                        bIsOwned = True
-                        break
+                    # Exclude planets owned by natives or other empires.
 
-                if (not bIsOwned):
-                    yield ixSystem
+                    for sSpecies in self.__m_oEmpireManager.sGetSpeciesFrozenset():
+                        fPopulation = self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(sSpecies))
+
+                        if (fPopulation > fMaxPopulation):
+                            fMaxPopulation = fPopulation
+
+            if (fMaxPopulation > 0.0):
+
+                # This planet can be colonised.
+
+                print('System %d can be colonised (%.2f).' % (oSystem.ixGetSystem(), fMaxPopulation))
+
+                dictSystemScore[oSystem.ixGetSystem()] = fMaxPopulation
+
+        print(dictSystemScore)
 
 
     def __vAssertTargetPopulation(self):

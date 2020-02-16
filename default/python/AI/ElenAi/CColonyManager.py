@@ -11,31 +11,22 @@ from ElenAi.CProductionQueue import CProductionQueue
 class CColonyManager(CManager):
 
 
-    def __init__(self, fo):
+    def __init__(self, fo, oUniverse, oEmpireManager, oEmpireRelation, oSpeciesData):
         super(CColonyManager, self).__init__(fo)
+
+        self.__m_oUniverse = oUniverse
+        self.__m_oEmpireManager = oEmpireManager
+        self.__m_oEmpireRelation = oEmpireRelation
+        self.__m_oSpeciesData = oSpeciesData
 
 
     def vManage(self):
-        for ixSystem in self.tixGetOwnSystem():
-            self.vManageSystem(ixSystem)
+        for oSystem in self.__m_oUniverse.toGetSystem():
+            self.vManageSystem(oSystem)
 
 
-    def tixGetOwnSystem(self):
-        oFoUniverse = self.fo.getUniverse()
-
-        for ixSystem in oFoUniverse.systemIDs:
-            oFoSystem = oFoUniverse.getSystem(ixSystem)
-
-            for ixPlanet in oFoSystem.planetIDs:
-                oFoPlanet = oFoUniverse.getPlanet(ixPlanet)
-
-                if (self._bIsOwn(oFoPlanet)):
-                    yield ixSystem
-                    break
-
-
-    def vConditionallyAddBuilding(self, ixPlanet, sBuilding):
-        oFoUniverse = self.fo.getUniverse()
+    def vConditionallyAddBuilding(self, oPlanet, sBuilding):
+        ixPlanet = oPlanet.ixGetPlanet()
         oProductionQueue = CProductionQueue(self.fo)
 
         if (not self.fo.getEmpire().canBuild(self.fo.buildType.building, sBuilding, ixPlanet)):
@@ -45,35 +36,37 @@ class CColonyManager(CManager):
             oProductionQueue.vEnqueueBuilding(ixPlanet, sBuilding)
 
 
-    def vManageSystem(self, ixSystem):
-        oFoUniverse = self.fo.getUniverse()
-        oFoSystem = oFoUniverse.getSystem(ixSystem)
-        oProductionQueue = CProductionQueue(self.fo)
+    def vManageSystem(self, oSystem):
+        bIsOwnSystem = False
 
-        for ixPlanet in oFoSystem.planetIDs:
-            oFoPlanet = oFoUniverse.getPlanet(ixPlanet)
+        for oPlanet in oSystem.toGetPlanet():
+            if (self.__m_oEmpireRelation.bIsOwnPlanet(oPlanet)):
+                bIsOwnSystem = True
+                break
 
-            if (self._bIsOwn(oFoPlanet)):
-                for ixBuilding in oFoPlanet.buildingIDs:
-                    oFoBuilding = oFoUniverse.getBuilding(ixBuilding)
+        if (not bIsOwnSystem):
+            return
 
-                    # @todo If the whole empire has no BLD_IMPERIAL_PALACE, build a new one!
+        for oPlanet in oSystem.toGetPlanet():
+            if (self.__m_oEmpireRelation.bIsOwnPlanet(oPlanet)):
 
-                    if (oFoBuilding.buildingTypeName == 'BLD_IMPERIAL_PALACE'):
-                        self.vConditionallyAddBuilding(ixPlanet, 'BLD_MEGALITH')
-                        self.vConditionallyAddBuilding(ixPlanet, 'BLD_STOCKPILING_CENTER')
+                # @todo If the whole empire has no BLD_IMPERIAL_PALACE, build a new one!
 
-                        # @todo Also build the following buildings redundantly.
+                if (oPlanet.bHasBuilding('BLD_IMPERIAL_PALACE')):
+                    self.vConditionallyAddBuilding(oPlanet, 'BLD_MEGALITH')
+                    self.vConditionallyAddBuilding(oPlanet, 'BLD_STOCKPILING_CENTER')
 
-                        self.vConditionallyAddBuilding(ixPlanet, 'BLD_GENOME_BANK')
-                        self.vConditionallyAddBuilding(ixPlanet, 'BLD_INDUSTRY_CENTER')
-                        self.vConditionallyAddBuilding(ixPlanet, 'BLD_NEUTRONIUM_SYNTH')
+                    # @todo Also build the following buildings redundantly.
 
-                    if (oFoBuilding.buildingTypeName == 'BLD_CULTURE_ARCHIVES'):
-                        self.vConditionallyAddBuilding(ixPlanet, 'BLD_AUTO_HISTORY_ANALYSER')
+                    self.vConditionallyAddBuilding(oPlanet, 'BLD_GENOME_BANK')
+                    self.vConditionallyAddBuilding(oPlanet, 'BLD_INDUSTRY_CENTER')
+                    self.vConditionallyAddBuilding(oPlanet, 'BLD_NEUTRONIUM_SYNTH')
 
-            for sSpecial in oFoPlanet.specials:
-                if (sSpecial in frozenset(['EXTINCT_BANFORO_SPECIAL', 'EXTINCT_KILANDOW_SPECIAL', 'EXTINCT_MISIORLA_SPECIAL'])):
-                    self.vConditionallyAddBuilding(ixPlanet, 'BLD_XENORESURRECTION_LAB')
-                else:
-                    print('Unsupported special \'%s\' for planet %d!' % (sSpecial, ixPlanet))
+                if (oPlanet.bHasBuilding('BLD_CULTURE_ARCHIVES')):
+                    self.vConditionallyAddBuilding(oPlanet, 'BLD_AUTO_HISTORY_ANALYSER')
+
+                for sSpecial in frozenset(['EXTINCT_BANFORO_SPECIAL', 'EXTINCT_KILANDOW_SPECIAL', 'EXTINCT_MISIORLA_SPECIAL']):
+                    if (oPlanet.bHasSpecial(sSpecial)):
+                        self.vConditionallyAddBuilding(oPlanet, 'BLD_XENORESURRECTION_LAB')
+
+                    # @todo print('Unsupported special \'%s\' for planet %d!' % (sSpecial, oPlanet.ixGetPlanet()))

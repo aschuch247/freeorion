@@ -4,6 +4,7 @@ This is the colony and outpost manager.
 
 from __future__ import print_function
 
+from ElenAi.CColonyPredictor import CColonyPredictor
 from ElenAi.CManager import CManager
 from ElenAi.CProductionQueue import CProductionQueue
 
@@ -18,6 +19,8 @@ class CColonyManager(CManager):
         self.__m_oEmpireManager = oEmpireManager
         self.__m_oEmpireRelation = oEmpireRelation
         self.__m_oSpeciesData = oSpeciesData
+
+        self.__m_oColonyPredictor = CColonyPredictor(self.fo.getEmpire().availableTechs)
 
 
     def vManage(self):
@@ -49,6 +52,21 @@ class CColonyManager(CManager):
 
         for oPlanet in oSystem.toGetPlanet():
             if (self.__m_oEmpireRelation.bIsOwnPlanet(oPlanet)):
+                if (oPlanet.bIsOutpost()):
+
+                    # @todo Use tupleGetColonyPrediction() here!
+
+                    fColonyPopulation = -1.0
+                    sColonySpecies = ''
+
+                    for sSpecies in self.__m_oEmpireManager.sGetSpeciesFrozenset():
+                        fMaxPopulation = self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(sSpecies))
+
+                        if (fMaxPopulation > fColonyPopulation):
+                            fColonyPopulation = fMaxPopulation
+                            sColonySpecies = sSpecies
+
+                    self.vConditionallyAddBuilding(oPlanet, sColonySpecies.replace('SP_', 'BLD_COL_', 1))
 
                 # @todo If the whole empire has no BLD_IMPERIAL_PALACE, build a new one!
 

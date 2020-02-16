@@ -1,5 +1,6 @@
 import unittest
 
+from ElenAi.Constant.CStarType import CStarType
 from ElenAi.CSystem import CSystem
 from ElenAi.CUniverse import CUniverse
 
@@ -8,9 +9,9 @@ class CUniverseTest(unittest.TestCase):
     def test_CUniverse(self):
         oUniverse = CUniverse()
 
-        oUniverse.vAddSystem(1, CSystem(1.0, 3.0))
-        oUniverse.vAddSystem(2, CSystem(4.0, 7.0))
-        oUniverse.vAddSystem(3, CSystem(9.0, 19.0))
+        oUniverse.vAddSystem(CSystem(1, 1.0, 3.0, CStarType.blue))
+        oUniverse.vAddSystem(CSystem(2, 4.0, 7.0, CStarType.blue))
+        oUniverse.vAddSystem(CSystem(3, 9.0, 19.0, CStarType.blue))
 
         oUniverse.vLinkSystem(1, 2)
         oUniverse.vLinkSystem(2, 1)

@@ -29,6 +29,9 @@ class CFleetProductionManager(CManager):
             if (oFoBuilding.ownedBy(self.fo.empireID())):
                 if (oFoBuilding.buildingTypeName == 'BLD_SHIPYARD_BASE'):
                     self.vBuildShip(oFoBuilding.planetID, ixScoutShipDesign)
+
+                    # @todo Only enqueue outpost ships if there are systems to colonise.
+
                     self.vBuildShip(oFoBuilding.planetID, ixOutpostShipDesign)
 
 

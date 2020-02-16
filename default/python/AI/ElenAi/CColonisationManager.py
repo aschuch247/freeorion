@@ -64,6 +64,7 @@ class CColonisationManager(CManager):
             if (PlanetTuple[3] > 0.0):
 
                 # This planet can be colonised.
+                # @todo If the system is already owned by us, it is better to build an outpost base!
 
                 # print(
                 #     'Planet %d can be colonised with species \'%s\' (%.2f).' % (
@@ -78,6 +79,10 @@ class CColonisationManager(CManager):
         listColonisation.sort(key=lambda PlanetTuple: PlanetTuple[3], reverse=True)
 
         return listColonisation
+
+
+    def listGetColonisation(self):
+        return self.__m_listColonisation
 
 
     def __vAssertTargetPopulation(self):

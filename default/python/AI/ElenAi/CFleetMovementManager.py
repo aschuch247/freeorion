@@ -11,15 +11,18 @@ from ElenAi.CManager import CManager
 class CFleetMovementManager(CManager):
 
 
-    def __init__(self, fo, oUniverse):
+    def __init__(self, fo, oUniverse, oColonisationManager):
         super(CFleetMovementManager, self).__init__(fo)
 
         self.__m_oUniverse = oUniverse
+        self.__m_oColonisationManager = oColonisationManager
 
 
     def vManage(self):
         oFoUniverse = self.fo.getUniverse()
         oFoEmpire = self.fo.getEmpire()
+
+        ixEnemyFleetSystemFrozenset = frozenset(self.tixGetEnemyFleetSystem())
 
         # Get a list of known systems that have not been explored yet.
 
@@ -29,23 +32,22 @@ class CFleetMovementManager(CManager):
         for ixShip in self.tixGetMovingShip(self.tixGetOwnScoutShip()):
             oFoShip = oFoUniverse.getShip(ixShip)
 
-            # If a scout moving to a system, the system is either already explored, or about to be explored.
+            # If a scout ship is moving to a system, the system is either already explored, or about to be explored.
+            # @todo Check if the route is still free from enemy ships.
 
             setSystemUnexploredTargeted.add(oFoUniverse.getFleet(oFoShip.fleetID).finalDestinationID)
-
-        ixEnemyFleetSystemSet = set(self.tixGetEnemyFleetSystem())
 
         for ixShip in self.tixGetIdleShip(self.tixGetOwnScoutShip()):
             oFoShip = oFoUniverse.getShip(ixShip)
 
             # The scout ship is supposed to be located in a system, not moving.
 
-            oGraphRouter = self.__m_oUniverse.oGetGraphRouter(oFoShip.systemID, CGraphAdvisor(ixEnemyFleetSystemSet))
+            oGraphRouter = self.__m_oUniverse.oGetGraphRouter(oFoShip.systemID, CGraphAdvisor(ixEnemyFleetSystemFrozenset))
 
-            # Only consider unexplored systems which are not yet targeted by scouts.
+            # Only consider unexplored systems which are not yet targeted by scout ships.
 
-            # @todo However, it might be possible that another idle scout is closer to the unexplored system. Try to
-            # find the closest idle scout first (search by system), and then give orders.
+            # @todo However, it might be possible that another idle scout ship is closer to the unexplored system. Try
+            # to find the closest idle scout ship first (search by system), and then give orders.
 
             ixSystemClosestUnexplored = oGraphRouter.ixGetClosestGraphNode(setSystemUnexplored.difference(setSystemUnexploredTargeted))
 
@@ -84,6 +86,105 @@ class CFleetMovementManager(CManager):
                         )
                     )
 
+        listColonisation = []
+
+        for PlanetTuple in self.__m_oColonisationManager.listGetColonisation():
+            if (PlanetTuple[0] in oFoEmpire.fleetSupplyableSystemIDs):
+                listColonisation.append(PlanetTuple)
+
+        print(listColonisation)
+
+        setSystemColonisationTargeted = set()
+
+        for ixShip in self.tixGetMovingShip(self.tixGetOwnOutpostShip()):
+            oFoShip = oFoUniverse.getShip(ixShip)
+
+            # An outpost ship is on a mission to create an outpost.
+            # @todo Check if the route is still free from enemy ships.
+
+            setSystemColonisationTargeted.add(oFoUniverse.getFleet(oFoShip.fleetID).finalDestinationID)
+
+        for ixShip in self.tixGetIdleShip(self.tixGetOwnOutpostShip()):
+            if (not listColonisation):
+
+                # There are no further colonisation targets.
+
+                break
+
+            oFoShip = oFoUniverse.getShip(ixShip)
+
+            # The outpost ship is supposed to be located in a system, not moving.
+
+            oGraphRouter = self.__m_oUniverse.oGetGraphRouter(oFoShip.systemID, CGraphAdvisor(ixEnemyFleetSystemFrozenset))
+
+            # Only consider systems which are not yet targeted by outpost ships.
+
+            # @todo However, it might be possible that another idle outpost ship is closer to the system. Try to find
+            # the closest idle outpost ship first (search by system), and then give orders.
+
+            for PlanetTuple in listColonisation[:]:
+                ixColoniseSystem = PlanetTuple[0]
+
+                if (ixColoniseSystem in setSystemColonisationTargeted):
+
+                    # Another outpost ship is already on its way.
+
+                    continue
+
+                ixSystemList = oGraphRouter.tixGetPath(ixColoniseSystem)
+
+                if (ixSystemList is None):
+
+                    # The outpost ship cannot reach the system.
+
+                    continue
+
+                # In case the fleet is made up of multiple ships, split the ship from the fleet.
+
+                if (not self.bIsSingleShipInFleet(ixShip)):
+                    print(
+                        'Splitting ship %d from fleet %d with result %d.' % (
+                            ixShip,
+                            oFoShip.fleetID,
+                            self.fo.issueNewFleetOrder(oFoShip.design.name, ixShip)
+                        )
+                    )
+
+                setSystemColonisationTargeted.add(ixColoniseSystem)
+                listColonisation.remove(PlanetTuple)
+
+                if (ixSystemList == []):
+                    print(
+                        'Ordering ship %d to colonise planet %d with result %d.' % (
+                            ixShip,
+                            PlanetTuple[1],
+                            self.fo.issueColonizeOrder(ixShip, PlanetTuple[1])
+                        )
+                    )
+
+                    break
+
+                ixSystemCurrent = ixSystemList.pop(0) # remove system the fleet is in (current system)
+
+                print(
+                    'Ordering fleet %d to move to system %d with result %d (reset).' % (
+                        oFoShip.fleetID,
+                        ixSystemCurrent,
+                        self.fo.issueFleetMoveOrder(oFoShip.fleetID, ixSystemCurrent)
+                    )
+                )
+
+                for ixSystem in ixSystemList:
+                    print(
+                        'Ordering fleet %d to move to system %d with result %d (append).' % (
+                            oFoShip.fleetID,
+                            ixSystem,
+                            self.fo.appendFleetMoveOrder(oFoShip.fleetID, ixSystem)
+                        )
+                    )
+
+                break
+
 
     def tixGetOwnShipWithPart(self, sPart):
         oFoUniverse = self.fo.getUniverse()
@@ -104,6 +205,11 @@ class CFleetMovementManager(CManager):
 
     def tixGetOwnScoutShip(self):
         for ixShip in self.tixGetOwnShipWithPart('DT_DETECTOR_1'):
+            yield ixShip
+
+
+    def tixGetOwnOutpostShip(self):
+        for ixShip in self.tixGetOwnShipWithPart('CO_OUTPOST_POD'):
             yield ixShip
 
 

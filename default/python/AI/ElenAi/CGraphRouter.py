@@ -17,6 +17,9 @@ class CGraphRouter(object):
         last element in the path is the destination graph node.
         """
 
+        if (self.m_dictCost[ixGraphNodeTo] == 0.0):
+            return []
+
         if (self.m_dictGraphNodePrevious[ixGraphNodeTo] == -1):
             return None
 
@@ -31,11 +34,11 @@ class CGraphRouter(object):
         return tixGraphNodePath
 
 
-    def ixGetClosestGraphNode(self, setGraphNode):
+    def ixGetClosestGraphNode(self, tixGraphNode):
         ixGraphNodeMin = None
         fCostMin = float('inf')
 
-        for ixGraphNode in setGraphNode:
+        for ixGraphNode in tixGraphNode:
             if (self.m_dictCost[ixGraphNode] < fCostMin):
                 ixGraphNodeMin = ixGraphNode
                 fCostMin = self.m_dictCost[ixGraphNode]

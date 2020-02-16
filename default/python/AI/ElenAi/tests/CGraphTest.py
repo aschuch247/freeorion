@@ -39,10 +39,16 @@ class CGraphTest(unittest.TestCase):
         oGraph.vLink(4, 2, 1.0)
 
         oGraphRouter = oGraph.oGetGraphRouter(1)
+
         tixPath = oGraphRouter.tixGetPath(2)
 
         self.assertEqual([1, 3, 5, 6, 4, 2], tixPath)
         self.assertEqual(5.0, oGraph.fGetCost(tixPath))
+
+        tixPath = oGraphRouter.tixGetPath(1)
+
+        self.assertEqual([], tixPath)
+        self.assertEqual(0.0, oGraph.fGetCost(tixPath))
 
 
     def test_CGraph_oGetGraphRouting_impossible(self):

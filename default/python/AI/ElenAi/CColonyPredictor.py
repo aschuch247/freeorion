@@ -185,6 +185,27 @@ class CColonyPredictor(object):
         if (oSpecies.bHasTag('SELF_SUSTAINING')):
             fMaxPopulation += self.__fAddPopulationBonus('SELF_SUSTAINING_BONUS', 3.0 * iHabitableSize, bPrintCalculation)
 
+        # POPULATION_BOOST_LITHIC - TARGET_POPULATION_AFTER_SCALING_PRIORITY
+
+        if (oSpecies.bHasTag('LITHIC')):
+            for sSpecial in frozenset(['CRYSTALS_SPECIAL', 'ELERIUM_SPECIAL', 'MINERALS_SPECIAL']):
+                if (oPlanet.bHasSpecial(sSpecial)):
+                    fMaxPopulation += self.__fAddPopulationBonus(sSpecial, iHabitableSize, bPrintCalculation)
+
+        # POPULATION_BOOST_ORGANIC - TARGET_POPULATION_AFTER_SCALING_PRIORITY
+
+        if (oSpecies.bHasTag('ORGANIC')):
+            for sSpecial in frozenset(['FRUIT_SPECIAL', 'PROBIOTIC_SPECIAL', 'SPICE_SPECIAL']):
+                if (oPlanet.bHasSpecial(sSpecial)):
+                    fMaxPopulation += self.__fAddPopulationBonus(sSpecial, iHabitableSize, bPrintCalculation)
+
+        # POPULATION_BOOST_ROBOTIC - TARGET_POPULATION_AFTER_SCALING_PRIORITY
+
+        if (oSpecies.bHasTag('ROBOTIC')):
+            for sSpecial in frozenset(['MONOPOLE_SPECIAL', 'POSITRONIUM_SPECIAL', 'SUPERCONDUCTOR_SPECIAL']):
+                if (oPlanet.bHasSpecial(sSpecial)):
+                    fMaxPopulation += self.__fAddPopulationBonus(sSpecial, iHabitableSize, bPrintCalculation)
+
         # GAIA_SPECIAL - TARGET_POPULATION_AFTER_SCALING_PRIORITY
 
         if (oPlanet.bHasSpecial('GAIA_SPECIAL')):

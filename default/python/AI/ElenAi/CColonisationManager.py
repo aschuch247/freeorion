@@ -36,6 +36,27 @@ class CColonisationManager(CManager):
         self.__vAssertTargetPopulation()
 
 
+    def tupleGetHigherPopulationPlanet(self, tuplePlanet1, tuplePlanet2):
+        if (tuplePlanet2[3] > tuplePlanet1[3]):
+            return tuplePlanet2
+
+        return tuplePlanet1
+
+
+    def tupleGetColonyPrediction(self, oPlanet):
+        tuplePlanet = (-1, -1, '', -1.0)
+
+        for sSpecies in self.__m_oEmpireManager.sGetSpeciesFrozenset():
+            fMaxPopulation = self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(sSpecies))
+
+            tuplePlanet = self.tupleGetHigherPopulationPlanet(
+                tuplePlanet,
+                (oPlanet.oGetSystem().ixGetSystem(), oPlanet.ixGetPlanet(), sSpecies, fMaxPopulation)
+            )
+
+        return tuplePlanet
+
+
     def __listCreateColonisation(self):
         listColonisation = []
 
@@ -46,7 +67,7 @@ class CColonisationManager(CManager):
 
         for oSystem in self.__m_oUniverse.toGetSystem():
             bIsOwnSystem = False
-            PlanetTuple = (-1, -1, '', -1.0)
+            tuplePlanet = (-1, -1, '', -1.0)
 
             for oPlanet in oSystem.toGetPlanet():
                 if (self.__m_oEmpireRelation.bIsOwnPlanet(oPlanet)):
@@ -55,28 +76,27 @@ class CColonisationManager(CManager):
 
                     # Exclude planets owned by natives or other empires.
 
-                    for sSpecies in self.__m_oEmpireManager.sGetSpeciesFrozenset():
-                        fMaxPopulation = self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(sSpecies))
+                    tuplePlanet = self.tupleGetHigherPopulationPlanet(
+                        tuplePlanet,
+                        self.tupleGetColonyPrediction(oPlanet)
+                    )
 
-                        if (fMaxPopulation > PlanetTuple[3]):
-                            PlanetTuple = (oSystem.ixGetSystem(), oPlanet.ixGetPlanet(), sSpecies, fMaxPopulation)
-
-            if (PlanetTuple[3] > 0.0):
+            if (tuplePlanet[3] > 0.0):
 
                 # This planet can be colonised.
                 # @todo If the system is already owned by us, it is better to build an outpost base!
 
                 # print(
                 #     'Planet %d can be colonised with species \'%s\' (%.2f).' % (
-                #         PlanetTuple[1],
-                #         PlanetTuple[2],
-                #         PlanetTuple[3]
+                #         tuplePlanet[1],
+                #         tuplePlanet[2],
+                #         tuplePlanet[3]
                 #     )
                 # )
 
-                listColonisation.append(PlanetTuple)
+                listColonisation.append(tuplePlanet)
 
-        listColonisation.sort(key=lambda PlanetTuple: PlanetTuple[3], reverse=True)
+        listColonisation.sort(key=lambda tuplePlanet: tuplePlanet[3], reverse=True)
 
         return listColonisation
 

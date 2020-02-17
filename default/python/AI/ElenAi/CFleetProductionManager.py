@@ -66,5 +66,8 @@ class CFleetProductionManager(CManager):
             print('Cancelled building invalid ship design on planet %d.' % (ixPlanet))
             return
 
+        if (not self.fo.getEmpire().canBuild(self.fo.buildType.ship, ixShipDesign, ixPlanet)):
+            return
+
         if (not self.m_oProductionQueue.bIsEnqueuedShipDesign(ixPlanet, ixShipDesign)):
             self.m_oProductionQueue.vEnqueueShipDesign(ixPlanet, ixShipDesign)

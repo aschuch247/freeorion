@@ -82,6 +82,19 @@ class CColonyManager(CManager):
                 if (oPlanet.bHasBuilding('BLD_CULTURE_ARCHIVES')):
                     self.vConditionallyAddBuilding(oPlanet, 'BLD_AUTO_HISTORY_ANALYSER')
 
+                if (oPlanet.bHasBuilding('BLD_SHIPYARD_BASE')):
+                    self.vConditionallyAddBuilding(oPlanet, 'BLD_SHIPYARD_ORBITAL_DRYDOCK')
+                    self.vConditionallyAddBuilding(oPlanet, 'BLD_SHIPYARD_ORG_ORB_INC')
+
+                # BLD_ART_BLACK_HOLE
+                # BLD_COLLECTIVE_NET
+                # BLD_ENCLAVE_VOID
+                # BLD_GAS_GIANT_GEN
+                # BLD_LIGHTHOUSE
+                # BLD_NEUTRONIUM_EXTRACTOR
+                # BLD_SCANNING_FACILITY
+                # BLD_SOL_ORB_GEN
+
                 for sSpecial in frozenset(['EXTINCT_BANFORO_SPECIAL', 'EXTINCT_KILANDOW_SPECIAL', 'EXTINCT_MISIORLA_SPECIAL']):
                     if (oPlanet.bHasSpecial(sSpecial)):
                         self.vConditionallyAddBuilding(oPlanet, 'BLD_XENORESURRECTION_LAB')

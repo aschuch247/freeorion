@@ -108,8 +108,6 @@ class CColonyPredictor(object):
         # - DIM_RIFT_MASTER_SPECIAL
         # - HOMEWORLD_GROWTH_FOCUS_BOOST
         # - SP_LEMBALALAM
-        # - TEMPORAL_ANOMALY_SPECIAL
-        # - TIDAL_LOCK_SPECIAL
         # - XENOPHOBIC
 
         if (bPrintCalculation):
@@ -214,6 +212,21 @@ class CColonyPredictor(object):
 
             if ((bConsiderFullTerraforming and (sSpecies != 'SP_EXOBOT')) or (iPlanetEnvironment == CPlanetEnvironment.good)):
                 fMaxPopulation += self.__fAddPopulationBonus('GAIA_SPECIAL', 3.0 * iHabitableSize, bPrintCalculation)
+
+        # TEMPORAL_ANOMALY_SPECIAL - TARGET_POPULATION_AFTER_SCALING_PRIORITY
+
+        if (oPlanet.bHasSpecial('TEMPORAL_ANOMALY_SPECIAL')):
+            fMaxPopulation += self.__fAddPopulationBonus('TEMPORAL_ANOMALY_SPECIAL', -5.0 * iHabitableSize, bPrintCalculation)
+
+        # TIDAL_LOCK_SPECIAL - TARGET_POPULATION_AFTER_SCALING_PRIORITY
+
+        if (oPlanet.bHasSpecial('TIDAL_LOCK_SPECIAL')):
+            fMaxPopulation += self.__fAddPopulationBonus('TIDAL_LOCK_SPECIAL', -1.0 * iHabitableSize, bPrintCalculation)
+
+        # WORLDTREE_SPECIAL - TARGET_POPULATION_AFTER_SCALING_PRIORITY
+
+        if (oPlanet.bHasSpecial('WORLDTREE_SPECIAL')):
+            fMaxPopulation += self.__fAddPopulationBonus('WORLDTREE_SPECIAL', 1.0, bPrintCalculation)
 
         # PHOTOTROPHIC_BONUS - TARGET_POPULATION_LAST_BEFORE_OVERRIDE_PRIORITY
 

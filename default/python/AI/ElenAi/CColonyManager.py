@@ -6,18 +6,18 @@ from __future__ import print_function
 
 from ElenAi.CColonyPredictor import CColonyPredictor
 from ElenAi.CManager import CManager
-from ElenAi.CProductionQueue import CProductionQueue
 
 
 class CColonyManager(CManager):
 
 
-    def __init__(self, fo, oUniverse, oEmpireManager, oEmpireRelation, oSpeciesData):
+    def __init__(self, fo, oUniverse, oEmpireManager, oEmpireRelation, oProductionQueue, oSpeciesData):
         super(CColonyManager, self).__init__(fo)
 
         self.__m_oUniverse = oUniverse
         self.__m_oEmpireManager = oEmpireManager
         self.__m_oEmpireRelation = oEmpireRelation
+        self.__m_oProductionQueue = oProductionQueue
         self.__m_oSpeciesData = oSpeciesData
 
         self.__m_oColonyPredictor = CColonyPredictor(self.fo.getEmpire().availableTechs)
@@ -30,13 +30,12 @@ class CColonyManager(CManager):
 
     def vConditionallyAddBuilding(self, oPlanet, sBuilding):
         ixPlanet = oPlanet.ixGetPlanet()
-        oProductionQueue = CProductionQueue(self.fo)
 
         if (not self.fo.getEmpire().canBuild(self.fo.buildType.building, sBuilding, ixPlanet)):
             return
 
-        if (not oProductionQueue.bIsEnqueuedBuilding(ixPlanet, sBuilding)):
-            oProductionQueue.vEnqueueBuilding(ixPlanet, sBuilding)
+        if (not self.__m_oProductionQueue.bIsEnqueuedBuilding(ixPlanet, sBuilding)):
+            self.__m_oProductionQueue.vEnqueueBuilding(ixPlanet, sBuilding)
 
 
     def vManageSystem(self, oSystem):

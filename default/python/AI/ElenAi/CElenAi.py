@@ -34,7 +34,7 @@ class CElenAi(object):
         oColonisationManager = CColonisationManager(fo, oUniverse, oEmpireManager, oEmpireRelation, CSpeciesDataDynamic(fo))
         oColonisationManager.vManage()
 
-        oColonyManager = CColonyManager(fo, oUniverse, oEmpireManager, oEmpireRelation, CSpeciesDataDynamic(fo))
+        oColonyManager = CColonyManager(fo, oUniverse, oEmpireManager, oEmpireRelation, oProductionQueue, CSpeciesDataDynamic(fo))
         oColonyManager.vManage()
 
         oFleetMovementManager = CFleetMovementManager(fo, oUniverse, oColonisationManager)

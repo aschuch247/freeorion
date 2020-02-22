@@ -24,6 +24,16 @@ class CResearchManager(CManager):
         self.vResearch(oResearchTree, 'GRO_SUBTER_HAB')
         self.vResearch(oResearchTree, 'PRO_SENTIENT_AUTOMATION')
 
+        self.vResearch(oResearchTree, 'PRO_EXOBOTS')
+
+        self.vResearch(oResearchTree, 'CON_ORBITAL_CON') # supply +1
+
+        self.vResearch(oResearchTree, 'GRO_SYMBIOTIC_BIO')
+        self.vResearch(oResearchTree, 'GRO_XENO_GENETICS') # SP_EXOBOT can then colonise asteroids
+        self.vResearch(oResearchTree, 'GRO_XENO_HYBRIDS')
+        self.vResearch(oResearchTree, 'CON_ORBITAL_HAB')
+
+
     def oGetResearchTree(self):
         oResearchTree = CResearchTree()
 
@@ -51,6 +61,8 @@ class CResearchManager(CManager):
 
     def vResearch(self, oResearchTree, sTechnology):
         oGraphRouter = oResearchTree.oGetGraphRouter(oResearchTree.ixGetTechnology(sTechnology))
+
+        # @todo The technologies are not enqueued according to their dependencies.
 
         for ixTechnology in oGraphRouter.tixGetReachableGraphNode():
             sTechnology = oResearchTree.sGetTechnology(ixTechnology)

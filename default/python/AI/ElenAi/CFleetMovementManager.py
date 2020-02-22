@@ -154,6 +154,10 @@ class CFleetMovementManager(CManager):
                 listColonisation.remove(PlanetTuple)
 
                 if (ixSystemList == []):
+
+                    # @todo In case the system has another own colonised planet, better build an outpost base there,
+                    # instead of using an outpost ship.
+
                     print(
                         'Ordering ship %d to colonise planet %d with result %d.' % (
                             ixShip,

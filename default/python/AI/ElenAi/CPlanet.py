@@ -79,6 +79,10 @@ class CPlanet(object):
         return (self.bIsOwned()) and (not self.bIsInhabited())
 
 
+    def bIsColonisable(self):
+        return (not self.bIsOwned()) and (not self.bIsInhabited())
+
+
     def bHasSpecial(self, sSpecial):
         return sSpecial in self.__m_sSpecialFrozenset
 

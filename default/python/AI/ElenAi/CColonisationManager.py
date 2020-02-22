@@ -27,76 +27,112 @@ class CColonisationManager(CManager):
         self.__m_oSpeciesData = oSpeciesData
 
         self.__m_oColonyPredictor = CColonyPredictor(self.fo.getEmpire().availableTechs)
-        self.__m_listColonisation = self.__listCreateColonisation()
+        self.__m_dictColonisationOption = self.__dictCreateColonisationOption()
+        self.__m_listColonisation = self.__listCreateColonisation(self.__m_dictColonisationOption)
 
-        print(self.__m_listColonisation)
+        # print(self.__m_listColonisation)
 
 
     def vManage(self):
         self.__vAssertTargetPopulation()
 
 
-    def tupleGetHigherPopulationPlanet(self, tuplePlanet1, tuplePlanet2):
-        if (tuplePlanet2[3] > tuplePlanet1[3]):
-            return tuplePlanet2
+    def tupleGetHigherPopulationColonisation(self, tupleColonisation1, tupleColonisation2):
+        """
+        Return the colonisation tuple with the highest population. But consider any species to have a higher population
+        than SP_EXOBOT.
+        """
+        if (tupleColonisation1[2] == tupleColonisation2[2]):
+            if (tupleColonisation1[3] >= tupleColonisation2[3]):
+                return tupleColonisation1
 
-        return tuplePlanet1
+            return tupleColonisation2
+        else:
+            if (tupleColonisation1[2] == 'SP_EXOBOT'):
+                return tupleColonisation2
+
+            if (tupleColonisation2[2] == 'SP_EXOBOT'):
+                return tupleColonisation1
+
+            if (tupleColonisation1[3] >= tupleColonisation2[3]):
+                return tupleColonisation1
+
+            return tupleColonisation2
 
 
-    def tupleGetColonyPrediction(self, oPlanet):
-        tuplePlanet = (-1, -1, '', -1.0)
+    def __dictCreateColonisationOption(self):
+        """
+        Create a dictionary of colonisable planets. This dictionary contains all known not inhabited planets. This
+        includes own outposts, other outposts and unowned planets.
+        """
+        dictColonisationOption = dict()
 
-        for sSpecies in self.__m_oEmpireManager.sGetSpeciesFrozenset():
-            fMaxPopulation = self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(sSpecies))
+        for oSystem in self.__m_oUniverse.toGetSystem():
+            for oPlanet in oSystem.toGetPlanet():
+                if (not oPlanet.bIsInhabited()):
+                    for sSpecies in self.__m_oEmpireManager.sGetSpeciesFrozenset():
+                        fMaxPopulation = self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(sSpecies))
 
-            tuplePlanet = self.tupleGetHigherPopulationPlanet(
-                tuplePlanet,
-                (oPlanet.oGetSystem().ixGetSystem(), oPlanet.ixGetPlanet(), sSpecies, fMaxPopulation)
-            )
+                        if (fMaxPopulation > 0.0):
 
-        return tuplePlanet
+                            # This planet can be colonised.
+                            # @todo If the system is already owned by us, it is better to build an outpost base!
+
+                            # print(
+                            #     'Planet %d can be colonised with species \'%s\' (%.2f).' % (
+                            #         oPlanet.ixGetPlanet(),
+                            #         sSpecies,
+                            #         fMaxPopulation
+                            #     )
+                            # )
+
+                            dictSystem = dictColonisationOption.get(oSystem.ixGetSystem(), dict())
+                            dictPlanet = dictSystem.get(oPlanet.ixGetPlanet(), dict())
+
+                            dictPlanet[sSpecies] = tuple([fMaxPopulation])
+
+                            dictSystem[oPlanet.ixGetPlanet()] = dictPlanet
+                            dictColonisationOption[oSystem.ixGetSystem()] = dictSystem
+
+        return dictColonisationOption
 
 
-    def __listCreateColonisation(self):
-        listColonisation = []
+    def dictGetColonisationOption(self):
+        return self.__m_dictColonisationOption
+
+
+    def __listCreateColonisation(self, dictColonisationOption):
 
         # Inside the empire area, where supply lines are present everywhere, prefer large planets first. At the border
         # of the empire, prefer small planets, in order to expand the supply area.
 
         # @todo Improve this!
+        # @todo Only colonise the first planet per system using an outpost ship, colonise further using outpost bases.
 
-        for oSystem in self.__m_oUniverse.toGetSystem():
-            bIsOwnSystem = False
-            tuplePlanet = (-1, -1, '', -1.0)
+        listColonisation = []
 
-            for oPlanet in oSystem.toGetPlanet():
-                if (self.__m_oEmpireRelation.bIsOwnPlanet(oPlanet)):
-                    bIsOwnSystem = True
-                elif (not oPlanet.bIsInhabited()):
+        for ixSystem, dictSystem in dictColonisationOption.items():
+            for ixPlanet, dictPlanet in dictSystem.items():
+                oPlanet = self.__m_oUniverse.oGetSystem(ixSystem).oGetPlanet(ixPlanet)
 
-                    # Exclude planets owned by natives or other empires.
+                # For targeting planets for colonisation, only consider unowned planets. Native planets are inhabited,
+                # so these planets are not included in dictColonisationOption.
 
-                    tuplePlanet = self.tupleGetHigherPopulationPlanet(
-                        tuplePlanet,
-                        self.tupleGetColonyPrediction(oPlanet)
-                    )
+                if (not oPlanet.bIsOwned()):
 
-            if (tuplePlanet[3] > 0.0):
+                    # If a planet can be colonised by multiple species, return the one with the higher population.
 
-                # This planet can be colonised.
-                # @todo If the system is already owned by us, it is better to build an outpost base!
+                    tupleColonisation = tuple([-1, -1, 'SP_EXOBOT', -1.0])
 
-                # print(
-                #     'Planet %d can be colonised with species \'%s\' (%.2f).' % (
-                #         tuplePlanet[1],
-                #         tuplePlanet[2],
-                #         tuplePlanet[3]
-                #     )
-                # )
+                    for sSpecies, tupleColonisationDetail in dictPlanet.items():
+                        tupleColonisation = self.tupleGetHigherPopulationColonisation(
+                            tupleColonisation,
+                            tuple([ixSystem, ixPlanet, sSpecies, tupleColonisationDetail[0]])
+                        )
 
-                listColonisation.append(tuplePlanet)
+                    listColonisation.append(tupleColonisation)
 
-        listColonisation.sort(key=lambda tuplePlanet: tuplePlanet[3], reverse=True)
+        listColonisation.sort(key=lambda tupleColonisation: tupleColonisation[3], reverse=True)
 
         return listColonisation
 

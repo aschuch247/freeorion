@@ -54,6 +54,7 @@ class CColonyManager(CManager):
                 if (oPlanet.bIsOutpost()):
 
                     # @todo Use tupleGetColonyPrediction() here!
+                    # @todo In case any other species but SP_EXOBOT can colonise the planet, use it instead!
 
                     fColonyPopulation = -1.0
                     sColonySpecies = ''

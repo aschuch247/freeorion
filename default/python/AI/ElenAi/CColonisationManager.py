@@ -18,15 +18,15 @@ from ElenAi.CManager import CManager
 class CColonisationManager(CManager):
 
 
-    def __init__(self, fo, oUniverse, oEmpireManager, oEmpireRelation, oSpeciesData):
+    def __init__(self, fo, oUniverse, oEmpireManager, oEmpireRelation, oColonyPredictor, oSpeciesData):
         super(CColonisationManager, self).__init__(fo)
 
         self.__m_oUniverse = oUniverse
         self.__m_oEmpireManager = oEmpireManager
         self.__m_oEmpireRelation = oEmpireRelation
+        self.__m_oColonyPredictor = oColonyPredictor
         self.__m_oSpeciesData = oSpeciesData
 
-        self.__m_oColonyPredictor = CColonyPredictor(self.fo.getEmpire().availableTechs)
         self.__m_dictColonisationOption = self.__dictCreateColonisationOption()
         self.__m_listColonisation = self.__listCreateColonisation(self.__m_dictColonisationOption)
 

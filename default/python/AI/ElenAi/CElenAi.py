@@ -4,6 +4,7 @@ This is ElenAI, an AI module.
 
 from ElenAi.CColonisationManager import CColonisationManager
 from ElenAi.CColonyManager import CColonyManager
+from ElenAi.CColonyPredictor import CColonyPredictor
 from ElenAi.CEmpireManager import CEmpireManager
 from ElenAi.CEmpireRelation import CEmpireRelation
 from ElenAi.CFleetMovementManager import CFleetMovementManager
@@ -31,7 +32,9 @@ class CElenAi(object):
         oProductionQueue = CProductionQueue(fo)
         oResearchQueue = CResearchQueue(fo)
 
-        oColonisationManager = CColonisationManager(fo, oUniverse, oEmpireManager, oEmpireRelation, CSpeciesDataDynamic(fo))
+        oColonyPredictor = CColonyPredictor(fo.getEmpire().availableTechs)
+
+        oColonisationManager = CColonisationManager(fo, oUniverse, oEmpireManager, oEmpireRelation, oColonyPredictor, CSpeciesDataDynamic(fo))
         oColonisationManager.vManage()
 
         oColonyManager = CColonyManager(fo, oUniverse, oEmpireManager, oEmpireRelation, oProductionQueue, CSpeciesDataDynamic(fo))

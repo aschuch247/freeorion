@@ -33,6 +33,10 @@ class CUniverse(CGraph):
         super(CUniverse, self).vLink(ixSystemFrom, ixSystemTo, fDistance)
 
 
+    def oGetSystem(self, ixSystem):
+        return self.__m_dictSystem[ixSystem]
+
+
     def toGetSystem(self):
         for ixSystem, oSystem in self.__m_dictSystem.items():
             yield oSystem

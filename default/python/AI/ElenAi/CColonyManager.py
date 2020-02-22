@@ -11,16 +11,15 @@ from ElenAi.CManager import CManager
 class CColonyManager(CManager):
 
 
-    def __init__(self, fo, oUniverse, oEmpireManager, oEmpireRelation, oProductionQueue, oSpeciesData):
+    def __init__(self, fo, oUniverse, oEmpireManager, oEmpireRelation, oColonisationManager, oProductionQueue, oSpeciesData):
         super(CColonyManager, self).__init__(fo)
 
         self.__m_oUniverse = oUniverse
         self.__m_oEmpireManager = oEmpireManager
         self.__m_oEmpireRelation = oEmpireRelation
+        self.__m_oColonisationManager = oColonisationManager
         self.__m_oProductionQueue = oProductionQueue
         self.__m_oSpeciesData = oSpeciesData
-
-        self.__m_oColonyPredictor = CColonyPredictor(self.fo.getEmpire().availableTechs)
 
 
     def vManage(self):
@@ -52,21 +51,18 @@ class CColonyManager(CManager):
         for oPlanet in oSystem.toGetPlanet():
             if (self.__m_oEmpireRelation.bIsOwnPlanet(oPlanet)):
                 if (oPlanet.bIsOutpost()):
+                    dictColonisationOption = self.__m_oColonisationManager.dictGetColonisationOption()
 
-                    # @todo Use tupleGetColonyPrediction() here!
-                    # @todo In case any other species but SP_EXOBOT can colonise the planet, use it instead!
+                    ixSystem = oSystem.ixGetSystem()
+                    ixPlanet = oPlanet.ixGetPlanet()
 
-                    fColonyPopulation = -1.0
-                    sColonySpecies = ''
+                    tupleColonisation = self.__m_oColonisationManager.tupleGetHighestPopulationColonisation(
+                        ixSystem,
+                        ixPlanet,
+                        dictColonisationOption[ixSystem][ixPlanet]
+                    )
 
-                    for sSpecies in self.__m_oEmpireManager.sGetSpeciesFrozenset():
-                        fMaxPopulation = self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(sSpecies))
-
-                        if (fMaxPopulation > fColonyPopulation):
-                            fColonyPopulation = fMaxPopulation
-                            sColonySpecies = sSpecies
-
-                    self.vConditionallyAddBuilding(oPlanet, sColonySpecies.replace('SP_', 'BLD_COL_', 1))
+                    self.vConditionallyAddBuilding(oPlanet, tupleColonisation[2].replace('SP_', 'BLD_COL_', 1))
 
                 # @todo If the whole empire has no BLD_IMPERIAL_PALACE, build a new one!
 

@@ -60,6 +60,21 @@ class CColonisationManager(CManager):
             return tupleColonisation2
 
 
+    def tupleGetHighestPopulationColonisation(self, ixSystem, ixPlanet, dictPlanet):
+        """
+        If a planet can be colonised by multiple species, return the one with the highest population.
+        """
+        tupleColonisation = tuple([-1, -1, 'SP_EXOBOT', -1.0])
+
+        for sSpecies, tupleColonisationDetail in dictPlanet.items():
+            tupleColonisation = self.tupleGetHigherPopulationColonisation(
+                tupleColonisation,
+                tuple([ixSystem, ixPlanet, sSpecies, tupleColonisationDetail[0]])
+            )
+
+        return tupleColonisation
+
+
     def __dictCreateColonisationOption(self):
         """
         Create a dictionary of colonisable planets. This dictionary contains all known not inhabited planets. This
@@ -102,6 +117,10 @@ class CColonisationManager(CManager):
 
 
     def __listCreateColonisation(self, dictColonisationOption):
+        """
+        Get a sorted (prioritised) list of unowned and uninhabited planets. This list is supposted to be used to get
+        targets for outpost or colony ships.
+        """
 
         # Inside the empire area, where supply lines are present everywhere, prefer large planets first. At the border
         # of the empire, prefer small planets, in order to expand the supply area.
@@ -119,18 +138,7 @@ class CColonisationManager(CManager):
                 # so these planets are not included in dictColonisationOption.
 
                 if (not oPlanet.bIsOwned()):
-
-                    # If a planet can be colonised by multiple species, return the one with the higher population.
-
-                    tupleColonisation = tuple([-1, -1, 'SP_EXOBOT', -1.0])
-
-                    for sSpecies, tupleColonisationDetail in dictPlanet.items():
-                        tupleColonisation = self.tupleGetHigherPopulationColonisation(
-                            tupleColonisation,
-                            tuple([ixSystem, ixPlanet, sSpecies, tupleColonisationDetail[0]])
-                        )
-
-                    listColonisation.append(tupleColonisation)
+                    listColonisation.append(self.tupleGetHighestPopulationColonisation(ixSystem, ixPlanet, dictPlanet))
 
         listColonisation.sort(key=lambda tupleColonisation: tupleColonisation[3], reverse=True)
 

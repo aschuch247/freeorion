@@ -88,9 +88,9 @@ class CFleetMovementManager(CManager):
 
         listColonisation = []
 
-        for PlanetTuple in self.__m_oColonisationManager.listGetColonisation():
-            if (PlanetTuple[0] in oFoEmpire.fleetSupplyableSystemIDs):
-                listColonisation.append(PlanetTuple)
+        for tupleColonisation in self.__m_oColonisationManager.listGetColonisation():
+            if (tupleColonisation[0] in oFoEmpire.fleetSupplyableSystemIDs):
+                listColonisation.append(tupleColonisation)
 
         print(listColonisation)
 
@@ -166,8 +166,8 @@ class CFleetMovementManager(CManager):
             # @todo However, it might be possible that another idle outpost ship is closer to the system. Try to find
             # the closest idle outpost ship first (search by system), and then give orders.
 
-            for PlanetTuple in listColonisation[:]:
-                ixColoniseSystem = PlanetTuple[0]
+            for tupleColonisation in listColonisation[:]:
+                ixColoniseSystem = tupleColonisation[0]
 
                 if (ixColoniseSystem in setSystemColonisationTargeted):
 
@@ -195,7 +195,7 @@ class CFleetMovementManager(CManager):
                     )
 
                 setSystemColonisationTargeted.add(ixColoniseSystem)
-                listColonisation.remove(PlanetTuple)
+                listColonisation.remove(tupleColonisation)
 
                 ixSystemCurrent = ixSystemList.pop(0) # remove system the fleet is in (current system)
 

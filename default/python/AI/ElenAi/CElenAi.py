@@ -7,12 +7,15 @@ from ElenAi.CColonyManager import CColonyManager
 from ElenAi.CColonyPredictor import CColonyPredictor
 from ElenAi.CEmpireManager import CEmpireManager
 from ElenAi.CEmpireRelation import CEmpireRelation
+from ElenAi.CFleetConverter import CFleetConverter
+from ElenAi.CFleetHandler import CFleetHandler
 from ElenAi.CFleetMovementManager import CFleetMovementManager
 from ElenAi.CFleetProductionManager import CFleetProductionManager
 from ElenAi.CPlanetConverter import CPlanetConverter
 from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CResearchManager import CResearchManager
 from ElenAi.CResearchQueue import CResearchQueue
+from ElenAi.CShipConverter import CShipConverter
 from ElenAi.CSpeciesDataDynamic import CSpeciesDataDynamic
 from ElenAi.CSystemConverter import CSystemConverter
 from ElenAi.CUniverse import CUniverse
@@ -23,6 +26,7 @@ class CElenAi(object):
 
     def vGenerateOrders(self, fo):
         oUniverse = self.oGetUniverse(fo)
+        oFleetHandler = self.oGetFleetHandler(fo)
 
         # @todo Show turn number and site report.
 
@@ -76,3 +80,24 @@ class CElenAi(object):
         # oUniverse.vDump()
 
         return oUniverse
+
+
+    def oGetFleetHandler(self, fo):
+        oFleetHandler = CFleetHandler()
+        oFoUniverse = fo.getUniverse()
+
+        for ixFleet in oFoUniverse.fleetIDs:
+            oFoFleet = oFoUniverse.getFleet(ixFleet)
+            oFleet = CFleetConverter(oFoFleet).oGetFleet()
+
+            oFleetHandler.vAddFleet(oFleet)
+
+            for ixShip in oFoFleet.shipIDs:
+                oFoShip = oFoUniverse.getShip(ixShip)
+                oShip = CShipConverter(oFoShip).oGetShip()
+
+                oFleet.vAddShip(oShip)
+
+        oFleetHandler.vDump()
+
+        return oFleetHandler

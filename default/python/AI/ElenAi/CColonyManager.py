@@ -51,15 +51,9 @@ class CColonyManager(CManager):
         for oPlanet in oSystem.toGetPlanet():
             if (self.__m_oEmpireRelation.bIsOwnPlanet(oPlanet)):
                 if (oPlanet.bIsOutpost()):
-                    dictColonisationOption = self.__m_oColonisationManager.dictGetColonisationOption()
-
-                    ixSystem = oSystem.ixGetSystem()
-                    ixPlanet = oPlanet.ixGetPlanet()
-
                     tupleColonisation = self.__m_oColonisationManager.tupleGetHighestPopulationColonisation(
-                        ixSystem,
-                        ixPlanet,
-                        dictColonisationOption[ixSystem][ixPlanet]
+                        oSystem.ixGetSystem(),
+                        oPlanet.ixGetPlanet()
                     )
 
                     self.vConditionallyAddBuilding(oPlanet, tupleColonisation[2].replace('SP_', 'BLD_COL_', 1))

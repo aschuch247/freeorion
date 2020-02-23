@@ -60,10 +60,13 @@ class CColonisationManager(CManager):
             return tupleColonisation2
 
 
-    def tupleGetHighestPopulationColonisation(self, ixSystem, ixPlanet, dictPlanet):
+    def tupleGetHighestPopulationColonisation(self, ixSystem, ixPlanet, dictPlanet = None):
         """
         If a planet can be colonised by multiple species, return the one with the highest population.
         """
+        if (dictPlanet is None):
+            dictPlanet = self.__m_dictColonisationOption[ixSystem][ixPlanet]
+
         tupleColonisation = tuple([-1, -1, 'SP_EXOBOT', -1.0])
 
         for sSpecies, tupleColonisationDetail in dictPlanet.items():
@@ -73,6 +76,31 @@ class CColonisationManager(CManager):
             )
 
         return tupleColonisation
+
+
+    def tupleGetHighestPopulationBySystemColonisation(self, ixSystem):
+        """
+        Get the colonisation tuple with the best colony. 'None' in case the system cannot be colonised.
+        """
+        tupleColonisation = tuple([-1, -1, 'SP_EXOBOT', -1.0])
+        dictSystem = self.__m_dictColonisationOption.get(ixSystem, dict())
+
+        for ixPlanet, dictPlanet in dictSystem.items():
+            oPlanet = self.__m_oUniverse.oGetSystem(ixSystem).oGetPlanet(ixPlanet)
+
+            # For targeting planets for colonisation, only consider unowned planets. Native planets are inhabited,
+            # so these planets are not included in dictColonisationOption.
+
+            if (not oPlanet.bIsOwned()):
+                tupleColonisation = self.tupleGetHigherPopulationColonisation(
+                    tupleColonisation,
+                    self.tupleGetHighestPopulationColonisation(ixSystem, ixPlanet, dictPlanet)
+                )
+
+        if (tupleColonisation[3] > 0.0):
+            return tupleColonisation
+
+        return None
 
 
     def __dictCreateColonisationOption(self):
@@ -127,18 +155,17 @@ class CColonisationManager(CManager):
 
         # @todo Improve this!
         # @todo Only colonise the first planet per system using an outpost ship, colonise further using outpost bases.
+        # @todo Systems with only gas planets also need to be considered, at last when BLD_ART_PARADISE_PLANET is
+        # available!
+        # @todo Consider building outposts to increase the supply range and reach more planets!
 
         listColonisation = []
 
-        for ixSystem, dictSystem in dictColonisationOption.items():
-            for ixPlanet, dictPlanet in dictSystem.items():
-                oPlanet = self.__m_oUniverse.oGetSystem(ixSystem).oGetPlanet(ixPlanet)
+        for ixSystem in dictColonisationOption:
+            tupleColonisation = self.tupleGetHighestPopulationBySystemColonisation(ixSystem)
 
-                # For targeting planets for colonisation, only consider unowned planets. Native planets are inhabited,
-                # so these planets are not included in dictColonisationOption.
-
-                if (not oPlanet.bIsOwned()):
-                    listColonisation.append(self.tupleGetHighestPopulationColonisation(ixSystem, ixPlanet, dictPlanet))
+            if (tupleColonisation is not None):
+                listColonisation.append(tupleColonisation)
 
         listColonisation.sort(key=lambda tupleColonisation: tupleColonisation[3], reverse=True)
 

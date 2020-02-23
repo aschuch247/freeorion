@@ -104,6 +104,50 @@ class CFleetMovementManager(CManager):
 
             setSystemColonisationTargeted.add(oFoUniverse.getFleet(oFoShip.fleetID).finalDestinationID)
 
+        # Before checking where to move an idle outpost ship to, check if the current system is suitable for
+        # colonisation.
+
+        for ixShip in self.tixGetIdleShip(self.tixGetOwnOutpostShip()):
+            oFoShip = oFoUniverse.getShip(ixShip)
+            ixColoniseSystem = oFoShip.systemID
+
+            if (ixColoniseSystem in setSystemColonisationTargeted):
+
+                # Another outpost ship is already on its way.
+                # @todo Use this outpost ship and cancel the other!
+
+                continue
+
+            # @todo If the current system already has a colony that can build outpost bases, do not build an outpost
+            # using an outpost ship.
+
+            tupleColonisation = self.__m_oColonisationManager.tupleGetHighestPopulationBySystemColonisation(ixColoniseSystem)
+
+            if (tupleColonisation is not None):
+
+                # In case the fleet is made up of multiple ships, split the ship from the fleet.
+
+                if (not self.bIsSingleShipInFleet(ixShip)):
+                    print(
+                        'Splitting ship %d from fleet %d with result %d.' % (
+                            ixShip,
+                            oFoShip.fleetID,
+                            self.fo.issueNewFleetOrder(oFoShip.design.name, ixShip)
+                        )
+                    )
+
+                setSystemColonisationTargeted.add(ixColoniseSystem)
+
+                print(
+                    'Ordering ship %d to colonise planet %d with result %d.' % (
+                        ixShip,
+                        tupleColonisation[1],
+                        self.fo.issueColonizeOrder(ixShip, tupleColonisation[1])
+                    )
+                )
+
+        # Try to find a suitable system somewhere else.
+
         for ixShip in self.tixGetIdleShip(self.tixGetOwnOutpostShip()):
             if (not listColonisation):
 
@@ -152,21 +196,6 @@ class CFleetMovementManager(CManager):
 
                 setSystemColonisationTargeted.add(ixColoniseSystem)
                 listColonisation.remove(PlanetTuple)
-
-                if (ixSystemList == []):
-
-                    # @todo In case the system has another own colonised planet, better build an outpost base there,
-                    # instead of using an outpost ship.
-
-                    print(
-                        'Ordering ship %d to colonise planet %d with result %d.' % (
-                            ixShip,
-                            PlanetTuple[1],
-                            self.fo.issueColonizeOrder(ixShip, PlanetTuple[1])
-                        )
-                    )
-
-                    break
 
                 ixSystemCurrent = ixSystemList.pop(0) # remove system the fleet is in (current system)
 

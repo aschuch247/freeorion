@@ -2,6 +2,8 @@
 This is a representation of a planet.
 """
 
+from __future__ import print_function
+
 
 class CPlanet(object):
 
@@ -28,6 +30,7 @@ class CPlanet(object):
         Return the empire that owns the planet. The value can be negative in case the planet is not owned by any empire.
         The empire identifier 0 seems to be unused.
         """
+
         return self.__m_ixEmpire
 
 
@@ -97,3 +100,42 @@ class CPlanet(object):
 
     def oGetSystem(self):
         return self.__m_oSystem
+
+
+    def vDump(self):
+        if (self.bIsNative()):
+            print(
+                'Planet %d is a colony of native species \'%s\' (%.2f).' % (
+                    self.ixGetPlanet(),
+                    self.sGetSpecies(),
+                    self.fGetPopulation()
+                )
+            )
+        elif (self.bIsColony()):
+            print(
+                'Planet %d is a colony of species \'%s\' (%.2f) owned by empire %d.' % (
+                    self.ixGetPlanet(),
+                    self.sGetSpecies(),
+                    self.fGetPopulation(),
+                    self.ixGetEmpire()
+                )
+            )
+        elif (self.bIsOutpost()):
+            print(
+                'Planet %d is an outpost owned by empire %d.' % (
+                    self.ixGetPlanet(),
+                    self.ixGetEmpire()
+                )
+            )
+        elif (self.bIsColonisable()):
+            print(
+                'Planet %d can be colonised.' % (
+                    self.ixGetPlanet()
+                )
+            )
+        else:
+            print(
+                'Planet %d is in an invalid state!' % (
+                    self.ixGetPlanet()
+                )
+            )

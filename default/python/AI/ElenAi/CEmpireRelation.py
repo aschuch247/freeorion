@@ -7,6 +7,10 @@ class CEmpireRelation(object):
 
 
     def __init__(self, ixOwnEmpire):
+        """
+        @todo Add information about war, peace, and alliances.
+        """
+
         self.__m_ixOwnEmpire = ixOwnEmpire
 
 

@@ -77,6 +77,9 @@ class CFleetMovementManager(CManager):
                     )
                 )
 
+                # @todo It is possible that due to a blocked system, the path leaves the supply area and the fleet is
+                # lost without fuel outside the supply area.
+
                 for ixSystem in ixSystemList:
                     print(
                         'Ordering fleet %d to move to system %d with result %d (append).' % (

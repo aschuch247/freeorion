@@ -65,7 +65,8 @@ class CColonisationManager(CManager):
         If a planet can be colonised by multiple species, return the one with the highest population.
         """
         if (dictPlanet is None):
-            dictPlanet = self.__m_dictColonisationOption[ixSystem][ixPlanet]
+            dictSystem = self.__m_dictColonisationOption.get(ixSystem, dict())
+            dictPlanet = dictSystem.get(ixPlanet, dict())
 
         tupleColonisation = tuple([-1, -1, 'SP_EXOBOT', -1.0])
 

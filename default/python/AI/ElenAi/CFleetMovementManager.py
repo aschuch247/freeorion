@@ -4,6 +4,7 @@ This is the fleet movement manager.
 
 from __future__ import print_function
 
+from ElenAi.CFleetPredictor import CFleetPredictor
 from ElenAi.CGraphAdvisor import CGraphAdvisor
 from ElenAi.CManager import CManager
 
@@ -278,11 +279,17 @@ class CFleetMovementManager(CManager):
 
     def tixGetEnemyFleetSystem(self):
         for oFleet in self.__m_oFleetHandler.toGetFleet():
-            if (not self.__m_oEmpireRelation.bIsOwnFleet(oFleet)):
-                if (oFleet.bIsStationary()):
-                    yield oFleet.ixGetSystem()
-                elif (oFleet.bIsMoving()):
-                    yield oFleet.ixGetFinalSystem()
+            if (not self.__m_oEmpireRelation.bIsFriendlyFleet(oFleet)):
+                oFleetPredictor = CFleetPredictor(oFleet)
+
+                if (oFleetPredictor.bIsArmed()):
+
+                    # Only consider armed enemy ships as threat.
+
+                    if (oFleet.bIsStationary()):
+                        yield oFleet.ixGetSystem()
+                    elif (oFleet.bIsMoving()):
+                        yield oFleet.ixGetFinalSystem()
 
 
     def bIsSingleShipInFleet(self, ixShip):

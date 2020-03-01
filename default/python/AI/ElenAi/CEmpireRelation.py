@@ -28,3 +28,7 @@ class CEmpireRelation(object):
         """
 
         return self.bIsOwnPlanet()
+
+
+    def bIsOwnFleet(self, oFleet):
+        return oFleet.ixGetEmpire() == self.__m_ixOwnEmpire

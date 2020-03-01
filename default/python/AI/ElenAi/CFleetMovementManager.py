@@ -11,10 +11,12 @@ from ElenAi.CManager import CManager
 class CFleetMovementManager(CManager):
 
 
-    def __init__(self, fo, oUniverse, oColonisationManager):
+    def __init__(self, fo, oUniverse, oEmpireRelation, oFleetHandler, oColonisationManager):
         super(CFleetMovementManager, self).__init__(fo)
 
         self.__m_oUniverse = oUniverse
+        self.__m_oEmpireRelation = oEmpireRelation
+        self.__m_oFleetHandler = oFleetHandler
         self.__m_oColonisationManager = oColonisationManager
 
 
@@ -270,22 +272,12 @@ class CFleetMovementManager(CManager):
 
 
     def tixGetEnemyFleetSystem(self):
-        oFoUniverse = self.fo.getUniverse()
-
-        for ixFleet in oFoUniverse.fleetIDs:
-            oFoFleet = oFoUniverse.getFleet(ixFleet)
-
-            if (not self._bIsOwn(oFoFleet)):
-                if (oFoFleet.systemID != -1):
-
-                    # The fleet is stationary.
-
-                    yield oFoFleet.systemID
-                elif (oFoFleet.finalDestinationID != -1):
-
-                    # The fleet is moving.
-
-                    yield oFoFleet.finalDestinationID
+        for oFleet in self.__m_oFleetHandler.toGetFleet():
+            if (not self.__m_oEmpireRelation.bIsOwnFleet(oFleet)):
+                if (oFleet.bIsStationary()):
+                    yield oFleet.ixGetSystem()
+                elif (oFleet.bIsMoving()):
+                    yield oFleet.ixGetFinalSystem()
 
 
     def bIsSingleShipInFleet(self, ixShip):

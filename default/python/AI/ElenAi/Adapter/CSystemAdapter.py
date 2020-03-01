@@ -1,11 +1,11 @@
 """
-This is a factory to convert a FreeOrion system representation to an abstract representation.
+This is an adapter to convert a FreeOrion system representation to an independent representation.
 """
 
 from ElenAi.CSystem import CSystem
 
 
-class CSystemConverter(object):
+class CSystemAdapter(object):
 
 
     def __init__(self, oFoSystem):

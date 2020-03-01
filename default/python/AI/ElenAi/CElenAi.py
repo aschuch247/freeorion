@@ -2,22 +2,22 @@
 This is ElenAI, an AI module.
 """
 
+from ElenAi.Adapter.CFleetAdapter import CFleetAdapter
+from ElenAi.Adapter.CPlanetAdapter import CPlanetAdapter
+from ElenAi.Adapter.CShipAdapter import CShipAdapter
+from ElenAi.Adapter.CSystemAdapter import CSystemAdapter
 from ElenAi.CColonisationManager import CColonisationManager
 from ElenAi.CColonyManager import CColonyManager
 from ElenAi.CColonyPredictor import CColonyPredictor
 from ElenAi.CEmpireManager import CEmpireManager
 from ElenAi.CEmpireRelation import CEmpireRelation
-from ElenAi.CFleetConverter import CFleetConverter
 from ElenAi.CFleetHandler import CFleetHandler
 from ElenAi.CFleetMovementManager import CFleetMovementManager
 from ElenAi.CFleetProductionManager import CFleetProductionManager
-from ElenAi.CPlanetConverter import CPlanetConverter
 from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CResearchManager import CResearchManager
 from ElenAi.CResearchQueue import CResearchQueue
-from ElenAi.CShipConverter import CShipConverter
 from ElenAi.CSpeciesDataDynamic import CSpeciesDataDynamic
-from ElenAi.CSystemConverter import CSystemConverter
 from ElenAi.CUniverse import CUniverse
 
 
@@ -63,13 +63,13 @@ class CElenAi(object):
 
         for ixSystem in oFoUniverse.systemIDs:
             oFoSystem = oFoUniverse.getSystem(ixSystem)
-            oSystem = CSystemConverter(oFoSystem).oGetSystem()
+            oSystem = CSystemAdapter(oFoSystem).oGetSystem()
 
             oUniverse.vAddSystem(oSystem)
 
             for ixPlanet in oFoSystem.planetIDs:
                 oFoPlanet = oFoUniverse.getPlanet(ixPlanet)
-                oPlanet = CPlanetConverter(oFoUniverse, oFoPlanet).oGetPlanet()
+                oPlanet = CPlanetAdapter(oFoUniverse, oFoPlanet).oGetPlanet()
 
                 oSystem.vAddPlanet(oPlanet)
 
@@ -88,13 +88,13 @@ class CElenAi(object):
 
         for ixFleet in oFoUniverse.fleetIDs:
             oFoFleet = oFoUniverse.getFleet(ixFleet)
-            oFleet = CFleetConverter(oFoFleet).oGetFleet()
+            oFleet = CFleetAdapter(oFoFleet).oGetFleet()
 
             oFleetHandler.vAddFleet(oFleet)
 
             for ixShip in oFoFleet.shipIDs:
                 oFoShip = oFoUniverse.getShip(ixShip)
-                oShip = CShipConverter(oFoShip).oGetShip()
+                oShip = CShipAdapter(oFoShip).oGetShip()
 
                 oFleet.vAddShip(oShip)
 

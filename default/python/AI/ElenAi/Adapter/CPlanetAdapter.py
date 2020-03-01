@@ -1,5 +1,5 @@
 """
-This is a factory to convert a FreeOrion planet representation to an abstract representation.
+This is an adapter to convert a FreeOrion planet representation to an independent representation.
 """
 
 from freeOrionAIInterface import meterType
@@ -7,7 +7,7 @@ from freeOrionAIInterface import meterType
 from ElenAi.CPlanet import CPlanet
 
 
-class CPlanetConverter(object):
+class CPlanetAdapter(object):
 
 
     def __init__(self, oFoUniverse, oFoPlanet):

@@ -1,11 +1,11 @@
 """
-This is a factory to convert a FreeOrion ship representation to an abstract representation.
+This is an adapter to convert a FreeOrion ship representation to an independent representation.
 """
 
 from ElenAi.CShip import CShip
 
 
-class CShipConverter(object):
+class CShipAdapter(object):
 
 
     def __init__(self, oFoShip):

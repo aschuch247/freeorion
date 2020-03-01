@@ -1,11 +1,11 @@
 """
-This is a factory to convert a FreeOrion fleet representation to an abstract representation.
+This is an adapter to convert a FreeOrion fleet representation to an independent representation.
 """
 
 from ElenAi.CFleet import CFleet
 
 
-class CFleetConverter(object):
+class CFleetAdapter(object):
 
 
     def __init__(self, oFoFleet):

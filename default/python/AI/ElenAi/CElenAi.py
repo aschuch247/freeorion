@@ -149,10 +149,7 @@ class CElenAi(object):
             fActualMaxShield = 0.0
 
             for ixShip in oFoFleet.shipIDs:
-                oFoShip = oFoUniverse.getShip(ixShip)
-
-                for sPart in oFoShip.design.parts:
-                    fActualMaxShield = max(fActualMaxShield, oFoShip.currentPartMeterValue(fo.meterType.maxShield, sPart))
+                fActualMaxShield = max(fActualMaxShield, oFoUniverse.getShip(ixShip).currentMeterValue(fo.meterType.maxShield))
 
             fExpectedMaxShield = oFleetPredictor.fGetMaxShield()
 
@@ -170,10 +167,7 @@ class CElenAi(object):
             fActualMaxStructure = 0.0
 
             for ixShip in oFoFleet.shipIDs:
-                oFoShip = oFoUniverse.getShip(ixShip)
-
-                for sPart in oFoShip.design.parts:
-                    fActualMaxStructure += oFoShip.currentPartMeterValue(fo.meterType.maxStructure, sPart)
+                fActualMaxStructure += oFoUniverse.getShip(ixShip).currentMeterValue(fo.meterType.maxStructure)
 
             fExpectedMaxStructure = oFleetPredictor.fGetMaxStructure()
 

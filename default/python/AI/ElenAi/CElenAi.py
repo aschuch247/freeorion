@@ -2,6 +2,8 @@
 This is ElenAI, an AI module.
 """
 
+from __future__ import print_function
+
 from ElenAi.Adapter.CFleetAdapter import CFleetAdapter
 from ElenAi.Adapter.CPlanetAdapter import CPlanetAdapter
 from ElenAi.Adapter.CShipAdapter import CShipAdapter
@@ -13,6 +15,7 @@ from ElenAi.CEmpireManager import CEmpireManager
 from ElenAi.CEmpireRelation import CEmpireRelation
 from ElenAi.CFleetHandler import CFleetHandler
 from ElenAi.CFleetMovementManager import CFleetMovementManager
+from ElenAi.CFleetPredictor import CFleetPredictor
 from ElenAi.CFleetProductionManager import CFleetProductionManager
 from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CResearchManager import CResearchManager
@@ -79,6 +82,8 @@ class CElenAi(object):
 
         # oUniverse.vDump()
 
+        # @todo Assert that the maximum population prediction works as expected!
+
         return oUniverse
 
 
@@ -99,5 +104,89 @@ class CElenAi(object):
                 oFleet.vAddShip(oShip)
 
         oFleetHandler.vDump()
+
+        for oFleet in oFleetHandler.toGetFleet():
+            oFleetPredictor = CFleetPredictor(oFleet)
+            oFoFleet = oFoUniverse.getFleet(oFleet.ixGetFleet())
+
+            # Assert that the categorisation of armed fleets works as expected.
+
+            bActualIsArmed = oFoFleet.hasArmedShips
+            bExpectedIsArmed = oFleetPredictor.bIsArmed()
+
+            if (bExpectedIsArmed != bActualIsArmed):
+                print(
+                    'Fleet %d is expected to be armed (%d), but actually is armed (%d)!' % (
+                        oFleet.ixGetFleet(),
+                        bExpectedIsArmed,
+                        bActualIsArmed
+                    )
+                )
+
+            # Assert that the damage prediction works as expected!
+
+            fActualDamage = 0.0
+
+            for ixShip in oFoFleet.shipIDs:
+                oFoShip = oFoUniverse.getShip(ixShip)
+
+                for sPart in oFoShip.design.parts:
+                    fActualDamage += oFoShip.currentPartMeterValue(fo.meterType.maxCapacity, sPart)
+
+            fExpectedDamage = oFleetPredictor.fGetDamage()
+
+            if (fExpectedDamage != fActualDamage):
+                print(
+                    'Fleet %d is expected to inflict %.2f damage, but actually can inflcit %.2f damage!' % (
+                        oFleet.ixGetFleet(),
+                        fExpectedDamage,
+                        fActualDamage
+                    )
+                )
+
+            # Assert that the maximum shield prediction works as expected!
+
+            fActualMaxShield = 0.0
+
+            for ixShip in oFoFleet.shipIDs:
+                oFoShip = oFoUniverse.getShip(ixShip)
+
+                for sPart in oFoShip.design.parts:
+                    fActualMaxShield = max(fActualMaxShield, oFoShip.currentPartMeterValue(fo.meterType.maxShield, sPart))
+
+            fExpectedMaxShield = oFleetPredictor.fGetMaxShield()
+
+            if (fExpectedMaxShield != fActualMaxShield):
+                print(
+                    'Fleet %d is expected to have a maximum shield of %.2f, but actually has a maximum shield of %.2f!' % (
+                        oFleet.ixGetFleet(),
+                        fExpectedMaxShield,
+                        fActualMaxShield
+                    )
+                )
+
+            # Assert that the maximum structure prediction works as expected!
+
+            fActualMaxStructure = 0.0
+
+            for ixShip in oFoFleet.shipIDs:
+                oFoShip = oFoUniverse.getShip(ixShip)
+
+                for sPart in oFoShip.design.parts:
+                    fActualMaxStructure += oFoShip.currentPartMeterValue(fo.meterType.maxStructure, sPart)
+
+            fExpectedMaxStructure = oFleetPredictor.fGetMaxStructure()
+
+            if (fExpectedMaxStructure != fActualMaxStructure):
+                print(
+                    'Fleet %d is expected to have a maximum structure of %.2f, but actually has a maximum structure of %.2f!' % (
+                        oFleet.ixGetFleet(),
+                        fExpectedMaxStructure,
+                        fActualMaxStructure
+                    )
+                )
+
+            # @todo Assert that maximum fuel prediction works as expected! - oFoFleet.maxFuel
+            # @todo Assert that speed prediction works as expected! - oFoFleet.speed
 
         return oFleetHandler

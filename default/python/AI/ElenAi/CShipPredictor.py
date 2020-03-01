@@ -15,7 +15,7 @@ class CShipPredictor(object):
 
 
     def bIsArmed(self):
-        for sPart in self.__m_oShip.sGetPartFrozenset():
+        for sPart in self.__m_oShip.sGetPartList():
             if (self.__m_oShipPart.fGetDamage(sPart) > 0.0):
                 return True
 
@@ -25,7 +25,7 @@ class CShipPredictor(object):
     def fGetDamage(self):
         fDamage = 0.0
 
-        for sPart in self.__m_oShip.sGetPartFrozenset():
+        for sPart in self.__m_oShip.sGetPartList():
             fDamage += self.__m_oShipPart.fGetDamage(sPart)
 
         return fDamage
@@ -36,7 +36,7 @@ class CShipPredictor(object):
 
         # Only the part with the highest shield counts.
 
-        for sPart in self.__m_oShip.sGetPartFrozenset():
+        for sPart in self.__m_oShip.sGetPartList():
             fShield = max(fShield, self.__m_oShipPart.fGetShield(sPart))
 
         return fShield
@@ -45,7 +45,7 @@ class CShipPredictor(object):
     def fGetMaxStructure(self):
         fMaxStructure = 0.0
 
-        for sPart in self.__m_oShip.sGetPartFrozenset():
+        for sPart in self.__m_oShip.sGetPartList():
             fMaxStructure += self.__m_oShipPart.fGetStructure(sPart)
 
         return fMaxStructure

@@ -29,5 +29,5 @@ class CPlanetAdapter(object):
             self.__m_oFoPlanet.speciesName,
             self.__m_oFoPlanet.currentMeterValue(meterType.population),
             self.__m_oFoPlanet.specials,
-            frozenset(self.__tsGetBuilding())
+            list(self.__tsGetBuilding())
         )

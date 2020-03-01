@@ -8,10 +8,13 @@ from __future__ import print_function
 class CShip(object):
 
 
-    def __init__(self, ixShip, sSpecies, sPartFrozenset):
+    def __init__(self, ixShip, sSpecies, sPartList):
         self.__m_ixShip = ixShip
         self.__m_sSpecies = sSpecies
-        self.__m_sPartFrozenset = sPartFrozenset
+
+        # The same parts can be added multiple times to a ship design.
+
+        self.__m_sPartList = sPartList
 
         self.__m_oFleet = None
 
@@ -25,11 +28,11 @@ class CShip(object):
 
 
     def bHasPart(self, sPart):
-        return sPart in self.__m_sPartFrozenset
+        return sPart in self.__m_sPartList
 
 
-    def sGetPartFrozenset(self):
-        return self.__m_sPartFrozenset
+    def sGetPartList(self):
+        return self.__m_sPartList
 
 
     def vSetFleet(self, oFleet):
@@ -44,7 +47,7 @@ class CShip(object):
         print(
             'Ship %d with parts %s is operated by species \'%s\'.' % (
                 self.ixGetShip(),
-                self.sGetPartFrozenset(),
+                self.sGetPartList(),
                 self.sGetSpecies()
             )
         )

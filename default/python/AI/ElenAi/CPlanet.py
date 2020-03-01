@@ -8,7 +8,7 @@ from __future__ import print_function
 class CPlanet(object):
 
 
-    def __init__(self, ixPlanet, ixEmpire, iPlanetType, iHabitableSize, sSpecies, fPopulation, sSpecialFrozenset, sBuildingFrozenset):
+    def __init__(self, ixPlanet, ixEmpire, iPlanetType, iHabitableSize, sSpecies, fPopulation, sSpecialFrozenset, sBuildingList):
         self.__m_ixPlanet = ixPlanet
         self.__m_ixEmpire = ixEmpire
         self.__m_iPlanetType = iPlanetType
@@ -16,7 +16,10 @@ class CPlanet(object):
         self.__m_sSpecies = sSpecies
         self.__m_fPopulation = fPopulation
         self.__m_sSpecialFrozenset = sSpecialFrozenset
-        self.__m_sBuildingFrozenset = sBuildingFrozenset
+
+        # The same building name can exist on one planet multiple times, for example BLD_TERRAFORM.
+
+        self.__m_sBuildingList = sBuildingList
 
         self.__m_oSystem = None
 
@@ -91,7 +94,7 @@ class CPlanet(object):
 
 
     def bHasBuilding(self, sBuilding):
-        return sBuilding in self.__m_sBuildingFrozenset
+        return sBuilding in self.__m_sBuildingList
 
 
     def vSetSystem(self, oSystem):

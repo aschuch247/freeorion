@@ -22,5 +22,5 @@ class CShipAdapter(object):
         return CShip(
             self.__m_oFoShip.id,
             self.__m_oFoShip.speciesName,
-            frozenset(self.__tsGetPart())
+            list(self.__tsGetPart())
         )

@@ -99,6 +99,9 @@ class CFleetMovementManager(CManager):
 
         print(listColonisation)
 
+        # @todo If the coloniation list is empty, consider using colony ships rather than outpost ships.
+        # SP_SLY have VERY_BAD_SUPPLY, so outpost ships do not work in early game!
+
         setSystemColonisationTargeted = set()
 
         for ixShip in self.tixGetMovingShip(self.tixGetOwnOutpostShip()):
@@ -122,6 +125,8 @@ class CFleetMovementManager(CManager):
                 # @todo Use this outpost ship and cancel the other!
 
                 continue
+
+            # @todo Before sending a colony ship or outpost ship, also check planet visibility!
 
             # @todo If the current system already has a colony that can build outpost bases, do not build an outpost
             # using an outpost ship.

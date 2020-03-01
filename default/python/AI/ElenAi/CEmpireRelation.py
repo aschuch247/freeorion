@@ -24,7 +24,7 @@ class CEmpireRelation(object):
 
     def bIsFriendlyPlanet(self, oPlanet):
         """
-        Check whether the planet belongs to any friendly empire.
+        Check whether the planet belongs to any friendly empire or any allied empire.
         """
 
         return self.bIsOwnPlanet()

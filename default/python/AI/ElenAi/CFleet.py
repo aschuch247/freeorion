@@ -8,9 +8,11 @@ from __future__ import print_function
 class CFleet(object):
 
 
-    def __init__(self, ixFleet, ixEmpire):
+    def __init__(self, ixFleet, ixEmpire, ixSystem, ixFinalSystem):
         self.__m_ixFleet = ixFleet
         self.__m_ixEmpire = ixEmpire
+        self.__m_ixSystem = ixSystem
+        self.__m_ixFinalSystem = ixFinalSystem
 
         self.__m_dictShip = dict()
 
@@ -42,6 +44,22 @@ class CFleet(object):
         """
 
         return not self.bIsOwned()
+
+
+    def ixGetSystem(self):
+        return self.__m_ixSystem
+
+
+    def bIsStationary(self):
+        return self.__m_ixSystem != -1
+
+
+    def bIsMoving(self):
+        return self.__m_ixSystem == -1
+
+
+    def ixGetFinalSystem(self):
+        return self.__m_ixFinalSystem
 
 
     def vAddShip(self, oShip):

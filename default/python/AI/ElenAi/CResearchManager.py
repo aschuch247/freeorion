@@ -18,10 +18,19 @@ class CResearchManager(CManager):
     def vManage(self):
         oResearchTree = self.oGetResearchTree()
 
-        # @todo Add the pre-warp technologies here!
+        # These are the technologies available by default (taken from 'items.inf').
 
-        self.vResearch(oResearchTree, 'SHP_GAL_EXPLO')
         self.vResearch(oResearchTree, 'SPY_DETECT_1')
+        self.vResearch(oResearchTree, 'SPY_PLANET_STEALTH_MOD')
+        self.vResearch(oResearchTree, 'DEF_ROOT_DEFENSE')
+        self.vResearch(oResearchTree, 'SHP_GAL_EXPLO')
+        self.vResearch(oResearchTree, 'SHP_ROOT_ARMOR')
+        self.vResearch(oResearchTree, 'SHP_ROOT_AGGRESSION')
+        self.vResearch(oResearchTree, 'SPY_ROOT_DECEPTION')
+        self.vResearch(oResearchTree, 'SPY_CUSTOM_ADVISORIES')
+        self.vResearch(oResearchTree, 'PRO_PREDICTIVE_STOCKPILING')
+
+        # These are very good first technologies to learn.
 
         self.vResearch(oResearchTree, 'LRN_PHYS_BRAIN') # BLD_AUTO_HISTORY_ANALYSER
         self.vResearch(oResearchTree, 'GRO_SUBTER_HAB')

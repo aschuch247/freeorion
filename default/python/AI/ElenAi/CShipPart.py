@@ -105,7 +105,7 @@ class CShipPart(object):
         dictSinglePart = self.__dictGetSinglePart(sPart)
 
         if (dictSinglePart.get('partClass') != CShipPartClass.detection):
-                return 0.0
+            return 0.0
 
         return dictSinglePart.get('capacity', 0.0)
 
@@ -114,7 +114,7 @@ class CShipPart(object):
         dictSinglePart = self.__dictGetSinglePart(sPart)
 
         if (dictSinglePart.get('partClass') != CShipPartClass.shields):
-                return 0.0
+            return 0.0
 
         return dictSinglePart.get('capacity', 0.0)
 
@@ -123,6 +123,6 @@ class CShipPart(object):
         dictSinglePart = self.__dictGetSinglePart(sPart)
 
         if (dictSinglePart.get('partClass') != CShipPartClass.armour):
-                return 0.0
+            return 0.0
 
         return dictSinglePart.get('capacity', 0.0)

@@ -38,6 +38,13 @@ class CShipHull(object):
                 'stealth': 45.0,
                 'structure': 5000.0
             },
+            'SH_DRONE_BODY': {
+                'detection': 30.0,
+                'fuel': 3.0,
+                'speed': 30.0,
+                'stealth': 5.0,
+                'structure': 10.0
+            },
             'SH_FLOATER_BODY': {
                 'detection': 30.0,
                 'fuel': 3.0,
@@ -79,6 +86,20 @@ class CShipHull(object):
                 'speed': 30.0,
                 'stealth': 15.0,
                 'structure': 20.0
+            },
+            'SH_KRILL_2_BODY': {
+                'detection': 30.0,
+                'fuel': 6.0,
+                'speed': 30.0,
+                'stealth': 15.0,
+                'structure': 40.0
+            },
+            'SH_ROBOTIC': {
+                'detection': 25.0,
+                'fuel': 2.0,
+                'speed': 75.0,
+                'stealth': 5.0,
+                'structure': 25.0
             }
         }
 

@@ -1,23 +1,24 @@
 """
-Predict the capabilities of a single ship.
+This is a representation of a ship design.
 """
 
 from ElenAi.CShipHull import CShipHull
 from ElenAi.CShipPart import CShipPart
 
 
-class CShipPredictor(object):
+class CShipDesign(object):
 
 
-    def __init__(self, oShip):
-        self.__m_oShip = oShip
+    def __init__(self, sHull, sPartList):
+        self.__m_sHull = sHull
+        self.__m_sPartList = sPartList
 
         self.__m_oShipHull = CShipHull()
         self.__m_oShipPart = CShipPart()
 
 
     def bIsArmed(self):
-        for sPart in self.__m_oShip.sGetPartList():
+        for sPart in self.__m_sPartList:
             if (self.__m_oShipPart.fGetDamage(sPart) > 0.0):
                 return True
 
@@ -27,7 +28,7 @@ class CShipPredictor(object):
     def fGetDamage(self):
         fDamage = 0.0
 
-        for sPart in self.__m_oShip.sGetPartList():
+        for sPart in self.__m_sPartList:
             fDamage += self.__m_oShipPart.fGetDamage(sPart)
 
         return fDamage
@@ -38,12 +39,12 @@ class CShipPredictor(object):
 
         # Only the ship part with the highest detection range counts.
 
-        for sPart in self.__m_oShip.sGetPartList():
+        for sPart in self.__m_sPartList:
             fDetection = max(fDetection, self.__m_oShipPart.fGetDetection(sPart))
 
         # Combine the highest detection range ship part and the ship hull detection range.
 
-        return self.__m_oShipHull.fGetDetection(self.__m_oShip.sGetHull()) + fDetection
+        return self.__m_oShipHull.fGetDetection(self.__m_sHull) + fDetection
 
 
     def fGetShield(self):
@@ -51,7 +52,7 @@ class CShipPredictor(object):
 
         # Only the ship part with the highest shield strength counts.
 
-        for sPart in self.__m_oShip.sGetPartList():
+        for sPart in self.__m_sPartList:
             fShield = max(fShield, self.__m_oShipPart.fGetShield(sPart))
 
         return fShield
@@ -66,18 +67,18 @@ class CShipPredictor(object):
 
         # Only the ship part with the highest stealth strength counts.
 
-        for sPart in self.__m_oShip.sGetPartList():
+        for sPart in self.__m_sPartList:
             fStealth = max(fStealth, self.__m_oShipPart.fGetStealth(sPart))
 
         # Combine the highest stealth strength ship part and the ship hull stealth strength.
 
-        return self.__m_oShipHull.fGetStealth(self.__m_oShip.sGetHull()) + fStealth
+        return self.__m_oShipHull.fGetStealth(self.__m_sHull) + fStealth
 
 
     def fGetMaxStructure(self):
-        fMaxStructure = self.__m_oShipHull.fGetStructure(self.__m_oShip.sGetHull())
+        fMaxStructure = self.__m_oShipHull.fGetStructure(self.__m_sHull)
 
-        for sPart in self.__m_oShip.sGetPartList():
+        for sPart in self.__m_sPartList:
             fMaxStructure += self.__m_oShipPart.fGetStructure(sPart)
 
         return fMaxStructure
@@ -88,9 +89,9 @@ class CShipPredictor(object):
 
         # Only the ship part with the highest speed counts.
 
-        for sPart in self.__m_oShip.sGetPartList():
+        for sPart in self.__m_sPartList:
             fSpeed = max(fSpeed, self.__m_oShipPart.fGetSpeed(sPart))
 
         # Combine the highest speed ship part and the ship hull speed.
 
-        return self.__m_oShipHull.fGetSpeed(self.__m_oShip.sGetHull()) + fSpeed
+        return self.__m_oShipHull.fGetSpeed(self.__m_sHull) + fSpeed

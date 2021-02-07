@@ -2,7 +2,7 @@
 Predict the capabilities of a whole fleet.
 """
 
-from ElenAi.CShipPredictor import CShipPredictor
+from ElenAi.CShipDesign import CShipDesign
 
 
 class CFleetPredictor(object):
@@ -12,9 +12,13 @@ class CFleetPredictor(object):
         self.__m_oFleet = oFleet
 
 
+    def __oGetShipDesign(self, oShip):
+        return CShipDesign(oShip.sGetHull(), oShip.sGetPartList())
+
+
     def bIsArmed(self):
         for oShip in self.__m_oFleet.toGetShip():
-            if (CShipPredictor(oShip).bIsArmed()):
+            if (self.__oGetShipDesign(oShip).bIsArmed()):
                 return True
 
         return False
@@ -24,7 +28,7 @@ class CFleetPredictor(object):
         fDamage = 0.0
 
         for oShip in self.__m_oFleet.toGetShip():
-            fDamage += CShipPredictor(oShip).fGetDamage()
+            fDamage += self.__oGetShipDesign(oShip).fGetDamage()
 
         return fDamage
 
@@ -39,7 +43,7 @@ class CFleetPredictor(object):
         fMaxDetection = 0.0
 
         for oShip in self.__m_oFleet.toGetShip():
-            fMaxDetection = max(fMaxDetection, CShipPredictor(oShip).fGetDetection())
+            fMaxDetection = max(fMaxDetection, self.__oGetShipDesign(oShip).fGetDetection())
 
         return fMaxDetection
 
@@ -55,7 +59,7 @@ class CFleetPredictor(object):
         fMaxShield = 0.0
 
         for oShip in self.__m_oFleet.toGetShip():
-            fMaxShield = max(fMaxShield, CShipPredictor(oShip).fGetShield())
+            fMaxShield = max(fMaxShield, self.__oGetShipDesign(oShip).fGetShield())
 
         return fMaxShield
 
@@ -68,7 +72,7 @@ class CFleetPredictor(object):
         fMaxStructure = 0.0
 
         for oShip in self.__m_oFleet.toGetShip():
-            fMaxStructure += CShipPredictor(oShip).fGetMaxStructure()
+            fMaxStructure += self.__oGetShipDesign(oShip).fGetMaxStructure()
 
         return fMaxStructure
 
@@ -83,10 +87,10 @@ class CFleetPredictor(object):
 
         for oShip in self.__m_oFleet.toGetShip():
             if (bFirstShip):
-                fSpeed = CShipPredictor(oShip).fGetSpeed()
+                fSpeed = self.__oGetShipDesign(oShip).fGetSpeed()
                 bFirstShip = False
             else:
-                fSpeed = min(fSpeed, CShipPredictor(oShip).fGetSpeed())
+                fSpeed = min(fSpeed, self.__oGetShipDesign(oShip).fGetSpeed())
 
         return fSpeed
 
@@ -101,9 +105,9 @@ class CFleetPredictor(object):
 
         for oShip in self.__m_oFleet.toGetShip():
             if (bFirstShip):
-                fMinStealth = CShipPredictor(oShip).fGetStealth()
+                fMinStealth = self.__oGetShipDesign(oShip).fGetStealth()
                 bFirstShip = False
             else:
-                fMinStealth = min(fMinStealth, CShipPredictor(oShip).fGetStealth())
+                fMinStealth = min(fMinStealth, self.__oGetShipDesign(oShip).fGetStealth())
 
         return fMinStealth

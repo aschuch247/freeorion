@@ -51,7 +51,7 @@ class CGraph(object):
         if (oGraphAdvisor is None):
             oGraphAdvisor = CGraphAdvisor(set())
 
-        listGraphNode = self.m_dictGraphNode.keys()
+        listGraphNode = list(self.m_dictGraphNode)
         dictCost = dict()
         dictGraphNodePrevious = dict()
 
@@ -87,7 +87,7 @@ class CGraph(object):
 
                     fCostAlternative = fCostMin + self.m_dictGraphNode[ixGraphNodeMin][i]
 
-                    if (fCostAlternative < self.m_dictGraphNode[i]):
+                    if (fCostAlternative < dictCost[i]):
                         dictCost[i] = fCostAlternative
                         dictGraphNodePrevious[i] = ixGraphNodeMin
 

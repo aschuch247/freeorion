@@ -183,6 +183,10 @@ class CShipHull(object):
 
 
     def fGetStealth(self, sHull):
+        """
+        Get the stealth strength of the ship hull.
+        """
+
         dictSingleHull = self.__dictGetSingleHull(sHull)
 
         return dictSingleHull.get('stealth', 0.0)

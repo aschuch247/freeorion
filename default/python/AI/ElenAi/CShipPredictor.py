@@ -57,6 +57,23 @@ class CShipPredictor(object):
         return fShield
 
 
+    def fGetStealth(self):
+        """
+        Get the stealth strength of the ship.
+        """
+
+        fStealth = 0.0
+
+        # Only the ship part with the highest stealth strength counts.
+
+        for sPart in self.__m_oShip.sGetPartList():
+            fStealth = max(fStealth, self.__m_oShipPart.fGetStealth(sPart))
+
+        # Combine the highest stealth strength ship part and the ship hull stealth strength.
+
+        return self.__m_oShipHull.fGetStealth(self.__m_oShip.sGetHull()) + fStealth
+
+
     def fGetMaxStructure(self):
         fMaxStructure = self.__m_oShipHull.fGetStructure(self.__m_oShip.sGetHull())
 

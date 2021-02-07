@@ -84,6 +84,10 @@ class CShipPart(object):
             'SR_WEAPON_4_1': {
                 'partClass': CShipPartClass.shortRange,
                 'damage': 15.0
+            },
+            'ST_CLOAK_1': {
+                'partClass': CShipPartClass.stealth,
+                'capacity': 20.0
             }
         }
 
@@ -127,6 +131,19 @@ class CShipPart(object):
         dictSinglePart = self.__dictGetSinglePart(sPart)
 
         if (dictSinglePart.get('partClass') != CShipPartClass.speed):
+            return 0.0
+
+        return dictSinglePart.get('capacity', 0.0)
+
+
+    def fGetStealth(self, sPart):
+        """
+        Get the stealth strength of the ship part.
+        """
+
+        dictSinglePart = self.__dictGetSinglePart(sPart)
+
+        if (dictSinglePart.get('partClass') != CShipPartClass.stealth):
             return 0.0
 
         return dictSinglePart.get('capacity', 0.0)

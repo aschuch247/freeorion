@@ -89,3 +89,21 @@ class CFleetPredictor(object):
                 fSpeed = min(fSpeed, CShipPredictor(oShip).fGetSpeed())
 
         return fSpeed
+
+
+    def fGetMinStealth(self):
+        """
+        Return the minimum stealth strength of any ship inside the fleet.
+        """
+
+        fMinStealth = 0.0
+        bFirstShip = True
+
+        for oShip in self.__m_oFleet.toGetShip():
+            if (bFirstShip):
+                fMinStealth = CShipPredictor(oShip).fGetStealth()
+                bFirstShip = False
+            else:
+                fMinStealth = min(fMinStealth, CShipPredictor(oShip).fGetStealth())
+
+        return fMinStealth

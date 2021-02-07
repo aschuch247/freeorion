@@ -23,6 +23,7 @@ class CShipPredictorTest(unittest.TestCase):
         self.assertEqual(0.0, oShipPredictor.fGetShield())
         self.assertEqual(16.0, oShipPredictor.fGetMaxStructure())
         self.assertEqual(60.0, oShipPredictor.fGetSpeed())
+        self.assertEqual(5.0, oShipPredictor.fGetStealth())
 
 
     def test_CShipPredictor_InitialScout(self):
@@ -41,3 +42,4 @@ class CShipPredictorTest(unittest.TestCase):
         self.assertEqual(0.0, oShipPredictor.fGetShield())
         self.assertEqual(5.0, oShipPredictor.fGetMaxStructure())
         self.assertEqual(75.0, oShipPredictor.fGetSpeed())
+        self.assertEqual(5.0, oShipPredictor.fGetStealth())

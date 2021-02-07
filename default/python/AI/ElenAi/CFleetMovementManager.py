@@ -12,9 +12,10 @@ from ElenAi.CManager import CManager
 class CFleetMovementManager(CManager):
 
 
-    def __init__(self, fo, oUniverse, oEmpireRelation, oFleetHandler, oColonisationManager):
+    def __init__(self, fo, oDataRepository, oUniverse, oEmpireRelation, oFleetHandler, oColonisationManager):
         super(CFleetMovementManager, self).__init__(fo)
 
+        self.__m_oDataRepository = oDataRepository
         self.__m_oUniverse = oUniverse
         self.__m_oEmpireRelation = oEmpireRelation
         self.__m_oFleetHandler = oFleetHandler
@@ -22,6 +23,8 @@ class CFleetMovementManager(CManager):
 
 
     def vManage(self):
+        print('--- fleet movement manager ---')
+
         oFoUniverse = self.fo.getUniverse()
         oFoEmpire = self.fo.getEmpire()
 
@@ -280,7 +283,7 @@ class CFleetMovementManager(CManager):
     def tixGetEnemyFleetSystem(self):
         for oFleet in self.__m_oFleetHandler.toGetFleet():
             if (not self.__m_oEmpireRelation.bIsFriendlyFleet(oFleet)):
-                oFleetPredictor = CFleetPredictor(oFleet)
+                oFleetPredictor = CFleetPredictor(self.__m_oDataRepository, oFleet)
 
                 if (oFleetPredictor.bIsArmed()):
 

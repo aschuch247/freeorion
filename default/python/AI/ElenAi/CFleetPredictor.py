@@ -8,12 +8,13 @@ from ElenAi.CShipDesign import CShipDesign
 class CFleetPredictor(object):
 
 
-    def __init__(self, oFleet):
+    def __init__(self, oDataRepository, oFleet):
+        self.__m_oDataRepository = oDataRepository
         self.__m_oFleet = oFleet
 
 
     def __oGetShipDesign(self, oShip):
-        return CShipDesign(oShip.sGetHull(), oShip.sGetPartList())
+        return CShipDesign(self.__m_oDataRepository, oShip.sGetHull(), oShip.sGetPartList())
 
 
     def bIsArmed(self):

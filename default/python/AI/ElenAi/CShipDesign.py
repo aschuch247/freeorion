@@ -2,18 +2,16 @@
 This is a representation of a ship design.
 """
 
-from ElenAi.CShipHull import CShipHull
 from ElenAi.CShipPart import CShipPart
 
 
 class CShipDesign(object):
 
 
-    def __init__(self, sHull, sPartList):
-        self.__m_sHull = sHull
+    def __init__(self, oDataRepository, sHull, sPartList):
         self.__m_sPartList = sPartList
 
-        self.__m_oShipHull = CShipHull()
+        self.__m_oShipHullData = oDataRepository.oGetShipHullData().oGetShipHull(sHull)
         self.__m_oShipPart = CShipPart()
 
 
@@ -44,7 +42,7 @@ class CShipDesign(object):
 
         # Combine the highest detection range ship part and the ship hull detection range.
 
-        return self.__m_oShipHull.fGetDetection(self.__m_sHull) + fDetection
+        return self.__m_oShipHullData.fGetDetection() + fDetection
 
 
     def fGetShield(self):
@@ -72,11 +70,11 @@ class CShipDesign(object):
 
         # Combine the highest stealth strength ship part and the ship hull stealth strength.
 
-        return self.__m_oShipHull.fGetStealth(self.__m_sHull) + fStealth
+        return self.__m_oShipHullData.fGetStealth() + fStealth
 
 
     def fGetMaxStructure(self):
-        fMaxStructure = self.__m_oShipHull.fGetStructure(self.__m_sHull)
+        fMaxStructure = self.__m_oShipHullData.fGetStructure()
 
         for sPart in self.__m_sPartList:
             fMaxStructure += self.__m_oShipPart.fGetStructure(sPart)
@@ -94,4 +92,4 @@ class CShipDesign(object):
 
         # Combine the highest speed ship part and the ship hull speed.
 
-        return self.__m_oShipHull.fGetSpeed(self.__m_sHull) + fSpeed
+        return self.__m_oShipHullData.fGetSpeed() + fSpeed

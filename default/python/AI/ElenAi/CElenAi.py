@@ -82,7 +82,31 @@ class CElenAi(object):
 
         # oUniverse.vDump()
 
-        # @todo Assert that the maximum population prediction works as expected!
+        # The following code is runtime debug code to check if the AI expectations match the server implementation.
+
+        print('--- population expectation checker ---')
+
+        oSpeciesData = CSpeciesDataDynamic(fo)
+
+        for oSystem in oUniverse.toGetSystem():
+            for oPlanet in oSystem.toGetPlanet():
+                if (oPlanet.bIsColony()):
+                    oColonyPredictor = CColonyPredictor(fo.getEmpire(oPlanet.ixGetEmpire()).availableTechs)
+                    oFoPlanet = oFoUniverse.getPlanet(oPlanet.ixGetPlanet())
+
+                    # Assert that the maximum population prediction works as expected!
+
+                    fActualMaxPopulation = oFoPlanet.currentMeterValue(fo.meterType.targetPopulation)
+                    fExpectedMaxPopulation = oColonyPredictor.fGetMaxPopulation(oPlanet, oSpeciesData.oGetSpecies(oPlanet.sGetSpecies()))
+
+                    if (fExpectedMaxPopulation != fActualMaxPopulation):
+                        print(
+                            'Planet %d is expected to have a maximum population of %.2f but actually has a maximum population of %.2f!' % (
+                                oPlanet.ixGetPlanet(),
+                                fExpectedMaxPopulation,
+                                fActualMaxPopulation
+                            )
+                        )
 
         return oUniverse
 

@@ -34,7 +34,7 @@ class CColonisationManager(CManager):
 
 
     def vManage(self):
-        self.__vAssertTargetPopulation()
+        print('--- colonisation manager ---')
 
 
     def tupleGetHigherPopulationColonisation(self, tupleColonisation1, tupleColonisation2):
@@ -175,25 +175,3 @@ class CColonisationManager(CManager):
 
     def listGetColonisation(self):
         return self.__m_listColonisation
-
-
-    def __vAssertTargetPopulation(self):
-        for oSystem in self.__m_oUniverse.toGetSystem():
-            for oPlanet in oSystem.toGetPlanet():
-                if (self.__m_oEmpireRelation.bIsOwnPlanet(oPlanet)):
-                    if (oPlanet.bIsOutpost()):
-                        print('Planet %d is an outpost.' % (oPlanet.ixGetPlanet()))
-                    elif (oPlanet.bIsColony()):
-                        fActualMaxPopulation = self.fo.getUniverse().getPlanet(oPlanet.ixGetPlanet()).currentMeterValue(self.fo.meterType.targetPopulation)
-                        fExpectedMaxPopulation = self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(oPlanet.sGetSpecies()))
-
-                        if (fActualMaxPopulation != fExpectedMaxPopulation):
-                            print(
-                                'Actual maximum population %.2f differs from expected maximum population %.2f for planet %d!' % (
-                                    fActualMaxPopulation,
-                                    fExpectedMaxPopulation,
-                                    oPlanet.ixGetPlanet()
-                                )
-                            )
-
-                            self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(oPlanet.sGetSpecies()), True)

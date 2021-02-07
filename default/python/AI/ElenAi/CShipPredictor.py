@@ -24,6 +24,19 @@ class CShipPredictor(object):
         return False
 
 
+    def fGetDetection(self):
+        fDetection = 0.0
+
+        # Only the part with the highest detection counts.
+
+        for sPart in self.__m_oShip.sGetPartList():
+            fDetection = max(fDetection, self.__m_oShipPart.fGetDetection(sPart))
+
+        # Use the highest detection part and the hull detection.
+
+        return self.__m_oShipHull.fGetDetection(self.__m_oShip.sGetHull()) + fDetection
+
+
     def fGetDamage(self):
         fDamage = 0.0
 

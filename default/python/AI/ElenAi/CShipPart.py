@@ -36,6 +36,14 @@ class CShipPart(object):
                 'partClass': CShipPartClass.armour,
                 'capacity': 11.0
             },
+            'DT_DETECTOR_1': {
+                'partClass': CShipPartClass.detection,
+                'capacity': 25.0
+            },
+            'DT_DETECTOR_2': {
+                'partClass': CShipPartClass.detection,
+                'capacity': 75.0
+            },
             'SH_DEFENSE_GRID': {
                 'partClass': CShipPartClass.shields,
                 'capacity': 3.0
@@ -85,6 +93,15 @@ class CShipPart(object):
             print('Ship part \'%s\' is unknown!' % sPart)
 
         return dictSinglePart
+
+
+    def fGetDetection(self, sPart):
+        dictSinglePart = self.__dictGetSinglePart(sPart)
+
+        if (dictSinglePart.get('partClass') != CShipPartClass.detection):
+                return 0.0
+
+        return dictSinglePart.get('capacity', 0.0)
 
 
     def fGetDamage(self, sPart):

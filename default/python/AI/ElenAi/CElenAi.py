@@ -105,6 +105,10 @@ class CElenAi(object):
 
         oFleetHandler.vDump()
 
+        # The following code is runtime debug code to check if the AI expectations match the server implementation.
+
+        print('--- fleet expectation checker ---')
+
         for oFleet in oFleetHandler.toGetFleet():
             oFleetPredictor = CFleetPredictor(oFleet)
             oFoFleet = oFoUniverse.getFleet(oFleet.ixGetFleet())
@@ -137,7 +141,7 @@ class CElenAi(object):
 
             if (fExpectedDamage != fActualDamage):
                 print(
-                    'Fleet %d is expected to inflict %.2f damage, but actually can inflcit %.2f damage!' % (
+                    'Fleet %d is expected to inflict %.2f damage, but actually can inflict %.2f damage!' % (
                         oFleet.ixGetFleet(),
                         fExpectedDamage,
                         fActualDamage
@@ -162,7 +166,7 @@ class CElenAi(object):
                     )
                 )
 
-            # Assert that the maximum shield prediction works as expected!
+            # Assert that the maximum shield strength prediction works as expected!
 
             fActualMaxShield = 0.0
 
@@ -173,7 +177,7 @@ class CElenAi(object):
 
             if (fExpectedMaxShield != fActualMaxShield):
                 print(
-                    'Fleet %d is expected to have a maximum shield of %.2f, but actually has a maximum shield of %.2f!' % (
+                    'Fleet %d is expected to have a maximum shield strength of %.2f, but actually has a maximum shield strength of %.2f!' % (
                         oFleet.ixGetFleet(),
                         fExpectedMaxShield,
                         fActualMaxShield

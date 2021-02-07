@@ -26,7 +26,7 @@ class CFleetHandler(object):
 
 
     def vDump(self):
-        print('--- fleet ---')
+        print('--- fleet handler ---')
 
         for oFleet in self.toGetFleet():
             oFleet.vDump()

@@ -95,6 +95,12 @@ class CShipPart(object):
         return dictSinglePart
 
 
+    def fGetDamage(self, sPart):
+        dictSinglePart = self.__dictGetSinglePart(sPart)
+
+        return dictSinglePart.get('shots', 1) * dictSinglePart.get('damage', 0.0)
+
+
     def fGetDetection(self, sPart):
         dictSinglePart = self.__dictGetSinglePart(sPart)
 
@@ -102,12 +108,6 @@ class CShipPart(object):
                 return 0.0
 
         return dictSinglePart.get('capacity', 0.0)
-
-
-    def fGetDamage(self, sPart):
-        dictSinglePart = self.__dictGetSinglePart(sPart)
-
-        return dictSinglePart.get('shots', 1) * dictSinglePart.get('damage', 0.0)
 
 
     def fGetShield(self, sPart):

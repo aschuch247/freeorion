@@ -24,6 +24,15 @@ class CShipPredictor(object):
         return False
 
 
+    def fGetDamage(self):
+        fDamage = 0.0
+
+        for sPart in self.__m_oShip.sGetPartList():
+            fDamage += self.__m_oShipPart.fGetDamage(sPart)
+
+        return fDamage
+
+
     def fGetDetection(self):
         fDetection = 0.0
 
@@ -35,15 +44,6 @@ class CShipPredictor(object):
         # Use the highest detection part and the hull detection.
 
         return self.__m_oShipHull.fGetDetection(self.__m_oShip.sGetHull()) + fDetection
-
-
-    def fGetDamage(self):
-        fDamage = 0.0
-
-        for sPart in self.__m_oShip.sGetPartList():
-            fDamage += self.__m_oShipPart.fGetDamage(sPart)
-
-        return fDamage
 
 
     def fGetShield(self):

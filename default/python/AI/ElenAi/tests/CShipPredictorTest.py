@@ -18,8 +18,8 @@ class CShipPredictorTest(unittest.TestCase):
         oShipPredictor = CShipPredictor(oShip)
 
         self.assertEqual(True, oShipPredictor.bIsArmed())
-        self.assertEqual(25.0, oShipPredictor.fGetDetection())
         self.assertEqual(3.0, oShipPredictor.fGetDamage())
+        self.assertEqual(25.0, oShipPredictor.fGetDetection())
         self.assertEqual(0.0, oShipPredictor.fGetShield())
         self.assertEqual(16.0, oShipPredictor.fGetMaxStructure())
 
@@ -35,7 +35,7 @@ class CShipPredictorTest(unittest.TestCase):
         oShipPredictor = CShipPredictor(oShip)
 
         self.assertEqual(False, oShipPredictor.bIsArmed())
-        self.assertEqual(50.0, oShipPredictor.fGetDetection())
         self.assertEqual(0.0, oShipPredictor.fGetDamage())
+        self.assertEqual(50.0, oShipPredictor.fGetDetection())
         self.assertEqual(0.0, oShipPredictor.fGetShield())
         self.assertEqual(5.0, oShipPredictor.fGetMaxStructure())

@@ -137,14 +137,14 @@ class CElenAi(object):
             oFleetPredictor = CFleetPredictor(oFleet)
             oFoFleet = oFoUniverse.getFleet(oFleet.ixGetFleet())
 
-            # Assert that the categorisation of armed fleets works as expected.
+            # Assert that the categorisation of armed fleets works as expected!
 
             bActualIsArmed = oFoFleet.hasArmedShips
             bExpectedIsArmed = oFleetPredictor.bIsArmed()
 
             if (bExpectedIsArmed != bActualIsArmed):
                 print(
-                    'Fleet %d is expected to be armed (%d), but actually is armed (%d)!' % (
+                    'Fleet %d is expected to be armed (%d) but actually is armed (%d)!' % (
                         oFleet.ixGetFleet(),
                         bExpectedIsArmed,
                         bActualIsArmed
@@ -165,7 +165,7 @@ class CElenAi(object):
 
             if (fExpectedDamage != fActualDamage):
                 print(
-                    'Fleet %d is expected to inflict %.2f damage, but actually can inflict %.2f damage!' % (
+                    'Fleet %d is expected to inflict %.2f damage but actually can inflict %.2f damage!' % (
                         oFleet.ixGetFleet(),
                         fExpectedDamage,
                         fActualDamage
@@ -183,7 +183,7 @@ class CElenAi(object):
 
             if (fExpectedMaxDetection != fActualMaxDetection):
                 print(
-                    'Fleet %d is expected to have a maximum detection range of %.2f, but actually has a maximum detection range of %.2f!' % (
+                    'Fleet %d is expected to have a maximum detection range of %.2f but actually has a maximum detection range of %.2f!' % (
                         oFleet.ixGetFleet(),
                         fExpectedMaxDetection,
                         fActualMaxDetection
@@ -201,7 +201,7 @@ class CElenAi(object):
 
             if (fExpectedMaxShield != fActualMaxShield):
                 print(
-                    'Fleet %d is expected to have a maximum shield strength of %.2f, but actually has a maximum shield strength of %.2f!' % (
+                    'Fleet %d is expected to have a maximum shield strength of %.2f but actually has a maximum shield strength of %.2f!' % (
                         oFleet.ixGetFleet(),
                         fExpectedMaxShield,
                         fActualMaxShield
@@ -219,7 +219,7 @@ class CElenAi(object):
 
             if (fExpectedMaxStructure != fActualMaxStructure):
                 print(
-                    'Fleet %d is expected to have a maximum structure of %.2f, but actually has a maximum structure of %.2f!' % (
+                    'Fleet %d is expected to have a maximum structure of %.2f but actually has a maximum structure of %.2f!' % (
                         oFleet.ixGetFleet(),
                         fExpectedMaxStructure,
                         fActualMaxStructure

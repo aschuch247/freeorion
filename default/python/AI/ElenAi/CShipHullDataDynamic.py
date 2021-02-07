@@ -9,11 +9,11 @@ class CShipHullDataDynamic(object):
 
 
     def __init__(self, fo):
-        self.__fo = fo
+        self.__m_fo = fo
 
 
     def oGetShipHull(self, sName):
-        oFoShipHull = self.__fo.getShipHull(sName)
+        oFoShipHull = self.__m_fo.getShipHull(sName)
 
         return CShipHull(
             oFoShipHull.name,

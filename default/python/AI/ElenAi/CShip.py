@@ -8,9 +8,10 @@ from __future__ import print_function
 class CShip(object):
 
 
-    def __init__(self, ixShip, sSpecies, sPartList):
+    def __init__(self, ixShip, sSpecies, sHull, sPartList):
         self.__m_ixShip = ixShip
         self.__m_sSpecies = sSpecies
+        self.__m_sHull = sHull
 
         # The same parts can be added multiple times to a ship design.
 
@@ -25,6 +26,10 @@ class CShip(object):
 
     def sGetSpecies(self):
         return self.__m_sSpecies
+
+
+    def sGetHull(self):
+            return self.__m_sHull
 
 
     def bHasPart(self, sPart):
@@ -45,8 +50,9 @@ class CShip(object):
 
     def vDump(self):
         print(
-            'Ship %d with parts %s is operated by species \'%s\'.' % (
+            'Ship %d with hull \'%s\' and parts %s is operated by species \'%s\'.' % (
                 self.ixGetShip(),
+                self.sGetHull(),
                 self.sGetPartList(),
                 self.sGetSpecies()
             )

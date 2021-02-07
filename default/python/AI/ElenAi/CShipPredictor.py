@@ -2,6 +2,7 @@
 Predict the capabilities of a single ship.
 """
 
+from ElenAi.CShipHull import CShipHull
 from ElenAi.CShipPart import CShipPart
 
 
@@ -11,6 +12,7 @@ class CShipPredictor(object):
     def __init__(self, oShip):
         self.__m_oShip = oShip
 
+        self.__m_oShipHull = CShipHull()
         self.__m_oShipPart = CShipPart()
 
 
@@ -43,7 +45,7 @@ class CShipPredictor(object):
 
 
     def fGetMaxStructure(self):
-        fMaxStructure = 0.0
+        fMaxStructure = self.__m_oShipHull.fGetStructure(self.__m_oShip.sGetHull())
 
         for sPart in self.__m_oShip.sGetPartList():
             fMaxStructure += self.__m_oShipPart.fGetStructure(sPart)

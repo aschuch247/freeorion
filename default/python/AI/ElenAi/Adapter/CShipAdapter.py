@@ -22,5 +22,6 @@ class CShipAdapter(object):
         return CShip(
             self.__m_oFoShip.id,
             self.__m_oFoShip.speciesName,
+            self.__m_oFoShip.design.hull,
             list(self.__tsGetPart())
         )

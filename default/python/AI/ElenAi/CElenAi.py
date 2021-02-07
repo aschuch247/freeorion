@@ -127,7 +127,7 @@ class CElenAi(object):
 
                 oFleet.vAddShip(oShip)
 
-        oFleetHandler.vDump()
+        # oFleetHandler.vDump()
 
         # The following code is runtime debug code to check if the AI expectations match the server implementation.
 

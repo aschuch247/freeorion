@@ -31,15 +31,29 @@ class CShipHull(object):
                 'stealth': 5.0,
                 'structure': 5.0
             },
+            'SH_DAMPENING_CLOUD_BODY': {
+                'detection': 0.0,
+                'fuel': 1.0,
+                'speed': 20.0,
+                'stealth': 45.0,
+                'structure': 5000.0
+            },
+            'SH_FLOATER_BODY': {
+                'detection': 30.0,
+                'fuel': 3.0,
+                'speed': 20.0,
+                'stealth': 15.0,
+                'structure': 20.0
+            },
             'SH_GUARD_0_BODY': {
-                # 'detection'
+                'detection': 10.0,
                 'fuel': 0.0,
                 'speed': 0.0,
                 'stealth': 5.0,
                 'structure': 25.0
             },
             'SH_GUARD_1_BODY': {
-                # 'detection'
+                'detection': 20.0,
                 'fuel': 0.0,
                 'speed': 0.0,
                 'stealth': 5.0,

@@ -117,7 +117,7 @@ class CColonisationManager(CManager):
                     for sSpecies in self.__m_oEmpireManager.sGetSpeciesFrozenset():
                         fMaxPopulation = self.__m_oColonyPredictor.fGetMaxPopulation(oPlanet, self.__m_oSpeciesData.oGetSpecies(sSpecies))
 
-                        if (fMaxPopulation > 0.0):
+                        if ((fMaxPopulation != None) and (fMaxPopulation > 0.0)):
 
                             # This planet can be colonised.
                             # @todo If the system is already owned by us, it is better to build an outpost base!

@@ -29,6 +29,19 @@ class CFleetPredictor(object):
         return fDamage
 
 
+    def fGetMaxDetection(self):
+        """
+        Return the largest detection strength of any ship inside the fleet.
+        """
+
+        fMaxDetection = 0.0
+
+        for oShip in self.__m_oFleet.toGetShip():
+            fMaxDetection = max(fMaxDetection, CShipPredictor(oShip).fGetDetection())
+
+        return fMaxDetection
+
+
     def fGetMaxShield(self):
         """
         Return the largest shield value of any ship inside the fleet.

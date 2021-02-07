@@ -144,6 +144,24 @@ class CElenAi(object):
                     )
                 )
 
+            # Assert that the maximum detection strength prediction works as expected!
+
+            fActualMaxDetection = 0.0
+
+            for ixShip in oFoFleet.shipIDs:
+                fActualMaxDetection = max(fActualMaxDetection, oFoUniverse.getShip(ixShip).currentMeterValue(fo.meterType.detection))
+
+            fExpectedMaxDetection = oFleetPredictor.fGetMaxDetection();
+
+            if (fExpectedMaxDetection != fActualMaxDetection):
+                print(
+                    'Fleet %d is expected to have a maximum detection strength of %.2f, but actually has a maximum detection strength of %.2f!' % (
+                        oFleet.ixGetFleet(),
+                        fExpectedMaxDetection,
+                        fActualMaxDetection
+                    )
+                )
+
             # Assert that the maximum shield prediction works as expected!
 
             fActualMaxShield = 0.0

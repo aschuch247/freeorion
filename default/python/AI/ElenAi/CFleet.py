@@ -8,11 +8,12 @@ from __future__ import print_function
 class CFleet(object):
 
 
-    def __init__(self, ixFleet, ixEmpire, ixSystem, ixFinalSystem):
+    def __init__(self, ixFleet, ixEmpire, ixSystem, ixFinalSystem, fSpeed):
         self.__m_ixFleet = ixFleet
         self.__m_ixEmpire = ixEmpire
         self.__m_ixSystem = ixSystem
         self.__m_ixFinalSystem = ixFinalSystem
+        self.__m_fSpeed = fSpeed
 
         self.__m_dictShip = dict()
 
@@ -60,6 +61,10 @@ class CFleet(object):
 
     def ixGetFinalSystem(self):
         return self.__m_ixFinalSystem
+
+
+    def fGetSpeed(self):
+        return self.__m_fSpeed
 
 
     def vAddShip(self, oShip):

@@ -17,5 +17,6 @@ class CFleetAdapter(object):
             self.__m_oFoFleet.id,
             self.__m_oFoFleet.owner,
             self.__m_oFoFleet.systemID,
-            self.__m_oFoFleet.finalDestinationID
+            self.__m_oFoFleet.finalDestinationID,
+            self.__m_oFoFleet.speed
         )

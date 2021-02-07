@@ -73,19 +73,19 @@ class CFleetPredictor(object):
         return fMaxStructure
 
 
-    def fGetMinSpeed(self):
+    def fGetSpeed(self):
         """
-        Return the minimum speed of any ship inside the fleet.
+        Return the speed of the fleet. This is the minimum speed of any ship inside the fleet.
         """
 
-        fMinSpeed = 0.0
+        fSpeed = 0.0
         bFirstShip = True
 
         for oShip in self.__m_oFleet.toGetShip():
             if (bFirstShip):
-                fMinSpeed = CShipPredictor(oShip).fGetSpeed()
+                fSpeed = CShipPredictor(oShip).fGetSpeed()
                 bFirstShip = False
             else:
-                fMinSpeed = min(fMinSpeed, CShipPredictor(oShip).fGetSpeed())
+                fSpeed = min(fSpeed, CShipPredictor(oShip).fGetSpeed())
 
-        return fMinSpeed
+        return fSpeed

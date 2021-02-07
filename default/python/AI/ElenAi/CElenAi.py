@@ -228,15 +228,15 @@ class CElenAi(object):
 
             # Assert that the minimum speed prediction works as expected!
 
-            fActualMinSpeed = oFoFleet.speed
-            fExpectedMinSpeed = oFleetPredictor.fGetMinSpeed()
+            fActualSpeed = oFleet.fGetSpeed()
+            fExpectedSpeed = oFleetPredictor.fGetSpeed()
 
-            if (fExpectedMinSpeed != fActualMinSpeed):
+            if (fExpectedSpeed != fActualSpeed):
                 print(
                     'Fleet %d is expected to have a minimum speed of %.2f but actually has a minimum speed of %.2f!' % (
                         oFleet.ixGetFleet(),
-                        fExpectedMinSpeed,
-                        fActualMinSpeed
+                        fExpectedSpeed,
+                        fActualSpeed
                     )
                 )
 

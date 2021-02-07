@@ -5,6 +5,8 @@ from ElenAi.CResearchTree import CResearchTree
 
 
 class CResearchTreeTest(unittest.TestCase):
+
+
     def test_CResearchTree(self):
         oResearchTree = CResearchTree()
 

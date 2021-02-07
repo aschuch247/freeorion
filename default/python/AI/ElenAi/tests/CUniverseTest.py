@@ -6,6 +6,8 @@ from ElenAi.CUniverse import CUniverse
 
 
 class CUniverseTest(unittest.TestCase):
+
+
     def test_CUniverse(self):
         oUniverse = CUniverse()
 

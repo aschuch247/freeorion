@@ -31,6 +31,13 @@ class CShipHull(object):
                 'stealth': 5.0,
                 'structure': 5.0
             },
+            'SH_BLACK_KRAKEN_BODY': {
+                'detection': 150.0,
+                'fuel': 100.0,
+                'speed': 200.0,
+                'stealth': 25.0,
+                'structure': 4000.0
+            },
             'SH_DAMPENING_CLOUD_BODY': {
                 'detection': 0.0,
                 'fuel': 1.0,
@@ -128,6 +135,13 @@ class CShipHull(object):
                 'speed': 75.0,
                 'stealth': 5.0,
                 'structure': 25.0
+            },
+            'SH_STRONG_MONSTER_BODY': {
+                'detection': 50.0,
+                'fuel': 5.0,
+                'speed': 30.0,
+                'stealth': 5.0,
+                'structure': 80.0
             },
             'SH_TREE_BODY': {
                 'detection': 30.0,

@@ -36,12 +36,12 @@ class CShipPredictor(object):
     def fGetDetection(self):
         fDetection = 0.0
 
-        # Only the ship part with the highest detection strength counts.
+        # Only the ship part with the highest detection range counts.
 
         for sPart in self.__m_oShip.sGetPartList():
             fDetection = max(fDetection, self.__m_oShipPart.fGetDetection(sPart))
 
-        # Combine the highest detection strength ship part and the ship hull detection strength.
+        # Combine the highest detection range ship part and the ship hull detection range.
 
         return self.__m_oShipHull.fGetDetection(self.__m_oShip.sGetHull()) + fDetection
 

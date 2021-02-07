@@ -31,7 +31,7 @@ class CFleetPredictor(object):
 
     def fGetMaxDetection(self):
         """
-        Return the largest detection strength of any ship inside the fleet.
+        Return the largest detection range of any ship inside the fleet.
         """
 
         fMaxDetection = 0.0

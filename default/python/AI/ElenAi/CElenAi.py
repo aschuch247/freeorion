@@ -148,7 +148,7 @@ class CElenAi(object):
                     )
                 )
 
-            # Assert that the maximum detection strength prediction works as expected!
+            # Assert that the maximum detection range prediction works as expected!
 
             fActualMaxDetection = 0.0
 
@@ -159,7 +159,7 @@ class CElenAi(object):
 
             if (fExpectedMaxDetection != fActualMaxDetection):
                 print(
-                    'Fleet %d is expected to have a maximum detection strength of %.2f, but actually has a maximum detection strength of %.2f!' % (
+                    'Fleet %d is expected to have a maximum detection range of %.2f, but actually has a maximum detection range of %.2f!' % (
                         oFleet.ixGetFleet(),
                         fExpectedMaxDetection,
                         fActualMaxDetection

@@ -36,6 +36,14 @@ class CShipPart(object):
                 'partClass': CShipPartClass.armour,
                 'capacity': 11.0
             },
+            'SH_DEFENSE_GRID': {
+                'partClass': CShipPartClass.shields,
+                'capacity': 3.0
+            },
+            'SH_DEFLECTOR': {
+                'partClass': CShipPartClass.shields,
+                'capacity': 5.0
+            },
             'SR_JAWS': {
                 'partClass': CShipPartClass.shortRange,
                 'damage': 5.0
@@ -88,10 +96,16 @@ class CShipPart(object):
     def fGetShield(self, sPart):
         dictSinglePart = self.__dictGetSinglePart(sPart)
 
-        return 0.0
+        if (dictSinglePart.get('partClass') != CShipPartClass.shields):
+                return 0.0
+
+        return dictSinglePart.get('capacity', 0.0)
 
 
     def fGetStructure(self, sPart):
         dictSinglePart = self.__dictGetSinglePart(sPart)
+
+        if (dictSinglePart.get('partClass') != CShipPartClass.armour):
+                return 0.0
 
         return dictSinglePart.get('capacity', 0.0)

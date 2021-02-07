@@ -64,3 +64,7 @@ class CShipPredictor(object):
             fMaxStructure += self.__m_oShipPart.fGetStructure(sPart)
 
         return fMaxStructure
+
+
+    def fGetSpeed(self):
+        return self.__m_oShipHull.fGetSpeed(self.__m_oShip.sGetHull())

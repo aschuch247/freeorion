@@ -44,6 +44,14 @@ class CShipPart(object):
                 'partClass': CShipPartClass.detection,
                 'capacity': 75.0
             },
+            'DT_DETECTOR_3': {
+                'partClass': CShipPartClass.detection,
+                'capacity': 150.0
+            },
+            'DT_DETECTOR_4': {
+                'partClass': CShipPartClass.detection,
+                'capacity': 200.0
+            },
             'FU_IMPROVED_ENGINE_COUPLINGS': {
                 'partClass': CShipPartClass.speed,
                 'capacity': 20.0

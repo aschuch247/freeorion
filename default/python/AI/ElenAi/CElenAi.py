@@ -94,14 +94,14 @@ class CElenAi(object):
                     oColonyPredictor = CColonyPredictor(fo.getEmpire(oPlanet.ixGetEmpire()).availableTechs)
                     oFoPlanet = oFoUniverse.getPlanet(oPlanet.ixGetPlanet())
 
-                    # Assert that the maximum population prediction works as expected!
+                    # Assert that the colony maximum population prediction works as expected!
 
                     fActualMaxPopulation = oFoPlanet.currentMeterValue(fo.meterType.targetPopulation)
                     fExpectedMaxPopulation = oColonyPredictor.fGetMaxPopulation(oPlanet, oSpeciesData.oGetSpecies(oPlanet.sGetSpecies()))
 
                     if (fExpectedMaxPopulation != fActualMaxPopulation):
                         print(
-                            'Planet %d is expected to have a maximum population of %.2f but actually has a maximum population of %.2f!' % (
+                            'Planet %d is expected to have a colony maximum population of %.2f but actually has a colony maximum population of %.2f!' % (
                                 oPlanet.ixGetPlanet(),
                                 fExpectedMaxPopulation,
                                 fActualMaxPopulation
@@ -137,7 +137,7 @@ class CElenAi(object):
             oFleetPredictor = CFleetPredictor(oFleet)
             oFoFleet = oFoUniverse.getFleet(oFleet.ixGetFleet())
 
-            # Assert that the categorisation of armed fleets works as expected!
+            # Assert that the fleet categorisation of armed fleets works as expected!
 
             bActualIsArmed = oFoFleet.hasArmedShips
             bExpectedIsArmed = oFleetPredictor.bIsArmed()
@@ -151,7 +151,7 @@ class CElenAi(object):
                     )
                 )
 
-            # Assert that the damage prediction works as expected!
+            # Assert that the fleet damage prediction works as expected!
 
             fActualDamage = 0.0
 
@@ -172,7 +172,7 @@ class CElenAi(object):
                     )
                 )
 
-            # Assert that the maximum detection range prediction works as expected!
+            # Assert that the fleet maximum detection range prediction works as expected!
 
             fActualMaxDetection = 0.0
 
@@ -183,14 +183,14 @@ class CElenAi(object):
 
             if (fExpectedMaxDetection != fActualMaxDetection):
                 print(
-                    'Fleet %d is expected to have a maximum detection range of %.2f but actually has a maximum detection range of %.2f!' % (
+                    'Fleet %d is expected to have a fleet maximum detection range of %.2f but actually has a fleet maximum detection range of %.2f!' % (
                         oFleet.ixGetFleet(),
                         fExpectedMaxDetection,
                         fActualMaxDetection
                     )
                 )
 
-            # Assert that the maximum shield strength prediction works as expected!
+            # Assert that the fleet maximum shield strength prediction works as expected!
 
             fActualMaxShield = 0.0
 
@@ -201,14 +201,14 @@ class CElenAi(object):
 
             if (fExpectedMaxShield != fActualMaxShield):
                 print(
-                    'Fleet %d is expected to have a maximum shield strength of %.2f but actually has a maximum shield strength of %.2f!' % (
+                    'Fleet %d is expected to have a fleet maximum shield strength of %.2f but actually has a fleet maximum shield strength of %.2f!' % (
                         oFleet.ixGetFleet(),
                         fExpectedMaxShield,
                         fActualMaxShield
                     )
                 )
 
-            # Assert that the maximum structure prediction works as expected!
+            # Assert that the fleet maximum structure prediction works as expected!
 
             fActualMaxStructure = 0.0
 
@@ -219,21 +219,21 @@ class CElenAi(object):
 
             if (fExpectedMaxStructure != fActualMaxStructure):
                 print(
-                    'Fleet %d is expected to have a maximum structure of %.2f but actually has a maximum structure of %.2f!' % (
+                    'Fleet %d is expected to have a fleet maximum structure of %.2f but actually has a fleet maximum structure of %.2f!' % (
                         oFleet.ixGetFleet(),
                         fExpectedMaxStructure,
                         fActualMaxStructure
                     )
                 )
 
-            # Assert that the minimum speed prediction works as expected!
+            # Assert that the fleet speed prediction works as expected!
 
             fActualSpeed = oFleet.fGetSpeed()
             fExpectedSpeed = oFleetPredictor.fGetSpeed()
 
             if (fExpectedSpeed != fActualSpeed):
                 print(
-                    'Fleet %d is expected to have a minimum speed of %.2f but actually has a minimum speed of %.2f!' % (
+                    'Fleet %d is expected to have a fleet speed of %.2f but actually has a fleet speed of %.2f!' % (
                         oFleet.ixGetFleet(),
                         fExpectedSpeed,
                         fActualSpeed

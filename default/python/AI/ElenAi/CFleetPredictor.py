@@ -46,7 +46,7 @@ class CFleetPredictor(object):
 
     def fGetMaxShield(self):
         """
-        Return the largest shield strength of any ship inside the fleet.
+        Return the maximum shield strength of any ship inside the fleet.
         """
 
         # @todo Do not use this value for checking combats. Use the individual ship shield strength instead.

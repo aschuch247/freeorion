@@ -11,6 +11,7 @@ from ElenAi.Adapter.CSystemAdapter import CSystemAdapter
 from ElenAi.CColonisationManager import CColonisationManager
 from ElenAi.CColonyManager import CColonyManager
 from ElenAi.CColonyPredictor import CColonyPredictor
+from ElenAi.CDataRepository import CDataRepository
 from ElenAi.CEmpireManager import CEmpireManager
 from ElenAi.CEmpireRelation import CEmpireRelation
 from ElenAi.CFleetHandler import CFleetHandler
@@ -20,6 +21,7 @@ from ElenAi.CFleetProductionManager import CFleetProductionManager
 from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CResearchManager import CResearchManager
 from ElenAi.CResearchQueue import CResearchQueue
+from ElenAi.CShipHullDataDynamic import CShipHullDataDynamic
 from ElenAi.CSpeciesDataDynamic import CSpeciesDataDynamic
 from ElenAi.CUniverse import CUniverse
 
@@ -27,42 +29,50 @@ from ElenAi.CUniverse import CUniverse
 class CElenAi(object):
 
 
-    def vGenerateOrders(self, fo):
-        oUniverse = self.oGetUniverse(fo)
-        oFleetHandler = self.oGetFleetHandler(fo)
+    def __init__(self, fo):
+        self.__m_fo = fo
+
+
+    def __oGetDataRepository(self):
+        return CDataRepository(CShipHullDataDynamic(self.__m_fo))
+
+
+    def vGenerateOrders(self):
+        oUniverse = self.oGetUniverse()
+        oFleetHandler = self.oGetFleetHandler()
 
         # @todo Show turn number and site report.
 
-        oEmpireRelation = CEmpireRelation(fo.empireID())
-        oEmpireManager = CEmpireManager(oUniverse, oEmpireRelation, fo.getEmpire().availableTechs)
+        oEmpireRelation = CEmpireRelation(self.__m_fo.empireID())
+        oEmpireManager = CEmpireManager(oUniverse, oEmpireRelation, self.__m_fo.getEmpire().availableTechs)
 
-        oProductionQueue = CProductionQueue(fo)
-        oResearchQueue = CResearchQueue(fo)
+        oProductionQueue = CProductionQueue(self.__m_fo)
+        oResearchQueue = CResearchQueue(self.__m_fo)
 
-        oColonyPredictor = CColonyPredictor(fo.getEmpire().availableTechs)
+        oColonyPredictor = CColonyPredictor(self.__m_fo.getEmpire().availableTechs)
 
-        oColonisationManager = CColonisationManager(fo, oUniverse, oEmpireManager, oEmpireRelation, oColonyPredictor, CSpeciesDataDynamic(fo))
+        oColonisationManager = CColonisationManager(self.__m_fo, oUniverse, oEmpireManager, oEmpireRelation, oColonyPredictor, CSpeciesDataDynamic(self.__m_fo))
         oColonisationManager.vManage()
 
-        oColonyManager = CColonyManager(fo, oUniverse, oEmpireManager, oEmpireRelation, oColonisationManager, oProductionQueue, CSpeciesDataDynamic(fo))
+        oColonyManager = CColonyManager(self.__m_fo, oUniverse, oEmpireManager, oEmpireRelation, oColonisationManager, oProductionQueue, CSpeciesDataDynamic(self.__m_fo))
         oColonyManager.vManage()
 
-        oFleetMovementManager = CFleetMovementManager(fo, oUniverse, oEmpireRelation, oFleetHandler, oColonisationManager)
+        oFleetMovementManager = CFleetMovementManager(self.__m_fo, self.__oGetDataRepository(), oUniverse, oEmpireRelation, oFleetHandler, oColonisationManager)
         oFleetMovementManager.vManage()
 
-        oFleetProductionManager = CFleetProductionManager(fo, oProductionQueue)
+        oFleetProductionManager = CFleetProductionManager(self.__m_fo, oProductionQueue)
         oFleetProductionManager.vManage()
 
-        oResearchManager = CResearchManager(fo, oResearchQueue)
+        oResearchManager = CResearchManager(self.__m_fo, oResearchQueue)
         oResearchManager.vManage()
 
         oProductionQueue.vLog()
         oResearchQueue.vLog()
 
 
-    def oGetUniverse(self, fo):
+    def oGetUniverse(self):
         oUniverse = CUniverse()
-        oFoUniverse = fo.getUniverse()
+        oFoUniverse = self.__m_fo.getUniverse()
 
         for ixSystem in oFoUniverse.systemIDs:
             oFoSystem = oFoUniverse.getSystem(ixSystem)
@@ -77,7 +87,7 @@ class CElenAi(object):
                 oSystem.vAddPlanet(oPlanet)
 
         for ixSystem in oFoUniverse.systemIDs:
-            for ixSystemNeighbour in oFoUniverse.getImmediateNeighbors(ixSystem, fo.empireID()):
+            for ixSystemNeighbour in oFoUniverse.getImmediateNeighbors(ixSystem, self.__m_fo.empireID()):
                 oUniverse.vLinkSystem(ixSystem, ixSystemNeighbour)
 
         # oUniverse.vDump()
@@ -86,17 +96,17 @@ class CElenAi(object):
 
         print('--- population expectation checker ---')
 
-        oSpeciesData = CSpeciesDataDynamic(fo)
+        oSpeciesData = CSpeciesDataDynamic(self.__m_fo)
 
         for oSystem in oUniverse.toGetSystem():
             for oPlanet in oSystem.toGetPlanet():
                 if (oPlanet.bIsColony()):
-                    oColonyPredictor = CColonyPredictor(fo.getEmpire(oPlanet.ixGetEmpire()).availableTechs)
+                    oColonyPredictor = CColonyPredictor(self.__m_fo.getEmpire(oPlanet.ixGetEmpire()).availableTechs)
                     oFoPlanet = oFoUniverse.getPlanet(oPlanet.ixGetPlanet())
 
                     # Assert that the colony maximum population prediction works as expected!
 
-                    fActualMaxPopulation = oFoPlanet.currentMeterValue(fo.meterType.targetPopulation)
+                    fActualMaxPopulation = oFoPlanet.currentMeterValue(self.__m_fo.meterType.targetPopulation)
                     fExpectedMaxPopulation = oColonyPredictor.fGetMaxPopulation(oPlanet, oSpeciesData.oGetSpecies(oPlanet.sGetSpecies()))
 
                     if (fExpectedMaxPopulation != fActualMaxPopulation):
@@ -111,9 +121,9 @@ class CElenAi(object):
         return oUniverse
 
 
-    def oGetFleetHandler(self, fo):
+    def oGetFleetHandler(self):
         oFleetHandler = CFleetHandler()
-        oFoUniverse = fo.getUniverse()
+        oFoUniverse = self.__m_fo.getUniverse()
 
         for ixFleet in oFoUniverse.fleetIDs:
             oFoFleet = oFoUniverse.getFleet(ixFleet)
@@ -134,7 +144,7 @@ class CElenAi(object):
         print('--- fleet expectation checker ---')
 
         for oFleet in oFleetHandler.toGetFleet():
-            oFleetPredictor = CFleetPredictor(oFleet)
+            oFleetPredictor = CFleetPredictor(self.__oGetDataRepository(), oFleet)
             oFoFleet = oFoUniverse.getFleet(oFleet.ixGetFleet())
 
             # Assert that the fleet categorisation of armed fleets works as expected!
@@ -159,7 +169,7 @@ class CElenAi(object):
                 oFoShip = oFoUniverse.getShip(ixShip)
 
                 for sPart in oFoShip.design.parts:
-                    fActualDamage += oFoShip.currentPartMeterValue(fo.meterType.maxCapacity, sPart)
+                    fActualDamage += oFoShip.currentPartMeterValue(self.__m_fo.meterType.maxCapacity, sPart)
 
             fExpectedDamage = oFleetPredictor.fGetDamage()
 
@@ -177,7 +187,7 @@ class CElenAi(object):
             fActualMaxDetection = 0.0
 
             for ixShip in oFoFleet.shipIDs:
-                fActualMaxDetection = max(fActualMaxDetection, oFoUniverse.getShip(ixShip).currentMeterValue(fo.meterType.detection))
+                fActualMaxDetection = max(fActualMaxDetection, oFoUniverse.getShip(ixShip).currentMeterValue(self.__m_fo.meterType.detection))
 
             fExpectedMaxDetection = oFleetPredictor.fGetMaxDetection();
 
@@ -195,7 +205,7 @@ class CElenAi(object):
             fActualMaxShield = 0.0
 
             for ixShip in oFoFleet.shipIDs:
-                fActualMaxShield = max(fActualMaxShield, oFoUniverse.getShip(ixShip).currentMeterValue(fo.meterType.maxShield))
+                fActualMaxShield = max(fActualMaxShield, oFoUniverse.getShip(ixShip).currentMeterValue(self.__m_fo.meterType.maxShield))
 
             fExpectedMaxShield = oFleetPredictor.fGetMaxShield()
 
@@ -213,7 +223,7 @@ class CElenAi(object):
             fActualMaxStructure = 0.0
 
             for ixShip in oFoFleet.shipIDs:
-                fActualMaxStructure += oFoUniverse.getShip(ixShip).currentMeterValue(fo.meterType.maxStructure)
+                fActualMaxStructure += oFoUniverse.getShip(ixShip).currentMeterValue(self.__m_fo.meterType.maxStructure)
 
             fExpectedMaxStructure = oFleetPredictor.fGetMaxStructure()
 
@@ -240,7 +250,7 @@ class CElenAi(object):
                     )
                 )
 
-            # @todo Assert that maximum fuel prediction works as expected! - oFoFleet.maxFuel
-            # @todo Assert that speed prediction works as expected! - oFoFleet.speed
+            # @todo Assert that the fleet maximum fuel prediction works as expected! - oFoFleet.maxFuel
+            # @todo Assert that the fleet minimum and maximum stealth prediction works as expected!
 
         return oFleetHandler

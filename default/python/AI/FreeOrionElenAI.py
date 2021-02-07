@@ -9,7 +9,7 @@ def startNewGame(aggression_input = fo.aggression.aggressive):
     print('startNewGame()')
 
     global oElenAi
-    oElenAi = CElenAi()
+    oElenAi = CElenAi(fo)
 
     return
 
@@ -18,7 +18,7 @@ def resumeLoadedGame(saved_state_string):
     print('resumeLoadedGame()')
 
     global oElenAi
-    oElenAi = CElenAi()
+    oElenAi = CElenAi(fo)
 
     return
 
@@ -74,7 +74,7 @@ def generateOrders():
     print('generateOrders()')
 
     global oElenAi
-    oElenAi.vGenerateOrders(fo)
+    oElenAi.vGenerateOrders()
 
     return
 

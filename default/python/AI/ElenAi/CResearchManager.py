@@ -36,7 +36,7 @@ class CResearchManager(CManager):
         self.vResearch(oResearchTree, 'GRO_SUBTER_HAB')
         self.vResearch(oResearchTree, 'SHP_MIL_ROBO_CONT') # SH_ROBOTIC, SH_ROBOTIC_INTERFACE_SHIELDS
         self.vResearch(oResearchTree, 'SHP_SPACE_FLUX_BUBBLE') # SH_SPACE_FLUX_BUBBLE
-        self.vResearch(oResearchTree, 'PRO_SENTIENT_AUTOMATION')
+        self.vResearch(oResearchTree, 'PRO_ADAPTIVE_AUTOMATION') # industry +2 (any focus)
 
         self.vResearch(oResearchTree, 'PRO_EXOBOTS') # SP_EXOBOT
         self.vResearch(oResearchTree, 'CON_ORBITAL_CON') # supply +1
@@ -49,6 +49,7 @@ class CResearchManager(CManager):
 
         self.vResearch(oResearchTree, 'CON_CONTGRAV_ARCH') # supply +1
         # self.vResearch(oResearchTree, 'CON_ARCH_MONOFILS') # BLD_SPACE_ELEVATOR
+        # self.vResearch(oResearchTree, 'PRO_SENTIENT_AUTOMATION') # industry +3 (industry focus)
 
 
     def oGetResearchTree(self):

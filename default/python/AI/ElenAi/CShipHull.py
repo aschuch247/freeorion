@@ -67,11 +67,18 @@ class CShipHull(object):
                 'structure': 35.0
             },
             'SH_GUARD_MONSTER_BODY': {
-                # 'detection'
+                # 'detection' # @todo UNOWNED_OWNED_VISION_BONUS
                 'fuel': 0.0,
                 'speed': 0.0,
                 'stealth': 5.0,
                 'structure': 35.0
+            },
+            'SH_IMMOBILE_FACTORY': {
+                'detection': 10.0,
+                'fuel': 0.0,
+                'speed': 0.0,
+                'stealth': 5.0,
+                'structure': 1000.0
             },
             'SH_JUGGERNAUT_1_BODY': {
                 'detection': 30.0,
@@ -94,12 +101,40 @@ class CShipHull(object):
                 'stealth': 15.0,
                 'structure': 40.0
             },
+            'SH_KRILL_3_BODY': {
+                'detection': 50.0,
+                'fuel': 5.0,
+                'speed': 25.0,
+                'stealth': 15.0,
+                'structure': 250.0
+            },
+            'SH_KRILL_4_BODY': {
+                'detection': 50.0,
+                'fuel': 4.0,
+                'speed': 20.0,
+                'stealth': 15.0,
+                'structure': 1000.0
+            },
+            'SH_ORGANIC': {
+                'detection': 10.0,
+                'fuel': 2.0,
+                'speed': 90.0,
+                'stealth': 5.0,
+                'structure': 5.0 # @todo ORGANIC_GROWTH
+            },
             'SH_ROBOTIC': {
                 'detection': 25.0,
                 'fuel': 2.0,
                 'speed': 75.0,
                 'stealth': 5.0,
                 'structure': 25.0
+            },
+            'SH_TREE_BODY': {
+                'detection': 30.0,
+                'fuel': 0.0,
+                'speed': 0.0,
+                'stealth': 5.0,
+                'structure': 5.0 # @todo AGE_BONUS
             }
         }
 

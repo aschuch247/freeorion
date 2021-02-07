@@ -38,8 +38,8 @@ class CElenAi(object):
 
 
     def vGenerateOrders(self):
-        oUniverse = self.oGetUniverse()
-        oFleetHandler = self.oGetFleetHandler()
+        oUniverse = self.__oGetUniverse()
+        oFleetHandler = self.__oGetFleetHandler()
 
         # @todo Show turn number and site report.
 
@@ -70,7 +70,7 @@ class CElenAi(object):
         oResearchQueue.vLog()
 
 
-    def oGetUniverse(self):
+    def __oGetUniverse(self):
         oUniverse = CUniverse()
         oFoUniverse = self.__m_fo.getUniverse()
 
@@ -121,7 +121,7 @@ class CElenAi(object):
         return oUniverse
 
 
-    def oGetFleetHandler(self):
+    def __oGetFleetHandler(self):
         oFleetHandler = CFleetHandler()
         oFoUniverse = self.__m_fo.getUniverse()
 

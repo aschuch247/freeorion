@@ -34,6 +34,8 @@ class CFleetPredictor(object):
         Return the largest detection range of any ship inside the fleet.
         """
 
+        # @todo Also consider detection range change effects like ion storms!
+
         fMaxDetection = 0.0
 
         for oShip in self.__m_oFleet.toGetShip():
@@ -48,7 +50,7 @@ class CFleetPredictor(object):
         """
 
         # @todo Do not use this value for checking combats. Use the individual ship shield strength instead.
-        # Also consider shield strength reduction effects like ion storms!
+        # Also consider shield strength change effects like molecular clouds!
 
         fMaxShield = 0.0
 

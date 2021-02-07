@@ -67,4 +67,13 @@ class CShipPredictor(object):
 
 
     def fGetSpeed(self):
-        return self.__m_oShipHull.fGetSpeed(self.__m_oShip.sGetHull())
+        fSpeed = 0.0
+
+        # Only the ship part with the highest speed counts.
+
+        for sPart in self.__m_oShip.sGetPartList():
+            fSpeed = max(fSpeed, self.__m_oShipPart.fGetSpeed(sPart))
+
+        # Combine the highest speed ship part and the ship hull speed.
+
+        return self.__m_oShipHull.fGetSpeed(self.__m_oShip.sGetHull()) + fSpeed

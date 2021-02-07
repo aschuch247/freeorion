@@ -44,6 +44,10 @@ class CShipPart(object):
                 'partClass': CShipPartClass.detection,
                 'capacity': 75.0
             },
+            'FU_IMPROVED_ENGINE_COUPLINGS': {
+                'partClass': CShipPartClass.speed,
+                'capacity': 20.0
+            },
             'SH_DEFENSE_GRID': {
                 'partClass': CShipPartClass.shields,
                 'capacity': 3.0
@@ -114,6 +118,15 @@ class CShipPart(object):
         dictSinglePart = self.__dictGetSinglePart(sPart)
 
         if (dictSinglePart.get('partClass') != CShipPartClass.shields):
+            return 0.0
+
+        return dictSinglePart.get('capacity', 0.0)
+
+
+    def fGetSpeed(self, sPart):
+        dictSinglePart = self.__dictGetSinglePart(sPart)
+
+        if (dictSinglePart.get('partClass') != CShipPartClass.speed):
             return 0.0
 
         return dictSinglePart.get('capacity', 0.0)

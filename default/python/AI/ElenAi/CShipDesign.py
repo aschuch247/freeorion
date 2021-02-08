@@ -11,7 +11,7 @@ class CShipDesign(object):
     def __init__(self, oDataRepository, sHull, sPartList):
         self.__m_sPartList = sPartList
 
-        self.__m_oShipHullData = oDataRepository.oGetShipHullData().oGetShipHull(sHull)
+        self.__m_oShipHull = oDataRepository.oGetShipHullData().oGetShipHull(sHull)
         self.__m_oShipPart = CShipPart()
 
 
@@ -42,7 +42,7 @@ class CShipDesign(object):
 
         # Combine the highest detection range ship part and the ship hull detection range.
 
-        return self.__m_oShipHullData.fGetDetection() + fDetection
+        return self.__m_oShipHull.fGetDetection() + fDetection
 
 
     def fGetShield(self):
@@ -70,11 +70,11 @@ class CShipDesign(object):
 
         # Combine the highest stealth strength ship part and the ship hull stealth strength.
 
-        return self.__m_oShipHullData.fGetStealth() + fStealth
+        return self.__m_oShipHull.fGetStealth() + fStealth
 
 
     def fGetMaxStructure(self):
-        fMaxStructure = self.__m_oShipHullData.fGetStructure()
+        fMaxStructure = self.__m_oShipHull.fGetStructure()
 
         for sPart in self.__m_sPartList:
             fMaxStructure += self.__m_oShipPart.fGetStructure(sPart)
@@ -92,4 +92,4 @@ class CShipDesign(object):
 
         # Combine the highest speed ship part and the ship hull speed.
 
-        return self.__m_oShipHullData.fGetSpeed() + fSpeed
+        return self.__m_oShipHull.fGetSpeed() + fSpeed

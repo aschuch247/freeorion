@@ -22,6 +22,7 @@ from ElenAi.CProductionQueue import CProductionQueue
 from ElenAi.CResearchManager import CResearchManager
 from ElenAi.CResearchQueue import CResearchQueue
 from ElenAi.CShipHullDataDynamic import CShipHullDataDynamic
+from ElenAi.CShipPartDataDynamic import CShipPartDataDynamic
 from ElenAi.CSpeciesDataDynamic import CSpeciesDataDynamic
 from ElenAi.CUniverse import CUniverse
 
@@ -34,7 +35,10 @@ class CElenAi(object):
 
 
     def __oGetDataRepository(self):
-        return CDataRepository(CShipHullDataDynamic(self.__m_fo))
+        return CDataRepository(
+            CShipHullDataDynamic(self.__m_fo),
+            CShipPartDataDynamic(self.__m_fo)
+        )
 
 
     def vGenerateOrders(self):

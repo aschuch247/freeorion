@@ -3,13 +3,17 @@ import unittest
 from ElenAi.CDataRepository import CDataRepository
 from ElenAi.CShipDesign import CShipDesign
 from ElenAi.CShipHullDataStatic import CShipHullDataStatic
+from ElenAi.CShipPartDataStatic import CShipPartDataStatic
 
 
 class CShipDesignTest(unittest.TestCase):
 
 
     def __oGetDataRepository(self):
-        return CDataRepository(CShipHullDataStatic())
+        return CDataRepository(
+            CShipHullDataStatic(),
+            CShipPartDataStatic()
+        )
 
 
     def test_CShipDesign_InitialBattleShip(self):

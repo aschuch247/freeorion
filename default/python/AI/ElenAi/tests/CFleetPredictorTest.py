@@ -5,13 +5,17 @@ from ElenAi.CFleet import CFleet
 from ElenAi.CFleetPredictor import CFleetPredictor
 from ElenAi.CShip import CShip
 from ElenAi.CShipHullDataStatic import CShipHullDataStatic
+from ElenAi.CShipPartDataStatic import CShipPartDataStatic
 
 
 class CFleetPredictorTest(unittest.TestCase):
 
 
     def __oGetDataRepository(self):
-        return CDataRepository(CShipHullDataStatic())
+        return CDataRepository(
+            CShipHullDataStatic(),
+            CShipPartDataStatic()
+        )
 
 
     def test_CFleetPredictor_InitialFleet(self):
